@@ -11,7 +11,11 @@
     "lint": "ng lint",
     "lint:style:batsi-ng": "stylelint \"projects/batsi-ng/src/**/*.{css,scss}\"",
     "lint:staged": "lint-staged",
-    "prepare": "cd .. && husky install ./batsi-ng-workspace/.husky"
+    "prepare": "cd .. && husky install ./batsi-ng-workspace/.husky",
+    "build:models": "yarn pretty:definitions && yarn generate:models && yarn pretty:models && ng build --project=batsi-models",
+    "pretty:definitions": "prettier --write ./projects/batsi-models/src/lib/definitions/*.yaml",
+    "generate:models": "openapi-generator-cli generate -g typescript-angular -i projects/batsi-models/src/lib/definitions/swagger.yaml -o projects/batsi-models/src/lib/typescript-client --global-property models,supportingFiles --additional-properties=stringEnums=true,npmName=batsi-models --skip-validate-spec",
+    "pretty:models": "prettier --write ./projects/batsi-models/src/lib/typescript-client/**/*.ts"
   },
   "private": true,
   "dependencies": {
@@ -38,6 +42,7 @@
     "@angular/cli": "15.1.2",
     "@angular/compiler-cli": "15.1.1",
     "@briebug/jest-schematic": "6.0.0",
+    "@openapitools/openapi-generator-cli": "2.4.26",
     "@types/jest": "29.2.6",
     "@typescript-eslint/eslint-plugin": "5.49.0",
     "@typescript-eslint/parser": "5.49.0",
@@ -45,6 +50,7 @@
     "husky": "8.0.3",
     "jest": "28.1.3",
     "lint-staged": "13.1.0",
+    "ng-packagr": "^15.1.0",
     "postcss": "8.4.21",
     "postcss-scss": "4.0.6",
     "prettier": "2.8.3",
