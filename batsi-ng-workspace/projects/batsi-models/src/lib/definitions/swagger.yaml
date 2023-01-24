@@ -1,0 +1,247 @@
+# Generated mostly by https://roger13.github.io/SwagDefGen/
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: ÖBB Live Backend Info
+  description: Get live train data
+servers:
+  - url: 'https://live.oebb.at'
+tags:
+  - name: train
+    description: Get live train data
+
+paths:
+  /backend/info:
+    get:
+      tags:
+        - train
+      summary: Get live train data
+      parameters:
+        - $ref: '#/components/parameters/trainNrParam'
+        - $ref: '#/components/parameters/dateParam'
+        - $ref: '#/components/parameters/stationParam'
+      responses:
+        200:
+          description: Train information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/trainInfoResponse'
+
+components:
+  parameters:
+    trainNrParam:
+      name: trainNr
+      in: query
+      description: Unique per day train number (without the train type information)
+      example: 766
+      schema:
+        type: number
+    dateParam:
+      name: date
+      in: query
+      description: Date at which the train operates
+      example: '2022-12-31'
+      schema:
+        type: string
+        format: date
+        example: 'YYYY-MM-DD'
+    stationParam:
+      name: station
+      in: query
+      description: Unique station ID
+      schema:
+        type: number
+        format: int32
+        example: 8100099
+
+  schemas:
+    trainInfoResponse:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/id'
+        timeTableInfo:
+          $ref: '#/components/schemas/timeTableInfo'
+        train:
+          $ref: '#/components/schemas/train'
+        load:
+          $ref: '#/components/schemas/load'
+
+    id:
+      type: string
+
+    timeTableInfo:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        trainNr:
+          type: integer
+          format: int32
+        trainName:
+          type: string
+        stationName:
+          type: string
+        platform:
+          type: object
+          properties:
+            scheduled:
+              type: integer
+              format: int32
+            reported:
+              type: integer
+              format: int32
+        sector:
+          type: object
+          properties:
+            scheduled:
+              type: string
+            reported:
+              type: string
+        time:
+          type: object
+          properties:
+            scheduled:
+              type: object
+              properties:
+                days:
+                  type: integer
+                  format: int32
+                hours:
+                  type: integer
+                  format: int32
+                minutes:
+                  type: integer
+                  format: int32
+            reported:
+              type: object
+              properties:
+                days:
+                  type: integer
+                  format: int32
+                hours:
+                  type: integer
+                  format: int32
+                minutes:
+                  type: integer
+                  format: int32
+        portions:
+          type: array
+          items:
+            properties:
+              stops:
+                type: array
+                items:
+                  type: string
+
+    train:
+      type: object
+      properties:
+        trainNr:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date
+        version:
+          type: integer
+          format: int32
+        isReported:
+          type: boolean
+        assemblyStation:
+          type: string
+        source:
+          type: string
+        wagons:
+          type: array
+          items:
+            type: object
+            properties:
+              uicNumber:
+                type: string
+              kind:
+                type: string
+              origin:
+                type: string
+              destination:
+                type: string
+              ranking:
+                type: integer
+                format: int32
+              capacityBusinessClass:
+                type: integer
+                format: int32
+              capacityFirstClass:
+                type: integer
+                format: int32
+              capacitySecondClass:
+                type: integer
+                format: int32
+              capacityCouchette:
+                type: integer
+                format: int32
+              capacitySleeper:
+                type: integer
+                format: int32
+              capacityWheelChair:
+                type: integer
+                format: int32
+              capacityBicycle:
+                type: integer
+                format: int32
+              isBicycleAllowed:
+                type: boolean
+              isWheelChairAccessible:
+                type: boolean
+              hasWifi:
+                type: boolean
+              isInfoPoint:
+                type: boolean
+              isPlayZone:
+                type: boolean
+              isChildCinema:
+                type: boolean
+              isDining:
+                type: boolean
+              isQuietZone:
+                type: boolean
+              isLowFloor:
+                type: boolean
+              isLocked:
+                type: boolean
+              destinationName:
+                type: string
+              lengthOverBuffers:
+                type: number
+              originTime:
+                type: string
+              destinationTime:
+                type: string
+              seasoning:
+                type: object
+                properties:
+                  startDate:
+                    type: string
+                    format: date
+                  seasoningString:
+                    type: string
+        stations:
+          type: array
+          items:
+            type: string
+
+    load:
+      type: object
+      properties:
+        stats:
+          type: array
+          items:
+            type: object
+            properties:
+              ranking:
+                type: integer
+                format: int32
+              ratio:
+                type: number
