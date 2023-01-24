@@ -80,14 +80,9 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular-builders/jest:run",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
             "tsConfig": "projects/batsi-ng/tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/batsi-ng/src/favicon.ico",
               "projects/batsi-ng/src/assets"
