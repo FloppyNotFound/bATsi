@@ -1,0 +1,11 @@
+{
+  "./projects/batsi-ng/src/**/*.{ts,js,css,scss,json,html}": [
+    "prettier --write"
+  ],
+  "./projects/batsi-ng/src/**/*.{js,ts}": [
+    "eslint --fix"
+  ],
+  "./projects/batsi-ng//src/**/*.{css,scss}": [
+    "stylelint --allow-empty-input"
+  ]
+}

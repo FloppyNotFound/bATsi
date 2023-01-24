@@ -9,7 +9,9 @@
     "test": "ng test",
     "pretty:batsi-ng": "prettier --write ./projects/batsi-ng/src/app/**/*.{ts,js,css,scss,json}",
     "lint": "ng lint",
-    "lint:style:batsi-ng": "stylelint \"projects/batsi-ng/src/**/*.{css,scss}\""
+    "lint:style:batsi-ng": "stylelint \"projects/batsi-ng/src/**/*.{css,scss}\"",
+    "lint:staged": "lint-staged",
+    "prepare": "cd .. && husky install ./batsi-ng-workspace/.husky"
   },
   "private": true,
   "dependencies": {
@@ -38,12 +40,14 @@
     "@typescript-eslint/eslint-plugin": "5.48.1",
     "@typescript-eslint/parser": "5.48.1",
     "eslint": "8.31.0",
+    "husky": "8.0.3",
     "jasmine-core": "4.5.0",
     "karma": "6.4.0",
     "karma-chrome-launcher": "3.1.0",
     "karma-coverage": "2.2.0",
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.0.0",
+    "lint-staged": "13.1.0",
     "postcss": "8.4.21",
     "postcss-scss": "4.0.6",
     "prettier": "2.8.3",
