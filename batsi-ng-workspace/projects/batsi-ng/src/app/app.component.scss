@@ -1,3 +1,5 @@
+@use '../styles/variables' as batsyVars;
+
 #batsi-app-wrapper {
   height: 100vh;
   display: flex;
@@ -5,7 +7,7 @@
   justify-content: space-between;
 
   header {
-    background: #fdfaf6;
+    background: batsyVars.$body-bg-light;
     height: 8vh;
   }
 
@@ -14,7 +16,7 @@
   }
 
   footer {
-    background: #fdfaf6;
+    background: batsyVars.$body-bg-light;
     height: 8vh;
   }
 }
