@@ -20,18 +20,14 @@
             "outputPath": "dist/batsi-ng",
             "index": "projects/batsi-ng/src/index.html",
             "main": "projects/batsi-ng/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "projects/batsi-ng/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/batsi-ng/src/favicon.ico",
               "projects/batsi-ng/src/assets"
             ],
-            "styles": [
-              "projects/batsi-ng/src/styles.scss"
-            ],
+            "styles": ["projects/batsi-ng/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -87,9 +83,7 @@
               "projects/batsi-ng/src/favicon.ico",
               "projects/batsi-ng/src/assets"
             ],
-            "styles": [
-              "projects/batsi-ng/src/styles.scss"
-            ],
+            "styles": ["projects/batsi-ng/src/styles.scss"],
             "scripts": []
           }
         },
@@ -124,16 +118,6 @@
             }
           },
           "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "tsConfig": "projects/batsi-models/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
-          }
         }
       }
     }
