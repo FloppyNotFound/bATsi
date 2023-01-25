@@ -28,7 +28,9 @@
               "projects/batsi-ng/src/assets"
             ],
             "styles": ["projects/batsi-ng/src/styles.scss"],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
