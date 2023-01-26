@@ -6,6 +6,6 @@
     "eslint --fix"
   ],
   "./projects/batsi-ng//src/**/*.{css,scss}": [
-    "stylelint --allow-empty-input"
+    "stylelint"
   ]
 }

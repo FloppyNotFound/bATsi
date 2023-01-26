@@ -1,22 +1,23 @@
-@use '../styles/variables' as batsyVars;
+@use '../styles/variables' as batsiVars;
 
 #batsi-app-wrapper {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   header {
-    background: batsyVars.$body-bg-light;
+    background: batsiVars.$body-bg-light;
+    box-shadow: 0 batsiVars.$border-shadow-size 0 0
+      batsiVars.$border-shadow-color;
     height: 8vh;
-  }
-
-  main {
-    height: 100%;
   }
 
   footer {
-    background: batsyVars.$body-bg-light;
+    background: batsiVars.$body-bg-light;
+    box-shadow: 0 0 0 batsiVars.$border-shadow-size
+      batsiVars.$border-shadow-color;
     height: 8vh;
+    font-size: 0.75rem;
   }
 }
