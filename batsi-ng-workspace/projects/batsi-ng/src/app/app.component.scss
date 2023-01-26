@@ -8,15 +8,15 @@
 
   header {
     background: batsiVars.$body-bg-light;
+    box-shadow: 0 batsiVars.$border-shadow-size 0 0
+      batsiVars.$border-shadow-color;
     height: 8vh;
-  }
-
-  main {
-    margin-bottom: auto;
   }
 
   footer {
     background: batsiVars.$body-bg-light;
+    box-shadow: 0 0 0 batsiVars.$border-shadow-size
+      batsiVars.$border-shadow-color;
     height: 8vh;
   }
 }
