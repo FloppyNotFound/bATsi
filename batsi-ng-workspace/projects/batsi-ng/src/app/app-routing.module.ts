@@ -12,12 +12,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./routes/train-search/train-search.module').then(
         m => m.TrainSearchModule
-      )
+      ),
+    data: { title: 'Zugsuche' }
   },
   {
     path: 'about',
     loadChildren: () =>
-      import('./routes/about/about.module').then(m => m.AboutModule)
+      import('./routes/about/about.module').then(m => m.AboutModule),
+    data: { title: 'Impressum' }
   }
 ];
 
