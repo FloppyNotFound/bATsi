@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-@use './styles/variables' as batsyVars;
+@use './styles/variables' as batsiVars;
 
 /* Bootstrap overrides */
-$body-bg: batsyVars.$body-bg;
+$body-bg: batsiVars.$body-bg;
 @import 'node_modules/bootstrap/scss/bootstrap';
