@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { InputNumericComponent } from './input-numeric.component';
 
@@ -8,11 +9,13 @@ describe('InputNumericComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [InputNumericComponent]
+      declarations: [InputNumericComponent],
+      imports: [ReactiveFormsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(InputNumericComponent);
     component = fixture.componentInstance;
+    component.batsiFormControl = new FormControl();
     fixture.detectChanges();
   });
 
