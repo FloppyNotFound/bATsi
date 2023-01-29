@@ -1,1 +1,49 @@
-<p>train-search-input works!</p>
+<div class="card">
+  <div class="card-body">
+    <div class="card-title">
+      <h2>Zug-Daten</h2>
+    </div>
+
+    <div class="card-text mt-3">
+      <form [formGroup]="trainSearchForm" (ngSubmit)="onSearch()" novalidate>
+        <batsi-ng-input-numeric
+          [label]="'Zugnummer'"
+          [labelWidth]="7.5"
+          [inputMaxWidth]="10"
+          [inputPlaceholder]="'z.B. 579'"
+          [batsiFormControl]="trainSearchFormModel.trainNumber"
+        ></batsi-ng-input-numeric>
+
+        <div class="input-group mt-3">
+          <label class="input-group-text" [for]="inputDateCtl">Datum</label>
+          <input
+            #inputDateCtl
+            type="date"
+            class="form-control"
+            [formControl]="trainSearchFormModel.date"
+          />
+        </div>
+
+        <div class="mt-3">
+          <batsi-ng-button-with-spinner
+            [label]="'Suchen'"
+            [isLoading$]="isLoading$"
+          ></batsi-ng-button-with-spinner>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <ng-container
+    *ngIf="
+      (isLoading$ | async) === false && (hasFormBeenSubmitted || hasResult)
+    "
+  >
+    <ul class="list-group list-group-flush">
+      <div *ngIf="hasFormBeenSubmitted && !hasResult">
+        <li class="list-group-item active">Keine Ergebnisse</li>
+      </div>
+    </ul>
+  </ng-container>
+</div>
