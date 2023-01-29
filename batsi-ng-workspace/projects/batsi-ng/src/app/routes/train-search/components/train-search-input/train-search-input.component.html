@@ -37,19 +37,15 @@
   </div>
 
   <!-- Result -->
-  <ul
+  <ng-container
     *ngIf="
       (isLoading$ | async) === false && (hasFormBeenSubmitted || hasResult)
     "
-    class="list-group list-group-flush"
   >
-    <ng-container *ngIf="hasResult; else trainSearchResultNoneTemplate">
-      Ergebnisse: TODO
-    </ng-container>
-    <ng-template #trainSearchResultNoneTemplate>
-      <li *ngIf="hasFormBeenSubmitted" class="list-group-item active">
-        Keine Ergebnisse
-      </li>
-    </ng-template>
-  </ul>
+    <ul class="list-group list-group-flush">
+      <div *ngIf="hasFormBeenSubmitted && !hasResult">
+        <li class="list-group-item active">Keine Ergebnisse</li>
+      </div>
+    </ul>
+  </ng-container>
 </div>
