@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as dayjs from 'dayjs';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { TrainSearchFormModel } from './models/train-search-form-model';
+import { TrainSearchFormModel } from './interfaces/train-search-form-model';
 
 @Component({
   selector: 'batsi-ng-train-search-input',
