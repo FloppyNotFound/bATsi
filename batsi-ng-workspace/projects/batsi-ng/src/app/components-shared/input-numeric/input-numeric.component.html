@@ -1,0 +1,17 @@
+<div class="input-group">
+  <label
+    class="input-group-text"
+    for="batsi-ng-input-numeric"
+    [ngStyle]="{ 'width.rem': labelWidth ? labelWidth : 'inherit' }"
+    >{{ label }}</label
+  >
+  <input
+    id="batsi-ng-input-numeric"
+    class="ps-3"
+    type="number"
+    placeholder="579"
+    autofocus
+    step="0"
+    [formControl]="batsiFormControl"
+  />
+</div>
