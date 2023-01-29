@@ -12,4 +12,8 @@ export class InputNumericComponent {
   @Input() label!: string;
 
   @Input() labelWidth?: number;
+
+  @Input() inputMaxWidth?: number;
+
+  @Input() inputPlaceholder = 'Zahl eingeben';
 }

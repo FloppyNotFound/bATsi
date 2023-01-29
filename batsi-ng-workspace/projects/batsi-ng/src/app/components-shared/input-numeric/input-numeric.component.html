@@ -9,9 +9,10 @@
     id="batsi-ng-input-numeric"
     class="ps-3"
     type="number"
-    placeholder="579"
+    [placeholder]="inputPlaceholder"
     autofocus
     step="0"
     [formControl]="batsiFormControl"
+    [ngStyle]="{ 'max-width.rem': inputMaxWidth ? inputMaxWidth : 'inherit' }"
   />
 </div>
