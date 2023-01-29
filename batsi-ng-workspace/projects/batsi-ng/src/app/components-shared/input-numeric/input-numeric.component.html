@@ -1,13 +1,13 @@
 <div class="input-group">
   <label
     class="input-group-text"
-    for="batsi-ng-input-numeric"
+    [for]="inputNumericCtl"
     [ngStyle]="{ 'width.rem': labelWidth ? labelWidth : 'inherit' }"
     >{{ label }}</label
   >
   <input
-    id="batsi-ng-input-numeric"
-    class="ps-3"
+    #inputNumericCtl
+    class="ps-3 form-control"
     type="number"
     [placeholder]="inputPlaceholder"
     autofocus

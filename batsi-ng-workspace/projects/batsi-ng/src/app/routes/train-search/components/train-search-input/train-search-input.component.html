@@ -15,11 +15,9 @@
         ></batsi-ng-input-numeric>
 
         <div class="input-group mt-3">
-          <label class="input-group-text" for="train-search-input__lbl-train"
-            >Datum</label
-          >
+          <label class="input-group-text" [for]="inputDateCtl">Datum</label>
           <input
-            id="train-search-input__lbl-train"
+            #inputDateCtl
             type="date"
             class="form-control"
             [formControl]="trainSearchFormModel.date"
