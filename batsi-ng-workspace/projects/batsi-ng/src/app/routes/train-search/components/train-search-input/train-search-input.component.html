@@ -3,6 +3,7 @@
     <div class="card-title">
       <h2>Zug-Daten</h2>
     </div>
+
     <div class="card-text mt-3">
       <form [formGroup]="trainSearchForm" (ngSubmit)="onSearch()" novalidate>
         <batsi-ng-input-numeric
@@ -26,14 +27,29 @@
         </div>
 
         <div class="mt-3">
-          <button class="btn btn-primary d-flex ms-auto" type="submit">
-            Suchen
-          </button>
+          <batsi-ng-button-with-spinner
+            [label]="'Suchen'"
+            [isLoading$]="isLoading$"
+          ></batsi-ng-button-with-spinner>
         </div>
       </form>
     </div>
   </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item active">Keine Ergebnisse</li>
+
+  <!-- Result -->
+  <ul
+    *ngIf="
+      (isLoading$ | async) === false && (hasFormBeenSubmitted || hasResult)
+    "
+    class="list-group list-group-flush"
+  >
+    <ng-container *ngIf="hasResult; else trainSearchResultNoneTemplate">
+      Ergebnisse: TODO
+    </ng-container>
+    <ng-template #trainSearchResultNoneTemplate>
+      <li *ngIf="hasFormBeenSubmitted" class="list-group-item active">
+        Keine Ergebnisse
+      </li>
+    </ng-template>
   </ul>
 </div>
