@@ -13,13 +13,10 @@ export class StationNumberService {
       return null;
     }
 
-    const number =
-      stationName !== void 0 && stationName !== null
-        ? stations?.find(s =>
-            s.name.toLowerCase().includes(stationName.toLowerCase())
-          )?.eva
-        : null;
+    const number = stations.find(s =>
+      s.name.toLowerCase().includes(stationName.toLowerCase())
+    )?.eva;
 
-    return number !== null ? Number(number) : null;
+    return number !== null && number !== void 0 ? Number(number) : null;
   }
 }
