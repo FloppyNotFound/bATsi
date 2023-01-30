@@ -2,6 +2,7 @@
 README.md
 api.module.ts
 api/api.ts
+api/train.service.ts
 configuration.ts
 encoder.ts
 git_push.sh

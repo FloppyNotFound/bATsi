@@ -1,9 +1,7 @@
 ## Folders
 src/lib/typescript-client/model
-src/lib/typescript-client/api
 
 ## Files
-src/lib/typescript-client/api.module.ts
 src/lib/typescript-client/configuration.ts
 src/lib/typescript-client/encoder.ts
 src/lib/typescript-client/git_push.sh

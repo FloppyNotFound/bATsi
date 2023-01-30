@@ -1,7 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TrainInfoResponse, TrainService } from 'batsi-models';
 import * as dayjs from 'dayjs';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  EMPTY,
+  Observable,
+  Subject,
+  takeUntil
+} from 'rxjs';
 import { TrainSearchFormModel } from './interfaces/train-search-form-model';
 
 @Component({
@@ -9,7 +17,7 @@ import { TrainSearchFormModel } from './interfaces/train-search-form-model';
   templateUrl: './train-search-input.component.html',
   styleUrls: ['./train-search-input.component.scss']
 })
-export class TrainSearchInputComponent {
+export class TrainSearchInputComponent implements OnDestroy {
   readonly trainSearchForm: FormGroup;
 
   readonly trainSearchFormModel: TrainSearchFormModel = {
@@ -28,7 +36,9 @@ export class TrainSearchInputComponent {
   readonly isLoading$: Observable<boolean>;
   private readonly _isLoading = new BehaviorSubject(false);
 
-  constructor() {
+  private readonly _unsubscribe = new Subject<void>();
+
+  constructor(private _trainService: TrainService) {
     this.trainSearchForm = new FormGroup<TrainSearchFormModel>(
       this.trainSearchFormModel
     );
@@ -36,6 +46,11 @@ export class TrainSearchInputComponent {
     this.isLoading$ = this._isLoading.asObservable();
 
     this.trainNumberSetFocus$ = this._trainNumberSetFocus.asObservable();
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribe.next();
+    this._unsubscribe.complete();
   }
 
   onSearch(): void {
@@ -47,19 +62,39 @@ export class TrainSearchInputComponent {
     const trainNumber = this.trainSearchFormModel.trainNumber.value;
     const date = this.trainSearchFormModel.date.value;
 
-    console.log(trainNumber, date);
+    if (trainNumber === null || !date) {
+      this.showSubmittedButNoResultsMessage();
+      return;
+    }
 
     this._isLoading.next(true);
+    this._trainService
+      .backendInfoGet(trainNumber, date, 0)
+      .pipe(
+        takeUntil(this._unsubscribe),
+        catchError(() => {
+          this._isLoading.next(false);
+          this.showSubmittedButNoResultsMessage();
+
+          return EMPTY;
+        })
+      )
+      .subscribe(trainInfo => {
+        this.goToDetails(trainInfo);
+      });
+  }
+
+  private goToDetails(trainInfo: TrainInfoResponse): void {
+    throw new Error(
+      'goToDetails: Method not implemented. ' + JSON.stringify(trainInfo)
+    );
+  }
+
+  private showSubmittedButNoResultsMessage(): void {
+    this.hasFormBeenSubmitted = true;
 
     setTimeout(() => {
-      this._isLoading.next(false);
-      this._trainNumberSetFocus.next();
-
-      this.hasFormBeenSubmitted = true;
-
-      setTimeout(() => {
-        this.hasFormBeenSubmitted = false;
-      }, 2000);
+      this.hasFormBeenSubmitted = false;
     }, 2000);
   }
 }
