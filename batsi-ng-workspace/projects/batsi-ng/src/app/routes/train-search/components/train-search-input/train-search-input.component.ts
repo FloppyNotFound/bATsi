@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as dayjs from 'dayjs';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { TrainSearchFormModel } from './interfaces/train-search-form-model';
 
 @Component({
@@ -10,6 +10,8 @@ import { TrainSearchFormModel } from './interfaces/train-search-form-model';
   styleUrls: ['./train-search-input.component.scss']
 })
 export class TrainSearchInputComponent {
+  readonly trainSearchForm: FormGroup;
+
   readonly trainSearchFormModel: TrainSearchFormModel = {
     trainNumber: new FormControl(null, { validators: Validators.required }),
     date: new FormControl(dayjs().format('YYYY-MM-DD'), {
@@ -17,12 +19,13 @@ export class TrainSearchInputComponent {
     })
   };
 
-  readonly trainSearchForm: FormGroup;
-
-  readonly isLoading$: Observable<boolean>;
   hasResult = false;
   hasFormBeenSubmitted = false;
 
+  readonly trainNumberSetFocus$: Observable<void>;
+  private readonly _trainNumberSetFocus = new Subject<void>();
+
+  readonly isLoading$: Observable<boolean>;
   private readonly _isLoading = new BehaviorSubject(false);
 
   constructor() {
@@ -31,9 +34,16 @@ export class TrainSearchInputComponent {
     );
 
     this.isLoading$ = this._isLoading.asObservable();
+
+    this.trainNumberSetFocus$ = this._trainNumberSetFocus.asObservable();
   }
 
   onSearch(): void {
+    const isLoading = this._isLoading.getValue();
+    if (isLoading) {
+      return;
+    }
+
     const trainNumber = this.trainSearchFormModel.trainNumber.value;
     const date = this.trainSearchFormModel.date.value;
 
@@ -43,10 +53,13 @@ export class TrainSearchInputComponent {
 
     setTimeout(() => {
       this._isLoading.next(false);
+      this._trainNumberSetFocus.next();
 
       this.hasFormBeenSubmitted = true;
 
-      setTimeout(() => (this.hasFormBeenSubmitted = false), 2000);
+      setTimeout(() => {
+        this.hasFormBeenSubmitted = false;
+      }, 2000);
     }, 2000);
   }
 }
