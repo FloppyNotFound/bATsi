@@ -5,7 +5,7 @@ info:
   title: ÖBB Live Backend Info
   description: Get live train data
 servers:
-  - url: 'https://live.oebb.at'
+  - url: 'https://batsi-proxy.floppynotfound.workers.dev'
 tags:
   - name: train
     description: Get live train data

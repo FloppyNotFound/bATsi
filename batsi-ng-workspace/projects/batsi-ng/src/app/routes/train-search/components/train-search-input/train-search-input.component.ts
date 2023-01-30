@@ -61,6 +61,7 @@ export class TrainSearchInputComponent implements OnDestroy {
 
     const trainNumber = this.trainSearchFormModel.trainNumber.value;
     const date = this.trainSearchFormModel.date.value;
+    const station = 8100002;
 
     if (trainNumber === null || !date) {
       this.showSubmittedButNoResultsMessage();
@@ -69,7 +70,7 @@ export class TrainSearchInputComponent implements OnDestroy {
 
     this._isLoading.next(true);
     this._trainService
-      .backendInfoGet(trainNumber, date, 0)
+      .backendInfoGet(trainNumber, date, station)
       .pipe(
         takeUntil(this._unsubscribe),
         catchError(() => {

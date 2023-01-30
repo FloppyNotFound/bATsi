@@ -8,7 +8,7 @@ import { StationListItem } from './interfaces/station-list-item.interface';
   providedIn: 'root'
 })
 export class StationListService {
-  private readonly _stationListUrl = environment.stationsUrl;
+  private readonly _proxyUrl = environment.proxyUrl;
 
   private _stations: StationListItem[] | undefined;
 
@@ -19,7 +19,9 @@ export class StationListService {
       return of(this._stations);
     }
 
-    return this._httpClient.get(this._stationListUrl).pipe(
+    const url = new URL('assets/assets/stations.json', this._proxyUrl).href;
+
+    return this._httpClient.get(url).pipe(
       map(stations => <StationListItem[]>stations),
       tap(stations => (this._stations = stations))
     );

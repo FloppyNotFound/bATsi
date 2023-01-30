@@ -32,7 +32,7 @@ import { Configuration }                                     from '../configurat
 })
 export class TrainService {
 
-    protected basePath = 'https://live.oebb.at';
+    protected basePath = 'https://batsi-proxy.floppynotfound.workers.dev';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
