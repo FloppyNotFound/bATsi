@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TrainSearchInputModule } from './components/train-search-input/train-search-input.module';
 
@@ -10,7 +11,7 @@ describe('TrainSearchComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TrainSearchComponent],
-      imports: [TrainSearchInputModule]
+      imports: [TrainSearchInputModule, HttpClientTestingModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TrainSearchComponent);

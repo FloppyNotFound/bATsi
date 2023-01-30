@@ -6,6 +6,7 @@
 
     <div class="card-text mt-3">
       <form [formGroup]="trainSearchForm" (ngSubmit)="onSearch()" novalidate>
+        <!-- Train Number -->
         <batsi-ng-input-numeric
           [label]="'Zugnummer'"
           [labelWidth]="7.5"
@@ -15,6 +16,21 @@
           [focus$]="trainNumberSetFocus$"
         ></batsi-ng-input-numeric>
 
+        <!-- Station (Number) -->
+        <!-- https://www.w3schools.com/howto/howto_js_autocomplete.asp -->
+        <div class="input-group mt-3">
+          <label class="input-group-text" [for]="inputStationCtl"
+            >Station</label
+          >
+          <input
+            #inputStationCtl
+            type="string"
+            class="form-control"
+            [formControl]="trainSearchFormModel.stationName"
+          />
+        </div>
+
+        <!-- Date -->
         <div class="input-group mt-3">
           <label class="input-group-text" [for]="inputDateCtl">Datum</label>
           <input

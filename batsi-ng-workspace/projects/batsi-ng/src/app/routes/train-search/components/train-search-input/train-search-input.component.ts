@@ -1,7 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
+import { StationNumberService } from './services/station-number/station-number.service';
+import { StationListItem } from './../../../../services/station-list/interfaces/station-list-item.interface';
+import { StationListService } from './../../../../services/station-list/station-list.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TrainInfoResponse, TrainService } from 'batsi-models';
-import * as dayjs from 'dayjs';
 import {
   BehaviorSubject,
   catchError,
@@ -11,17 +13,19 @@ import {
   takeUntil
 } from 'rxjs';
 import { TrainSearchFormModel } from './interfaces/train-search-form-model';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'batsi-ng-train-search-input',
   templateUrl: './train-search-input.component.html',
   styleUrls: ['./train-search-input.component.scss']
 })
-export class TrainSearchInputComponent implements OnDestroy {
+export class TrainSearchInputComponent implements OnInit, OnDestroy {
   readonly trainSearchForm: FormGroup;
 
   readonly trainSearchFormModel: TrainSearchFormModel = {
     trainNumber: new FormControl(null, { validators: Validators.required }),
+    stationName: new FormControl(null, { validators: Validators.required }),
     date: new FormControl(dayjs().format('YYYY-MM-DD'), {
       validators: Validators.required
     })
@@ -38,7 +42,13 @@ export class TrainSearchInputComponent implements OnDestroy {
 
   private readonly _unsubscribe = new Subject<void>();
 
-  constructor(private _trainService: TrainService) {
+  private _stations: StationListItem[] | undefined;
+
+  constructor(
+    private _trainService: TrainService,
+    private _stationListService: StationListService,
+    private _stationService: StationNumberService
+  ) {
     this.trainSearchForm = new FormGroup<TrainSearchFormModel>(
       this.trainSearchFormModel
     );
@@ -46,6 +56,10 @@ export class TrainSearchInputComponent implements OnDestroy {
     this.isLoading$ = this._isLoading.asObservable();
 
     this.trainNumberSetFocus$ = this._trainNumberSetFocus.asObservable();
+  }
+
+  ngOnInit(): void {
+    this.initStationList();
   }
 
   ngOnDestroy(): void {
@@ -61,16 +75,22 @@ export class TrainSearchInputComponent implements OnDestroy {
 
     const trainNumber = this.trainSearchFormModel.trainNumber.value;
     const date = this.trainSearchFormModel.date.value;
-    const station = 8100002;
 
-    if (trainNumber === null || !date) {
+    const stationName = this.trainSearchFormModel.stationName.value;
+
+    const stationNumber = this._stationService.toStationNumber(
+      stationName,
+      this._stations
+    );
+
+    if (trainNumber === null || stationNumber === null || !date) {
       this.showSubmittedButNoResultsMessage();
       return;
     }
 
     this._isLoading.next(true);
     this._trainService
-      .backendInfoGet(trainNumber, date, station)
+      .backendInfoGet(trainNumber, date, stationNumber)
       .pipe(
         takeUntil(this._unsubscribe),
         catchError(() => {
@@ -82,6 +102,15 @@ export class TrainSearchInputComponent implements OnDestroy {
       )
       .subscribe(trainInfo => {
         this.goToDetails(trainInfo);
+      });
+  }
+
+  private initStationList(): void {
+    this._stationListService
+      .getStationList()
+      .pipe(takeUntil(this._unsubscribe))
+      .subscribe(stations => {
+        this._stations = stations;
       });
   }
 

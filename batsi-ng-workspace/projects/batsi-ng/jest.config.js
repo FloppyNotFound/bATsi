@@ -2,13 +2,15 @@ const baseConfig = require('../../jest.config');
 
 module.exports = {
   ...baseConfig,
-  moduleNameMapper: {
-    '@core/(.*)': '<rootDir>/src/app/core/$1',
-  },
   preset: 'jest-preset-angular',
   globals: {
     'ts-jest': {
-      tsconfig: '<rootDir>/projects/batsi-ng/tsconfig.spec.json',
-    },
+      tsconfig: '<rootDir>/projects/batsi-ng/tsconfig.spec.json'
+    }
   },
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+    'batsi-models': '<rootDir>/projects/batsi-models/src/lib/typescript-client'
+  },
+  modulePathIgnorePatterns: ['<rootDir>/dist']
 };

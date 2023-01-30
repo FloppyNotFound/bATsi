@@ -21,6 +21,11 @@ export interface Env {
   // MY_BUCKET: R2Bucket;
 }
 
+const defaultHeaders: HeadersInit = {
+  "content-type": "application/json;charset=UTF-8",
+  "Access-Control-Allow-Origin": "http://localhost:4200",
+};
+
 export default {
   async fetch(
     request: Request,
@@ -34,7 +39,7 @@ export default {
       fetchResponse = await fetch(destinationURL);
     } catch (err) {
       console.error(err);
-      return new Response(null, { status: 404 });
+      return new Response(null, { status: 404, headers: defaultHeaders });
     }
 
     const data = await (<Response>fetchResponse).json();
@@ -42,15 +47,12 @@ export default {
 
     const hasHttpSuccessCode = fetchResponse.status.toString().startsWith("2");
     if (!hasHttpSuccessCode) {
-      return new Response(json, { status: 400 });
+      return new Response(json, { status: 400, headers: defaultHeaders });
     }
 
     const response = new Response(json, {
       status: 200,
-      headers: {
-        "content-type": "application/json;charset=UTF-8",
-        "Access-Control-Allow-Origin": "http://localhost:4200",
-      },
+      headers: defaultHeaders,
     });
 
     return response;
