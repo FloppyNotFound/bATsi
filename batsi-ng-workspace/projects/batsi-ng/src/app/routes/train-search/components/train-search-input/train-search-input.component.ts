@@ -20,6 +20,7 @@ import { TrainSearchFormModel } from './interfaces/train-search-form-model';
 import { StationNumberService } from './services/station-number/station-number.service';
 import { StationListItem } from './../../../../services/station-list/interfaces/station-list-item.interface';
 import { TrainQueryData } from './../../interfaces/train-query-data.interface';
+import { TrainSearchResult } from '../../interfaces/train-search-result.interface';
 
 @Component({
   selector: 'batsi-ng-train-search-input',
@@ -33,7 +34,7 @@ export class TrainSearchInputComponent implements OnDestroy {
 
   @Input() stations: StationListItem[] | undefined;
 
-  @Output() readonly trainFound = new EventEmitter<TrainInfoResponse>();
+  @Output() readonly trainFound = new EventEmitter<TrainSearchResult>();
 
   readonly trainSearchForm: FormGroup;
 
@@ -110,10 +111,12 @@ export class TrainSearchInputComponent implements OnDestroy {
         })
       )
       .subscribe(trainInfo => {
-        this.trainFound.emit(trainInfo);
+        const result: TrainSearchResult = {
+          query: trainQueryData,
+          response: trainInfo
+        };
+        this.trainFound.emit(result);
       });
-
-    this._isLoading.next(true);
   }
 
   private showSubmittedButNoResultsMessage(): void {
