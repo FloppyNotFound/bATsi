@@ -5,6 +5,7 @@ import { Subject, Observable } from 'rxjs';
 import { StationListItem } from '../../services/station-list/interfaces/station-list-item.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrainSearchResult } from './interfaces/train-search-result.interface';
+import { TrainSearchStateService } from './state/train-search-state.service';
 
 @Component({
   selector: 'batsi-ng-train-search',
@@ -18,7 +19,8 @@ export class TrainSearchComponent implements OnDestroy {
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
-    private _trainService: TrainService
+    private _trainService: TrainService,
+    private trainSearchState: TrainSearchStateService
   ) {
     this.stations = this._route.snapshot.data['stations'];
   }
@@ -43,12 +45,9 @@ export class TrainSearchComponent implements OnDestroy {
   }
 
   private goToDetails(trainInfo: TrainSearchResult): void {
+    this.trainSearchState.cache(this._router.url, trainInfo);
+
     const query = trainInfo.query;
-
-    // TODO: store in state
-    const response = trainInfo.response;
-    console.log(response);
-
     this._router.navigate(['details'], {
       queryParams: {
         ...query
