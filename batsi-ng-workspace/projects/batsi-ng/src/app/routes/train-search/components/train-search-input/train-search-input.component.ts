@@ -1,9 +1,13 @@
-import { StationNumberService } from './services/station-number/station-number.service';
-import { StationListItem } from './../../../../services/station-list/interfaces/station-list-item.interface';
-import { StationListService } from './../../../../services/station-list/station-list.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TrainInfoResponse, TrainService } from 'batsi-models';
+import dayjs from 'dayjs';
+import { TrainInfoResponse } from 'batsi-models';
 import {
   BehaviorSubject,
   catchError,
@@ -13,14 +17,25 @@ import {
   takeUntil
 } from 'rxjs';
 import { TrainSearchFormModel } from './interfaces/train-search-form-model';
-import dayjs from 'dayjs';
+import { StationNumberService } from './services/station-number/station-number.service';
+import { StationListItem } from './../../../../services/station-list/interfaces/station-list-item.interface';
+import { TrainQueryData } from './../../interfaces/train-query-data.interface';
+import { TrainSearchResult } from '../../interfaces/train-search-result.interface';
 
 @Component({
   selector: 'batsi-ng-train-search-input',
   templateUrl: './train-search-input.component.html',
   styleUrls: ['./train-search-input.component.scss']
 })
-export class TrainSearchInputComponent implements OnInit, OnDestroy {
+export class TrainSearchInputComponent implements OnDestroy {
+  @Input() getTrainInfo!: (
+    trainQueryData: TrainQueryData
+  ) => Observable<TrainInfoResponse>;
+
+  @Input() stations: StationListItem[] | undefined;
+
+  @Output() readonly trainFound = new EventEmitter<TrainSearchResult>();
+
   readonly trainSearchForm: FormGroup;
 
   readonly trainSearchFormModel: TrainSearchFormModel = {
@@ -42,13 +57,7 @@ export class TrainSearchInputComponent implements OnInit, OnDestroy {
 
   private readonly _unsubscribe = new Subject<void>();
 
-  private _stations: StationListItem[] | undefined;
-
-  constructor(
-    private _trainService: TrainService,
-    private _stationListService: StationListService,
-    private _stationService: StationNumberService
-  ) {
+  constructor(private _stationService: StationNumberService) {
     this.trainSearchForm = new FormGroup<TrainSearchFormModel>(
       this.trainSearchFormModel
     );
@@ -56,10 +65,6 @@ export class TrainSearchInputComponent implements OnInit, OnDestroy {
     this.isLoading$ = this._isLoading.asObservable();
 
     this.trainNumberSetFocus$ = this._trainNumberSetFocus.asObservable();
-  }
-
-  ngOnInit(): void {
-    this.initStationList();
   }
 
   ngOnDestroy(): void {
@@ -73,24 +78,15 @@ export class TrainSearchInputComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const trainNumber = this.trainSearchFormModel.trainNumber.value;
-    const date = this.trainSearchFormModel.date.value;
+    const queryData = this.toTrainQueryData(this.trainSearchFormModel);
 
-    const stationName = this.trainSearchFormModel.stationName.value;
-
-    const stationNumber = this._stationService.toStationNumber(
-      stationName,
-      this._stations
-    );
-
-    if (trainNumber === null || stationNumber === null || !date) {
+    if (!queryData) {
       this.showSubmittedButNoResultsMessage();
       return;
     }
 
     this._isLoading.next(true);
-    this._trainService
-      .backendInfoGet(trainNumber, date, stationNumber)
+    this.getTrainInfo(queryData)
       .pipe(
         takeUntil(this._unsubscribe),
         catchError(() => {
@@ -101,23 +97,35 @@ export class TrainSearchInputComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(trainInfo => {
-        this.goToDetails(trainInfo);
+        const result: TrainSearchResult = {
+          query: queryData,
+          response: trainInfo
+        };
+        this.trainFound.emit(result);
       });
   }
 
-  private initStationList(): void {
-    this._stationListService
-      .getStationList()
-      .pipe(takeUntil(this._unsubscribe))
-      .subscribe(stations => {
-        this._stations = stations;
-      });
-  }
+  private toTrainQueryData(
+    formModel: TrainSearchFormModel
+  ): TrainQueryData | undefined {
+    const trainNumber = formModel.trainNumber.value;
+    const date = formModel.date.value;
 
-  private goToDetails(trainInfo: TrainInfoResponse): void {
-    throw new Error(
-      'goToDetails: Method not implemented. ' + JSON.stringify(trainInfo)
+    const stationName = formModel.stationName.value;
+    const stationNumber = this._stationService.toStationNumber(
+      stationName,
+      this.stations
     );
+
+    if (!trainNumber || !stationNumber || !date) {
+      return void 0;
+    }
+
+    return <TrainQueryData>{
+      trainNumber,
+      date,
+      stationNumber
+    };
   }
 
   private showSubmittedButNoResultsMessage(): void {
