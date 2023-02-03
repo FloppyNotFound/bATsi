@@ -78,29 +78,15 @@ export class TrainSearchInputComponent implements OnDestroy {
       return;
     }
 
-    const trainNumber = this.trainSearchFormModel.trainNumber.value;
-    const date = this.trainSearchFormModel.date.value;
+    const queryData = this.toTrainQueryData(this.trainSearchFormModel);
 
-    const stationName = this.trainSearchFormModel.stationName.value;
-
-    const stationNumber = this._stationService.toStationNumber(
-      stationName,
-      this.stations
-    );
-
-    if (trainNumber === null || stationNumber === null || !date) {
+    if (!queryData) {
       this.showSubmittedButNoResultsMessage();
       return;
     }
 
-    const trainQueryData = <TrainQueryData>{
-      trainNumber,
-      date,
-      stationNumber
-    };
-
     this._isLoading.next(true);
-    this.getTrainInfo(trainQueryData)
+    this.getTrainInfo(queryData)
       .pipe(
         takeUntil(this._unsubscribe),
         catchError(() => {
@@ -112,11 +98,34 @@ export class TrainSearchInputComponent implements OnDestroy {
       )
       .subscribe(trainInfo => {
         const result: TrainSearchResult = {
-          query: trainQueryData,
+          query: queryData,
           response: trainInfo
         };
         this.trainFound.emit(result);
       });
+  }
+
+  private toTrainQueryData(
+    formModel: TrainSearchFormModel
+  ): TrainQueryData | undefined {
+    const trainNumber = formModel.trainNumber.value;
+    const date = formModel.date.value;
+
+    const stationName = formModel.stationName.value;
+    const stationNumber = this._stationService.toStationNumber(
+      stationName,
+      this.stations
+    );
+
+    if (!trainNumber || !stationNumber || !date) {
+      return void 0;
+    }
+
+    return <TrainQueryData>{
+      trainNumber,
+      date,
+      stationNumber
+    };
   }
 
   private showSubmittedButNoResultsMessage(): void {

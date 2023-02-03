@@ -9,8 +9,8 @@ export class TrainSearchStateService implements AppState {
     return this._routePath;
   }
 
-  private _trainSearchResult!: TrainSearchResult;
-  public get trainSearchResult(): TrainSearchResult {
+  private _trainSearchResult!: TrainSearchResult | undefined;
+  public get trainSearchResult(): TrainSearchResult | undefined {
     return this._trainSearchResult;
   }
 

@@ -8,11 +8,19 @@ import { TrainSearchStateService } from './../state/train-search-state.service';
   styleUrls: ['./train-details.component.scss']
 })
 export class TrainDetailsComponent implements OnInit {
-  state!: TrainInfoResponse;
+  state: TrainInfoResponse | undefined;
 
   constructor(private _trainSearchState: TrainSearchStateService) {}
 
   ngOnInit(): void {
-    this.state = this._trainSearchState.trainSearchResult.response;
+    this.state = this.getState();
+
+    if (!this.state) {
+      throw Error('invalid state');
+    }
+  }
+
+  private getState(): TrainInfoResponse | undefined {
+    return this._trainSearchState.trainSearchResult?.response;
   }
 }
