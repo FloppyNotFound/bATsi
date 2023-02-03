@@ -1,8 +1,7 @@
-import { StationNumberService } from './services/station-number/station-number.service';
-import { StationListItem } from './../../../../services/station-list/interfaces/station-list-item.interface';
-import { StationListService } from './../../../../services/station-list/station-list.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import dayjs from 'dayjs';
 import { TrainInfoResponse, TrainService } from 'batsi-models';
 import {
   BehaviorSubject,
@@ -13,14 +12,15 @@ import {
   takeUntil
 } from 'rxjs';
 import { TrainSearchFormModel } from './interfaces/train-search-form-model';
-import dayjs from 'dayjs';
+import { StationNumberService } from './services/station-number/station-number.service';
+import { StationListItem } from './../../../../services/station-list/interfaces/station-list-item.interface';
 
 @Component({
   selector: 'batsi-ng-train-search-input',
   templateUrl: './train-search-input.component.html',
   styleUrls: ['./train-search-input.component.scss']
 })
-export class TrainSearchInputComponent implements OnInit, OnDestroy {
+export class TrainSearchInputComponent implements OnDestroy {
   readonly trainSearchForm: FormGroup;
 
   readonly trainSearchFormModel: TrainSearchFormModel = {
@@ -46,8 +46,8 @@ export class TrainSearchInputComponent implements OnInit, OnDestroy {
 
   constructor(
     private _trainService: TrainService,
-    private _stationListService: StationListService,
-    private _stationService: StationNumberService
+    private _stationService: StationNumberService,
+    private _route: ActivatedRoute
   ) {
     this.trainSearchForm = new FormGroup<TrainSearchFormModel>(
       this.trainSearchFormModel
@@ -56,10 +56,8 @@ export class TrainSearchInputComponent implements OnInit, OnDestroy {
     this.isLoading$ = this._isLoading.asObservable();
 
     this.trainNumberSetFocus$ = this._trainNumberSetFocus.asObservable();
-  }
 
-  ngOnInit(): void {
-    this.initStationList();
+    this._stations = this._route.snapshot.data['stations'];
   }
 
   ngOnDestroy(): void {
@@ -102,15 +100,6 @@ export class TrainSearchInputComponent implements OnInit, OnDestroy {
       )
       .subscribe(trainInfo => {
         this.goToDetails(trainInfo);
-      });
-  }
-
-  private initStationList(): void {
-    this._stationListService
-      .getStationList()
-      .pipe(takeUntil(this._unsubscribe))
-      .subscribe(stations => {
-        this._stations = stations;
       });
   }
 
