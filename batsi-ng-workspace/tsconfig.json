@@ -6,9 +6,7 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "batsi-models": [
-        "dist/batsi-models"
-      ]
+      "batsi-models": ["dist/batsi-models"]
     },
     "strict": true,
     "noImplicitOverride": true,
@@ -30,6 +28,8 @@
     // Advanced
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "skipLibCheck": true
   },
   "angularCompilerOptions": {

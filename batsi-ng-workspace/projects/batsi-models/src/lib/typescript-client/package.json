@@ -1,7 +1,7 @@
 {
-  "name": "batsi-models",
+  "name": "batsi-models-gen",
   "version": "1.0.0",
-  "description": "OpenAPI client for batsi-models",
+  "description": "OpenAPI client for batsi-models-gen",
   "author": "OpenAPI-Generator Contributors",
   "repository": {
     "type": "git",

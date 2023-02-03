@@ -5,7 +5,7 @@ info:
   title: ÖBB Live Backend Info
   description: Get live train data
 servers:
-  - url: 'https://live.oebb.at'
+  - url: 'https://batsi-proxy.floppynotfound.workers.dev'
 tags:
   - name: train
     description: Get live train data
@@ -33,6 +33,7 @@ components:
     trainNrParam:
       name: trainNr
       in: query
+      required: true
       description: Unique per day train number (without the train type information)
       example: 766
       schema:
@@ -40,6 +41,7 @@ components:
     dateParam:
       name: date
       in: query
+      required: true
       description: Date at which the train operates
       example: '2022-12-31'
       schema:
@@ -49,6 +51,7 @@ components:
     stationParam:
       name: station
       in: query
+      required: true
       description: Unique station ID
       schema:
         type: number
