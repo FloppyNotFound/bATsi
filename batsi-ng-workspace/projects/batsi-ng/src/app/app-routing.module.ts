@@ -20,6 +20,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./routes/about/about.module').then(m => m.AboutModule),
     data: { title: 'Impressum' }
+  },
+  {
+    path: '**',
+    redirectTo: 'train-search'
   }
 ];
 
