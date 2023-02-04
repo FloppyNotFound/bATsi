@@ -19,6 +19,7 @@ describe('StationNumberService', () => {
     ];
   });
 
+  //#region toStationNumber
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
@@ -31,7 +32,7 @@ describe('StationNumberService', () => {
     const result = service.toStationNumber(stationName, stations);
 
     // Assert
-    expect(result).toBe(null);
+    expect(result).toBeNull();
   });
 
   it('should return null, if no stations were provided', () => {
@@ -43,7 +44,7 @@ describe('StationNumberService', () => {
     const result = service.toStationNumber(stationName, stations);
 
     // Assert
-    expect(result).toBe(null);
+    expect(result).toBeNull();
   });
 
   it('should return null, if no station was found', () => {
@@ -54,7 +55,7 @@ describe('StationNumberService', () => {
     const result = service.toStationNumber(stationName, stations);
 
     // Assert
-    expect(result).toBe(null);
+    expect(result).toBeNull();
   });
 
   it('should return station number, if found', () => {
@@ -67,4 +68,29 @@ describe('StationNumberService', () => {
     // Assert
     expect(result).toBe(123);
   });
+  //#endregion
+
+  //#region toStationName
+  it('should return null, if station number was not found', () => {
+    // Assign
+    const stationNumber = -1;
+
+    // Act
+    const result = service.toStationName(stationNumber, stations);
+
+    // Assert
+    expect(result).toBeNull();
+  });
+
+  it('should return station name, if station number wasfound', () => {
+    // Assign
+    const stationNumber = 123;
+
+    // Act
+    const result = service.toStationName(stationNumber, stations);
+
+    // Assert
+    expect(result).toBe('Teststation');
+  });
+  //#endregion
 });

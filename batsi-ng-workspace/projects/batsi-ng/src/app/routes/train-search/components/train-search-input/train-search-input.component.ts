@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -27,24 +28,22 @@ import { TrainSearchResult } from '../../interfaces/train-search-result.interfac
   templateUrl: './train-search-input.component.html',
   styleUrls: ['./train-search-input.component.scss']
 })
-export class TrainSearchInputComponent implements OnDestroy {
+export class TrainSearchInputComponent implements OnInit, OnDestroy {
+  @Input() init$: Observable<TrainQueryData> | undefined;
+
   @Input() getTrainInfo!: (
     trainQueryData: TrainQueryData
   ) => Observable<TrainInfoResponse>;
 
   @Input() stations: StationListItem[] | undefined;
 
+  @Output() readonly resetForm = new EventEmitter<void>();
+
   @Output() readonly trainFound = new EventEmitter<TrainSearchResult>();
 
   readonly trainSearchForm: FormGroup;
 
-  readonly trainSearchFormModel: TrainSearchFormModel = {
-    trainNumber: new FormControl(null, { validators: Validators.required }),
-    stationName: new FormControl(null, { validators: Validators.required }),
-    date: new FormControl(dayjs().format('YYYY-MM-DD'), {
-      validators: Validators.required
-    })
-  };
+  readonly trainSearchFormModel: TrainSearchFormModel;
 
   hasResult = false;
   hasFormBeenSubmitted = false;
@@ -58,6 +57,9 @@ export class TrainSearchInputComponent implements OnDestroy {
   private readonly _unsubscribe = new Subject<void>();
 
   constructor(private _stationService: StationNumberService) {
+    const dateTodayFormatted = this.getDateTodayFormatted();
+    this.trainSearchFormModel = this.toInitialFormModel(dateTodayFormatted);
+
     this.trainSearchForm = new FormGroup<TrainSearchFormModel>(
       this.trainSearchFormModel
     );
@@ -67,9 +69,24 @@ export class TrainSearchInputComponent implements OnDestroy {
     this.trainNumberSetFocus$ = this._trainNumberSetFocus.asObservable();
   }
 
+  ngOnInit(): void {
+    if (this.init$) {
+      this.init$.pipe(takeUntil(this._unsubscribe)).subscribe(init => {
+        this.initModel(init);
+      });
+    }
+  }
+
   ngOnDestroy(): void {
     this._unsubscribe.next();
     this._unsubscribe.complete();
+  }
+
+  onReset(): void {
+    const dateTodayFormatted = this.getDateTodayFormatted();
+    this.trainSearchForm.reset({ date: dateTodayFormatted });
+
+    this.resetForm.next();
   }
 
   onSearch(): void {
@@ -103,6 +120,44 @@ export class TrainSearchInputComponent implements OnDestroy {
         };
         this.trainFound.emit(result);
       });
+  }
+
+  private getDateTodayFormatted(): string {
+    return dayjs().format('YYYY-MM-DD');
+  }
+
+  private toInitialFormModel(date: string): TrainSearchFormModel {
+    return {
+      trainNumber: new FormControl(null, { validators: Validators.required }),
+      stationName: new FormControl(null, { validators: Validators.required }),
+      date: new FormControl(date, {
+        validators: Validators.required
+      })
+    };
+  }
+
+  private initModel(init: TrainQueryData) {
+    const trainName = this._stationService.toStationName(
+      init.stationNumber,
+      this.stations
+    );
+    const query = this.toTrainSearchFormModel(init, trainName);
+    this.trainSearchForm.setValue(query);
+  }
+
+  private toTrainSearchFormModel(
+    init: TrainQueryData,
+    trainName: string | null
+  ) {
+    return <
+      {
+        [key in keyof TrainSearchFormModel]: string | number;
+      }
+    >{
+      date: init.date,
+      stationName: trainName,
+      trainNumber: init.trainNumber
+    };
   }
 
   private toTrainQueryData(
