@@ -19,4 +19,17 @@ export class StationNumberService {
 
     return number !== null && number !== void 0 ? Number(number) : null;
   }
+
+  toStationName(
+    stationNumber: number,
+    stations: StationListItem[] | undefined
+  ): string | null {
+    if (!stations?.length) {
+      return null;
+    }
+
+    const name = stations.find(s => s.eva === stationNumber.toString())?.name;
+
+    return name ?? null;
+  }
 }

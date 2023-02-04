@@ -1,7 +1,7 @@
 import { TrainInfoResponse, TrainService } from 'batsi-models';
 import { TrainQueryData } from './interfaces/train-query-data.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, ReplaySubject } from 'rxjs';
 import { StationListItem } from '../../services/station-list/interfaces/station-list-item.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrainSearchResult } from './interfaces/train-search-result.interface';
@@ -12,9 +12,13 @@ import { TrainSearchStateService } from './state/train-search-state.service';
   templateUrl: './train-search.component.html'
 })
 export class TrainSearchComponent implements OnInit, OnDestroy {
-  private readonly _unsubscribe = new Subject<void>();
-
   readonly stations: StationListItem[] | undefined;
+
+  readonly initQuery$: Observable<TrainQueryData>;
+
+  private readonly _initQuery = new ReplaySubject<TrainQueryData>();
+
+  private readonly _unsubscribe = new Subject<void>();
 
   constructor(
     private _route: ActivatedRoute,
@@ -23,6 +27,8 @@ export class TrainSearchComponent implements OnInit, OnDestroy {
     private _trainSearchState: TrainSearchStateService
   ) {
     this.stations = this._route.snapshot.data['stations'];
+
+    this.initQuery$ = this._initQuery.asObservable();
   }
 
   ngOnInit(): void {
@@ -30,7 +36,7 @@ export class TrainSearchComponent implements OnInit, OnDestroy {
     const query = state?.query;
 
     if (query) {
-      console.log('query', query);
+      this._initQuery.next(query);
     }
   }
 

@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TrainSearchInputModule } from './components/train-search-input/train-search-input.module';
 
 import { TrainSearchComponent } from './train-search.component';
-import { NgxStateStackModule } from 'ngx-state-stack';
 
 describe('TrainSearchComponent', () => {
   let component: TrainSearchComponent;
@@ -16,8 +15,7 @@ describe('TrainSearchComponent', () => {
       imports: [
         TrainSearchInputModule,
         HttpClientTestingModule,
-        RouterTestingModule,
-        NgxStateStackModule.forRoot()
+        RouterTestingModule
       ]
     }).compileComponents();
 

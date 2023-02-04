@@ -1,5 +1,6 @@
 <div class="d-flex flex-column align-items-center">
   <batsi-ng-train-search-input
+    [init$]="initQuery$"
     [getTrainInfo]="getTrainInfo"
     [stations]="stations"
     (trainFound)="onTrainFound($event)"

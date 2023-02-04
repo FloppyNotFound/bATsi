@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -27,7 +28,9 @@ import { TrainSearchResult } from '../../interfaces/train-search-result.interfac
   templateUrl: './train-search-input.component.html',
   styleUrls: ['./train-search-input.component.scss']
 })
-export class TrainSearchInputComponent implements OnDestroy {
+export class TrainSearchInputComponent implements OnInit, OnDestroy {
+  @Input() init$: Observable<TrainQueryData> | undefined;
+
   @Input() getTrainInfo!: (
     trainQueryData: TrainQueryData
   ) => Observable<TrainInfoResponse>;
@@ -67,6 +70,14 @@ export class TrainSearchInputComponent implements OnDestroy {
     this.trainNumberSetFocus$ = this._trainNumberSetFocus.asObservable();
   }
 
+  ngOnInit(): void {
+    if (this.init$) {
+      this.init$.pipe(takeUntil(this._unsubscribe)).subscribe(init => {
+        this.initModel(init);
+      });
+    }
+  }
+
   ngOnDestroy(): void {
     this._unsubscribe.next();
     this._unsubscribe.complete();
@@ -103,6 +114,30 @@ export class TrainSearchInputComponent implements OnDestroy {
         };
         this.trainFound.emit(result);
       });
+  }
+
+  private initModel(init: TrainQueryData) {
+    const trainName = this._stationService.toStationName(
+      init.stationNumber,
+      this.stations
+    );
+    const query = this.toTrainSearchFormModel(init, trainName);
+    this.trainSearchForm.setValue(query);
+  }
+
+  private toTrainSearchFormModel(
+    init: TrainQueryData,
+    trainName: string | null
+  ) {
+    return <
+      {
+        [key in keyof TrainSearchFormModel]: string | number;
+      }
+    >{
+      date: init.date,
+      stationName: trainName,
+      trainNumber: init.trainNumber
+    };
   }
 
   private toTrainQueryData(
