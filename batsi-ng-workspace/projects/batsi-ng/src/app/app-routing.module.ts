@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { StateGuard } from 'ngx-state-stack';
 
 const routes: Routes = [
   {
@@ -14,8 +13,7 @@ const routes: Routes = [
       import('./routes/train-search/train-search.module').then(
         m => m.TrainSearchModule
       ),
-    data: { title: 'Zugsuche' },
-    canActivateChild: [StateGuard]
+    data: { title: 'Zugsuche' }
   },
   {
     path: 'about',

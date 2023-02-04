@@ -2,12 +2,7 @@ import { TrainQueryData } from './../interfaces/train-query-data.interface';
 import { TrainSearchResult } from './../interfaces/train-search-result.interface';
 import { TrainSearchStateService } from './../state/train-search-state.service';
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Observable, tap, catchError, of, EMPTY, switchMap } from 'rxjs';
 import { TrainService } from 'batsi-models';
 
@@ -21,10 +16,7 @@ export class CanActivateTrainSearchDetailsGuard implements CanActivate {
     private _router: Router
   ) {}
 
-  canActivate(
-    snapshot: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | boolean {
+  canActivate(snapshot: ActivatedRouteSnapshot): Observable<boolean> | boolean {
     if (this._state.trainSearchResult) {
       return true;
     }
@@ -57,7 +49,7 @@ export class CanActivateTrainSearchDetailsGuard implements CanActivate {
             query: queryData,
             response
           };
-          this._state.cache(state.url, result);
+          this._state.cache(result);
         }),
         switchMap(result => {
           if (!result) {
