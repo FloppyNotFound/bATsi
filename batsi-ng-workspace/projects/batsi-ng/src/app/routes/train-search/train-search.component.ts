@@ -55,6 +55,10 @@ export class TrainSearchComponent implements OnInit, OnDestroy {
     );
   };
 
+  onResetForm(): void {
+    this._trainSearchState.reset();
+  }
+
   onTrainFound(trainInfo: TrainSearchResult): void {
     this.goToDetails(trainInfo);
   }

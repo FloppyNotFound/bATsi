@@ -41,7 +41,10 @@
           />
         </div>
 
-        <div class="mt-3">
+        <div class="mt-3 d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" (click)="onReset()">
+            Zurücksetzen
+          </button>
           <batsi-ng-button-with-spinner
             [label]="'Suchen'"
             [isLoading$]="isLoading$"

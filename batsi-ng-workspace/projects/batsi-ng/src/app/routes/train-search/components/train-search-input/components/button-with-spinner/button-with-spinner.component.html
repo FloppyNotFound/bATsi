@@ -2,12 +2,12 @@
   <ng-container
     *ngIf="(isLoading$ | async) === false; else loadingSpinnerTemplate"
   >
-    <button class="btn btn-primary d-flex ms-auto" type="submit">
+    <button class="btn btn-primary d-flex" type="submit">
       {{ label }}
     </button>
   </ng-container>
   <ng-template #loadingSpinnerTemplate>
-    <div class="spinner-border text-primary d-flex ms-auto me-4" role="status">
+    <div class="spinner-border text-primary d-flex me-4" role="status">
       <span class="visually-hidden">Lädt...</span>
     </div>
   </ng-template>

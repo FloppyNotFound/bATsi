@@ -37,17 +37,13 @@ export class TrainSearchInputComponent implements OnInit, OnDestroy {
 
   @Input() stations: StationListItem[] | undefined;
 
+  @Output() readonly resetForm = new EventEmitter<void>();
+
   @Output() readonly trainFound = new EventEmitter<TrainSearchResult>();
 
   readonly trainSearchForm: FormGroup;
 
-  readonly trainSearchFormModel: TrainSearchFormModel = {
-    trainNumber: new FormControl(null, { validators: Validators.required }),
-    stationName: new FormControl(null, { validators: Validators.required }),
-    date: new FormControl(dayjs().format('YYYY-MM-DD'), {
-      validators: Validators.required
-    })
-  };
+  readonly trainSearchFormModel: TrainSearchFormModel;
 
   hasResult = false;
   hasFormBeenSubmitted = false;
@@ -61,6 +57,9 @@ export class TrainSearchInputComponent implements OnInit, OnDestroy {
   private readonly _unsubscribe = new Subject<void>();
 
   constructor(private _stationService: StationNumberService) {
+    const dateTodayFormatted = this.getDateTodayFormatted();
+    this.trainSearchFormModel = this.toInitialFormModel(dateTodayFormatted);
+
     this.trainSearchForm = new FormGroup<TrainSearchFormModel>(
       this.trainSearchFormModel
     );
@@ -81,6 +80,13 @@ export class TrainSearchInputComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._unsubscribe.next();
     this._unsubscribe.complete();
+  }
+
+  onReset(): void {
+    const dateTodayFormatted = this.getDateTodayFormatted();
+    this.trainSearchForm.reset({ date: dateTodayFormatted });
+
+    this.resetForm.next();
   }
 
   onSearch(): void {
@@ -114,6 +120,20 @@ export class TrainSearchInputComponent implements OnInit, OnDestroy {
         };
         this.trainFound.emit(result);
       });
+  }
+
+  private getDateTodayFormatted(): string {
+    return dayjs().format('YYYY-MM-DD');
+  }
+
+  private toInitialFormModel(date: string): TrainSearchFormModel {
+    return {
+      trainNumber: new FormControl(null, { validators: Validators.required }),
+      stationName: new FormControl(null, { validators: Validators.required }),
+      date: new FormControl(date, {
+        validators: Validators.required
+      })
+    };
   }
 
   private initModel(init: TrainQueryData) {

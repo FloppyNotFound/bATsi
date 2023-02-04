@@ -11,4 +11,8 @@ export class TrainSearchStateService {
   cache(trainSearchResult: TrainSearchResult): void {
     this._trainSearchResult = trainSearchResult;
   }
+
+  reset(): void {
+    this._trainSearchResult = void 0;
+  }
 }
