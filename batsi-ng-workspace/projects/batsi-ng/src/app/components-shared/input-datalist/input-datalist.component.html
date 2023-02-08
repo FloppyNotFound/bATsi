@@ -12,6 +12,7 @@
     class="ps-3 form-control"
     [attr.list]="dataListId"
     [placeholder]="inputPlaceholder"
+    [formControl]="batsiFormControl"
     [ngStyle]="{ 'max-width.rem': inputMaxWidth ? inputMaxWidth : 'inherit' }"
   />
   <datalist [id]="dataListId">
