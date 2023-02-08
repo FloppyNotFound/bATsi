@@ -1,0 +1,20 @@
+<div class="input-group">
+  <label
+    class="input-group-text"
+    [for]="inputStationCtl"
+    [ngStyle]="{ 'width.rem': labelWidth ? labelWidth : 'inherit' }"
+    >{{ label }}</label
+  >
+  <input
+    #inputStationCtl
+    type="text"
+    [name]="label"
+    class="ps-3 form-control"
+    [attr.list]="dataListId"
+    [placeholder]="inputPlaceholder"
+    [ngStyle]="{ 'max-width.rem': inputMaxWidth ? inputMaxWidth : 'inherit' }"
+  />
+  <datalist [id]="dataListId">
+    <option *ngFor="let option of options" [value]="option"></option>
+  </datalist>
+</div>
