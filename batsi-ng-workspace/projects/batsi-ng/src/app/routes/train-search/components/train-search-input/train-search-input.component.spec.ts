@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsSharedModule } from '../../../../components-shared/components-shared.module';
 import { ButtonWithSpinnerComponent } from './components/button-with-spinner/button-with-spinner.component';
 import { TrainSearchInputComponent } from './train-search-input.component';
+import { StationNamesPipe } from './pipes/station-names.pipe';
 
 describe('TrainSearchInputComponent', () => {
   let component: TrainSearchInputComponent;
@@ -12,7 +13,11 @@ describe('TrainSearchInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TrainSearchInputComponent, ButtonWithSpinnerComponent],
+      declarations: [
+        TrainSearchInputComponent,
+        ButtonWithSpinnerComponent,
+        StationNamesPipe
+      ],
       imports: [
         ComponentsSharedModule,
         ReactiveFormsModule,

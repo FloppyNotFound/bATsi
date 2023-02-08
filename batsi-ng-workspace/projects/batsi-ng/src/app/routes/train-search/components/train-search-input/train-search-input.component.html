@@ -10,24 +10,22 @@
         <batsi-ng-input-numeric
           [label]="'Zugnummer'"
           [labelWidth]="7.5"
-          [inputMaxWidth]="10"
+          [inputMaxWidth]="14"
           [inputPlaceholder]="'z.B. 579'"
           [batsiFormControl]="trainSearchFormModel.trainNumber"
           [focus$]="trainNumberSetFocus$"
         ></batsi-ng-input-numeric>
 
         <!-- Station (Number) -->
-        <!-- https://www.w3schools.com/howto/howto_js_autocomplete.asp -->
-        <div class="input-group mt-3">
-          <label class="input-group-text" [for]="inputStationCtl"
-            >Station</label
-          >
-          <input
-            #inputStationCtl
-            type="string"
-            class="form-control"
-            [formControl]="trainSearchFormModel.stationName"
-          />
+        <div class="mt-3">
+          <batsi-ng-input-datalist
+            [dataListId]="'station-list'"
+            [label]="'Station'"
+            [labelWidth]="7.5"
+            [inputMaxWidth]="14"
+            [batsiFormControl]="trainSearchFormModel.stationName"
+            [options]="stations | stationNames"
+          ></batsi-ng-input-datalist>
         </div>
 
         <!-- Date -->
