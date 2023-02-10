@@ -1,3 +1,5 @@
-<p *ngIf="state">
-  {{ state | json }}
-</p>
+<div *ngFor="let wagon of train?.wagons">
+  <div class="mt-3">
+    <batsi-ng-train-wagon [wagon]="wagon"></batsi-ng-train-wagon>
+  </div>
+</div>

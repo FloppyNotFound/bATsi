@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { TrainInfoResponse } from 'batsi-models';
+import { Component } from '@angular/core';
+import { Train, TrainInfoResponse } from 'batsi-models';
 import { TrainSearchStateService } from './../state/train-search-state.service';
 
 @Component({
@@ -7,17 +7,12 @@ import { TrainSearchStateService } from './../state/train-search-state.service';
   templateUrl: './train-details.component.html',
   styleUrls: ['./train-details.component.scss']
 })
-export class TrainDetailsComponent implements OnInit {
-  state: TrainInfoResponse | undefined;
+export class TrainDetailsComponent {
+  readonly train: Train | undefined;
 
-  constructor(private _trainSearchState: TrainSearchStateService) {}
-
-  ngOnInit(): void {
-    this.state = this.getState();
-
-    if (!this.state) {
-      throw Error('invalid state');
-    }
+  constructor(private _trainSearchState: TrainSearchStateService) {
+    const state = this.getState();
+    this.train = state?.train;
   }
 
   private getState(): TrainInfoResponse | undefined {

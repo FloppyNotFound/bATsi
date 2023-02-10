@@ -1,0 +1,11 @@
+.train-wagon {
+  border: 1px solid black;
+  width: 7rem;
+  height: 10rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  &__class-info {
+    color: blue;
+  }
+}

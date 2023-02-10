@@ -1,0 +1,10 @@
+<div class="train-wagon d-flex flex-column justify-content-between">
+  <div class="train-wagon__class-info">
+    <span *ngIf="wagon.capacityFirstClass" class="ms-1">1.</span>
+    <span *ngIf="wagon.capacitySecondClass" class="ms-1">2.</span>
+  </div>
+  <div class="ms-auto me-auto">
+    {{ wagon.ranking }}
+  </div>
+  <div></div>
+</div>
