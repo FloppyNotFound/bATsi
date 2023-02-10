@@ -3,6 +3,31 @@
     <h2>{{ timeTableInfo.trainName }}</h2>
     <div>{{ timeTableInfo.stationName }}</div>
 
+    <!-- Platform -->
+    <div class="d-flex">
+      <div>
+        <span>Platform</span>
+        <span>&nbsp;</span>
+      </div>
+      <div
+        *ngIf="timeTableInfo.platform?.reported as reported"
+        #reportedCtl
+        class="me-1 train-time-table-info__time-reported text-success"
+      >
+        {{ reported }}
+      </div>
+      <div
+        *ngIf="timeTableInfo.platform?.scheduled as scheduled"
+        [ngClass]="{
+          'train-time-table-info__time-scheduled--out-of-date':
+            !!timeTableInfo.time?.reported
+        }"
+      >
+        {{ scheduled }}
+      </div>
+    </div>
+
+    <!-- Time -->
     <div class="d-flex">
       <div
         *ngIf="timeTableInfo.time?.reported as reported"
