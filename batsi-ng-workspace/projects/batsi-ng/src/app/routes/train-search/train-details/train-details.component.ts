@@ -9,8 +9,7 @@ import { TrainSearchStateService } from './../state/train-search-state.service';
 
 @Component({
   selector: 'batsi-ng-train-details',
-  templateUrl: './train-details.component.html',
-  styleUrls: ['./train-details.component.scss']
+  templateUrl: './train-details.component.html'
 })
 export class TrainDetailsComponent {
   readonly train: Train | undefined;

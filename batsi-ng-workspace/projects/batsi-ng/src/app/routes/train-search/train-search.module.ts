@@ -7,13 +7,15 @@ import { trainSearchRoutes } from './train-search-routes';
 import { TrainDetailsComponent } from './train-details/train-details.component';
 import { TrainWagonComponent } from './train-details/components/train-wagon/train-wagon.component';
 import { WagonLoadRatioPipe } from './train-details/pipes/wagon-load-ratio.pipe';
+import { TrainTimeTableInfoComponent } from './train-details/components/train-time-table-info/train-time-table-info.component';
 
 @NgModule({
   declarations: [
     TrainSearchComponent,
     TrainDetailsComponent,
     TrainWagonComponent,
-    WagonLoadRatioPipe
+    WagonLoadRatioPipe,
+    TrainTimeTableInfoComponent
   ],
   imports: [CommonModule, TrainSearchInputModule],
   providers: [provideRouter(trainSearchRoutes)]

@@ -1,0 +1,25 @@
+<ng-container *ngIf="timeTableInfo">
+  <div class="d-flex flex-column align-items-center">
+    <h2>{{ timeTableInfo.trainName }}</h2>
+    <div>{{ timeTableInfo.stationName }}</div>
+
+    <div class="d-flex">
+      <div
+        *ngIf="timeTableInfo.time?.reported as reported"
+        #reportedCtl
+        class="me-1 train-time-table-info__time-reported text-success"
+      >
+        {{ reported.hours }}:{{ reported.minutes }}h
+      </div>
+      <div
+        *ngIf="timeTableInfo.time?.scheduled as scheduled"
+        [ngClass]="{
+          'train-time-table-info__time-scheduled--out-of-date':
+            !!timeTableInfo.time?.reported
+        }"
+      >
+        {{ scheduled.hours }}:{{ scheduled.minutes }}h
+      </div>
+    </div>
+  </div>
+</ng-container>

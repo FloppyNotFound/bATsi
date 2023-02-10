@@ -1,28 +1,10 @@
 <div class="row">
   <div class="col-md-3">
-    <div *ngIf="timeTableInfo" class="d-flex flex-column align-items-center">
-      <h2>{{ timeTableInfo.trainName }}</h2>
-      <div>{{ timeTableInfo.stationName }}</div>
-
-      <div class="d-flex">
-        <div
-          *ngIf="timeTableInfo.time?.reported as reported"
-          #reportedCtl
-          class="me-1 train-details__time-reported text-success"
-        >
-          {{ reported.hours }}:{{ reported.minutes }}h
-        </div>
-        <div
-          *ngIf="timeTableInfo.time?.scheduled as scheduled"
-          [ngClass]="{
-            'train-details__time-scheduled--out-of-date':
-              !!timeTableInfo.time?.reported
-          }"
-        >
-          {{ scheduled.hours }}:{{ scheduled.minutes }}h
-        </div>
-      </div>
-    </div>
+    <batsi-ng-train-time-table-info
+      *ngIf="timeTableInfo"
+      [timeTableInfo]="timeTableInfo"
+    >
+    </batsi-ng-train-time-table-info>
   </div>
 
   <div class="col-md-7">
