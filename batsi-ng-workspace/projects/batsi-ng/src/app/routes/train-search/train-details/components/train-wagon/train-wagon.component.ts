@@ -8,7 +8,7 @@ import { TrainWagonsInner } from 'batsi-models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TrainWagonComponent {
-  @Input() wagon!: TrainWagonsInner;
+  @Input() wagon: TrainWagonsInner | undefined;
 
   @Input() loadRatio: number | undefined;
 }

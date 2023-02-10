@@ -1,30 +1,32 @@
-<div class="train-wagon d-flex flex-column justify-content-between">
-  <div class="train-wagon__class-info">
-    <span
-      *ngIf="wagon.capacityFirstClass"
-      class="ms-1 train-wagon__class-info--first"
-      >1.</span
+<ng-container *ngIf="wagon">
+  <div class="train-wagon d-flex flex-column justify-content-between">
+    <div class="train-wagon__class-info">
+      <span
+        *ngIf="wagon.capacityFirstClass"
+        class="ms-1 train-wagon__class-info--first"
+        >1.</span
+      >
+      <span *ngIf="wagon.capacitySecondClass" class="ms-1">2.</span>
+    </div>
+
+    <div
+      class="ms-auto me-auto train-wagon__ranking"
+      [ngClass]="{
+        'train-wagon__load-unknown': loadRatio === undefined,
+        'train-wagon__load-low': loadRatio !== undefined && loadRatio < 34,
+        'train-wagon__load-medium':
+          loadRatio !== undefined && loadRatio >= 34 && loadRatio < 67,
+        'train-wagon__load-high': loadRatio !== undefined && loadRatio > 67
+      }"
     >
-    <span *ngIf="wagon.capacitySecondClass" class="ms-1">2.</span>
-  </div>
+      {{ wagon.ranking }}
+    </div>
 
-  <div
-    class="ms-auto me-auto train-wagon__ranking"
-    [ngClass]="{
-      'train-wagon__load-unknown': loadRatio === undefined,
-      'train-wagon__load-low': loadRatio !== undefined && loadRatio < 34,
-      'train-wagon__load-medium':
-        loadRatio !== undefined && loadRatio >= 34 && loadRatio < 67,
-      'train-wagon__load-high': loadRatio !== undefined && loadRatio > 67
-    }"
-  >
-    {{ wagon.ranking }}
+    <div
+      *ngIf="loadRatio !== undefined && loadRatio >= 0"
+      class="ms-auto me-auto"
+    >
+      {{ loadRatio }}%
+    </div>
   </div>
-
-  <div
-    *ngIf="loadRatio !== undefined && loadRatio >= 0"
-    class="ms-auto me-auto"
-  >
-    {{ loadRatio }}%
-  </div>
-</div>
+</ng-container>
