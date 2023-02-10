@@ -1,3 +1,9 @@
-.train-time-table-info__time-scheduled--out-of-date {
-  text-decoration: line-through;
+.train-time-table-info__time-scheduled {
+  &--out-of-date {
+    text-decoration: line-through;
+  }
+
+  &--hidden {
+    display: none;
+  }
 }

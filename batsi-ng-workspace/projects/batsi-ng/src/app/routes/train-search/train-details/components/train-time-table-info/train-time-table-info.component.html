@@ -27,13 +27,15 @@
           {{ reported }}
         </div>
         <div
-          *ngIf="status?.scheduled as scheduled"
+          *ngIf="status.scheduled"
           [ngClass]="{
             'train-time-table-info__time-scheduled--out-of-date text-danger':
-              !!timeTableInfo.time?.reported
+              status.reported,
+            'train-time-table-info__time-scheduled--hidden':
+              status.reported && status.reported === status.scheduled
           }"
         >
-          {{ scheduled }}
+          {{ status.scheduled }}
         </div>
       </div>
     </ng-container>
@@ -43,8 +45,8 @@
       *ngFor="
         let status of [
           {
-            reported: timeTableInfo.platform?.reported,
-            scheduled: timeTableInfo.platform?.scheduled
+            reported: timeTableInfo.time?.reported,
+            scheduled: timeTableInfo.time?.scheduled
           }
         ]
       "
@@ -58,13 +60,17 @@
           {{ reported.hours }}:{{ reported.minutes }}h
         </div>
         <div
-          *ngIf="timeTableInfo.time?.scheduled as scheduled"
+          *ngIf="timeTableInfo.time?.scheduled"
           [ngClass]="{
             'train-time-table-info__time-scheduled--out-of-date text-danger':
-              !!timeTableInfo.time?.reported
+              status.reported,
+            'train-time-table-info__time-scheduled--hidden':
+              status.reported &&
+              status.reported.hours === status.scheduled?.hours &&
+              status.reported.minutes === status.scheduled?.minutes
           }"
         >
-          {{ scheduled.hours }}:{{ scheduled.minutes }}h
+          {{ status.scheduled?.hours }}:{{ status.scheduled?.minutes }}h
         </div>
       </div>
     </ng-container>
