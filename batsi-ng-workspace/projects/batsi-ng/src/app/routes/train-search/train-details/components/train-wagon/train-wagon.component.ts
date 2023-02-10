@@ -9,4 +9,6 @@ import { TrainWagonsInner } from 'batsi-models';
 })
 export class TrainWagonComponent {
   @Input() wagon!: TrainWagonsInner;
+
+  @Input() loadRatio: number | undefined;
 }

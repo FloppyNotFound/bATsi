@@ -6,12 +6,14 @@ import { TrainSearchComponent } from './train-search.component';
 import { trainSearchRoutes } from './train-search-routes';
 import { TrainDetailsComponent } from './train-details/train-details.component';
 import { TrainWagonComponent } from './train-details/components/train-wagon/train-wagon.component';
+import { WagonLoadRatioPipe } from './train-details/pipes/wagon-load-ratio.pipe';
 
 @NgModule({
   declarations: [
     TrainSearchComponent,
     TrainDetailsComponent,
-    TrainWagonComponent
+    TrainWagonComponent,
+    WagonLoadRatioPipe
   ],
   imports: [CommonModule, TrainSearchInputModule],
   providers: [provideRouter(trainSearchRoutes)]
