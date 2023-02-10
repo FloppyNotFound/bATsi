@@ -4,47 +4,69 @@
     <div>{{ timeTableInfo.stationName }}</div>
 
     <!-- Platform -->
-    <div class="d-flex">
-      <div>
-        <span>Platform</span>
-        <span>&nbsp;</span>
+    <ng-container
+      *ngFor="
+        let status of [
+          {
+            reported: timeTableInfo.platform?.reported,
+            scheduled: timeTableInfo.platform?.scheduled
+          }
+        ]
+      "
+    >
+      <div class="d-flex" *ngIf="status.reported || status.scheduled">
+        <div>
+          <span>Platform</span>
+          <span>&nbsp;</span>
+        </div>
+        <div
+          *ngIf="status?.reported as reported"
+          #reportedCtl
+          class="me-1 train-time-table-info__time-reported text-success"
+        >
+          {{ reported }}
+        </div>
+        <div
+          *ngIf="status?.scheduled as scheduled"
+          [ngClass]="{
+            'train-time-table-info__time-scheduled--out-of-date text-danger':
+              !!timeTableInfo.time?.reported
+          }"
+        >
+          {{ scheduled }}
+        </div>
       </div>
-      <div
-        *ngIf="timeTableInfo.platform?.reported as reported"
-        #reportedCtl
-        class="me-1 train-time-table-info__time-reported text-success"
-      >
-        {{ reported }}
-      </div>
-      <div
-        *ngIf="timeTableInfo.platform?.scheduled as scheduled"
-        [ngClass]="{
-          'train-time-table-info__time-scheduled--out-of-date':
-            !!timeTableInfo.time?.reported
-        }"
-      >
-        {{ scheduled }}
-      </div>
-    </div>
+    </ng-container>
 
     <!-- Time -->
-    <div class="d-flex">
-      <div
-        *ngIf="timeTableInfo.time?.reported as reported"
-        #reportedCtl
-        class="me-1 train-time-table-info__time-reported text-success"
-      >
-        {{ reported.hours }}:{{ reported.minutes }}h
+    <ng-container
+      *ngFor="
+        let status of [
+          {
+            reported: timeTableInfo.platform?.reported,
+            scheduled: timeTableInfo.platform?.scheduled
+          }
+        ]
+      "
+    >
+      <div class="d-flex" *ngIf="status.reported || status.scheduled">
+        <div
+          *ngIf="timeTableInfo.time?.reported as reported"
+          #reportedCtl
+          class="me-1 train-time-table-info__time-reported text-success"
+        >
+          {{ reported.hours }}:{{ reported.minutes }}h
+        </div>
+        <div
+          *ngIf="timeTableInfo.time?.scheduled as scheduled"
+          [ngClass]="{
+            'train-time-table-info__time-scheduled--out-of-date text-danger':
+              !!timeTableInfo.time?.reported
+          }"
+        >
+          {{ scheduled.hours }}:{{ scheduled.minutes }}h
+        </div>
       </div>
-      <div
-        *ngIf="timeTableInfo.time?.scheduled as scheduled"
-        [ngClass]="{
-          'train-time-table-info__time-scheduled--out-of-date':
-            !!timeTableInfo.time?.reported
-        }"
-      >
-        {{ scheduled.hours }}:{{ scheduled.minutes }}h
-      </div>
-    </div>
+    </ng-container>
   </div>
 </ng-container>
