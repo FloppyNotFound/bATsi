@@ -1,0 +1,28 @@
+<ng-container *ngIf="reported || scheduled">
+  <div class="d-flex">
+    <div>
+      <span>{{ label }}</span>
+      <span>&nbsp;</span>
+    </div>
+    <div
+      *ngIf="reported"
+      #reportedCtl
+      class="me-1 train-time-table-info__time-reported text-success"
+    >
+      {{ labelReported }}
+    </div>
+
+    <div
+      *ngIf="
+        scheduled &&
+        (scheduled | isTimetableScheduledEqualReported : reported) === false
+      "
+      [ngClass]="{
+        'train-time-table-info__time-scheduled--out-of-date text-danger':
+          reported
+      }"
+    >
+      {{ labelScheduled }}
+    </div>
+  </div>
+</ng-container>

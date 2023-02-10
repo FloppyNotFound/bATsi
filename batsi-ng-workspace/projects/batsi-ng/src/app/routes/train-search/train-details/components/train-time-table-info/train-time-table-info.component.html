@@ -14,32 +14,13 @@
         ]
       "
     >
-      <div class="d-flex" *ngIf="status.reported || status.scheduled">
-        <div>
-          <span>Platform</span>
-          <span>&nbsp;</span>
-        </div>
-        <div
-          *ngIf="status?.reported as reported"
-          #reportedCtl
-          class="me-1 train-time-table-info__time-reported text-success"
-        >
-          {{ reported }}
-        </div>
-        <div
-          *ngIf="
-            status.scheduled &&
-            (status.scheduled
-              | isTimetableScheduledEqualReported : status.reported) === false
-          "
-          [ngClass]="{
-            'train-time-table-info__time-scheduled--out-of-date text-danger':
-              status.reported
-          }"
-        >
-          {{ status.scheduled }}
-        </div>
-      </div>
+      <batsi-ng-train-time-table-info-reported-scheduled
+        [label]="'Platform'"
+        [reported]="status.reported"
+        [labelReported]="status.reported"
+        [scheduled]="status.scheduled"
+        [labelScheduled]="status.scheduled"
+      ></batsi-ng-train-time-table-info-reported-scheduled>
     </ng-container>
 
     <!-- Time -->
@@ -53,28 +34,16 @@
         ]
       "
     >
-      <div class="d-flex" *ngIf="status.reported || status.scheduled">
-        <div
-          *ngIf="timeTableInfo.time?.reported as reported"
-          #reportedCtl
-          class="me-1 train-time-table-info__time-reported text-success"
-        >
-          {{ reported.hours }}:{{ reported.minutes }}h
-        </div>
-        <div
-          *ngIf="
-            status.scheduled &&
-            (status.scheduled
-              | isTimetableScheduledEqualReported : status.reported) === false
-          "
-          [ngClass]="{
-            'train-time-table-info__time-scheduled--out-of-date text-danger':
-              status.reported
-          }"
-        >
-          {{ status.scheduled.hours }}:{{ status.scheduled.minutes }}h
-        </div>
-      </div>
+      <batsi-ng-train-time-table-info-reported-scheduled
+        [reported]="status.reported"
+        [labelReported]="
+          status.reported?.hours + ':' + status.reported?.minutes + 'h'
+        "
+        [scheduled]="status.scheduled"
+        [labelScheduled]="
+          status.scheduled?.hours + ':' + status.scheduled?.minutes + 'h'
+        "
+      ></batsi-ng-train-time-table-info-reported-scheduled>
     </ng-container>
   </div>
 </ng-container>
