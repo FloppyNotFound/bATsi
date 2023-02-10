@@ -11,6 +11,10 @@
     color: bootstrapVars.$blue;
   }
 
+  &__ranking {
+    font-size: 2rem;
+  }
+
   &__load {
     &-unknown {
       color: bootstrapVars.$black;
