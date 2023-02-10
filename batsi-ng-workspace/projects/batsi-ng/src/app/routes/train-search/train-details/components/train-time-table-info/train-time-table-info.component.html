@@ -23,6 +23,10 @@
       ></batsi-ng-train-time-table-info-reported-scheduled>
     </ng-container>
 
+    <div>
+      {{ timeTableInfo.date | date : 'dd.MM.YYYY' }}
+    </div>
+
     <!-- Time -->
     <ng-container
       *ngFor="
