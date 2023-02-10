@@ -27,12 +27,14 @@
           {{ reported }}
         </div>
         <div
-          *ngIf="status.scheduled"
+          *ngIf="
+            status.scheduled &&
+            (status.scheduled
+              | isTimetableScheduledEqualReported : status.reported) === false
+          "
           [ngClass]="{
             'train-time-table-info__time-scheduled--out-of-date text-danger':
-              status.reported,
-            'train-time-table-info__time-scheduled--hidden':
-              status.reported && status.reported === status.scheduled
+              status.reported
           }"
         >
           {{ status.scheduled }}
@@ -60,17 +62,17 @@
           {{ reported.hours }}:{{ reported.minutes }}h
         </div>
         <div
-          *ngIf="timeTableInfo.time?.scheduled"
+          *ngIf="
+            status.scheduled &&
+            (status.scheduled
+              | isTimetableScheduledEqualReported : status.reported) === false
+          "
           [ngClass]="{
             'train-time-table-info__time-scheduled--out-of-date text-danger':
-              status.reported,
-            'train-time-table-info__time-scheduled--hidden':
-              status.reported &&
-              status.reported.hours === status.scheduled?.hours &&
-              status.reported.minutes === status.scheduled?.minutes
+              status.reported
           }"
         >
-          {{ status.scheduled?.hours }}:{{ status.scheduled?.minutes }}h
+          {{ status.scheduled.hours }}:{{ status.scheduled.minutes }}h
         </div>
       </div>
     </ng-container>
