@@ -1,11 +1,31 @@
+@use 'node_modules/bootstrap/scss/bootstrap' as bootstrapVars;
+
 .train-wagon {
-  border: 1px solid black;
+  border: 1px solid bootstrapVars.$black;
   width: 7rem;
   height: 10rem;
   margin-left: auto;
   margin-right: auto;
 
   &__class-info {
-    color: blue;
+    color: bootstrapVars.$blue;
+  }
+
+  &__load {
+    &-unknown {
+      color: bootstrapVars.$black;
+    }
+
+    &-low {
+      color: bootstrapVars.$green;
+    }
+
+    &-medium {
+      color: bootstrapVars.$orange;
+    }
+
+    &-high {
+      color: bootstrapVars.$red;
+    }
   }
 }

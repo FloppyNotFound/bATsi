@@ -4,11 +4,23 @@
     <span *ngIf="wagon.capacitySecondClass" class="ms-1">2.</span>
   </div>
 
-  <div class="ms-auto me-auto">
+  <div
+    class="ms-auto me-auto"
+    [ngClass]="{
+      'train-wagon__load-unknown': loadRatio === undefined,
+      'train-wagon__load-low': loadRatio !== undefined && loadRatio < 34,
+      'train-wagon__load-medium':
+        loadRatio !== undefined && loadRatio >= 34 && loadRatio < 67,
+      'train-wagon__load-high': loadRatio !== undefined && loadRatio > 67
+    }"
+  >
     {{ wagon.ranking }}
   </div>
 
-  <div *ngIf="loadRatio && loadRatio >= 0" class="ms-auto me-auto">
+  <div
+    *ngIf="loadRatio !== undefined && loadRatio >= 0"
+    class="ms-auto me-auto"
+  >
     {{ loadRatio }}%
   </div>
 </div>
