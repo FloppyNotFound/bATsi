@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { LoadStatsInner, Train, TrainInfoResponse } from 'batsi-models';
+import {
+  LoadStatsInner,
+  TimeTableInfo,
+  Train,
+  TrainInfoResponse
+} from 'batsi-models';
 import { TrainSearchStateService } from './../state/train-search-state.service';
 
 @Component({
@@ -10,10 +15,12 @@ import { TrainSearchStateService } from './../state/train-search-state.service';
 export class TrainDetailsComponent {
   readonly train: Train | undefined;
   readonly stats: LoadStatsInner[] | undefined;
+  readonly timeTableInfo: TimeTableInfo | undefined;
 
   constructor(private _trainSearchState: TrainSearchStateService) {
     const state = this.getState();
     this.train = state?.train;
+    this.timeTableInfo = state?.timeTableInfo;
     this.stats = state?.load?.stats;
   }
 
