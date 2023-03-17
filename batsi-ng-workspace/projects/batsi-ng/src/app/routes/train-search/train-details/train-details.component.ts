@@ -7,6 +7,7 @@ import {
 } from 'batsi-models';
 import { TrainSearchStateService } from './../state/train-search-state.service';
 import { TrainWagonFilter } from './components/train-wagon-filter-form/interfaces/train-wagon-filter.interface';
+import { TrainWagonRecommenderService } from './services/train-wagon-recommender.service';
 
 @Component({
   selector: 'batsi-ng-train-details',
@@ -17,7 +18,12 @@ export class TrainDetailsComponent {
   readonly stats: LoadStatsInner[] | undefined;
   readonly timeTableInfo: TimeTableInfo | undefined;
 
-  constructor(private _trainSearchState: TrainSearchStateService) {
+  wagonSuggestedNr: number | undefined;
+
+  constructor(
+    private _trainSearchState: TrainSearchStateService,
+    private _trainWagonRecommender: TrainWagonRecommenderService
+  ) {
     const state = this.getState();
     this.train = state?.train;
     this.timeTableInfo = state?.timeTableInfo;
@@ -25,7 +31,16 @@ export class TrainDetailsComponent {
   }
 
   onFilterChanged(filter: TrainWagonFilter): void {
-    console.log(filter);
+    const wagons = this.train?.wagons;
+
+    const wagonsOptimized = this._trainWagonRecommender.getWagonsOptimized(
+      wagons,
+      filter,
+      this.stats
+    );
+
+    const wagonSuggested = wagonsOptimized?.[0];
+    this.wagonSuggestedNr = wagonSuggested?.ranking;
   }
 
   private getState(): TrainInfoResponse | undefined {
