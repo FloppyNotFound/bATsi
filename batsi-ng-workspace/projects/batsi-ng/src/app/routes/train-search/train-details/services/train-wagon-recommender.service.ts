@@ -16,24 +16,21 @@ export class TrainWagonRecommenderService {
     }
 
     return wagons
-      .filter(w => this.filterClass(filter, w))
-      .sort((a, b) => this.sortByRatioAsc(stats, a, b));
+      .filter(w => this.filterClass(filter.class, w))
+      .sort((a, b) => this.sortByRatioAsc(a, b, stats));
   }
 
-  private filterClass(
-    filter: TrainWagonFilter,
-    wagon: TrainWagonsInner
-  ): boolean {
+  private filterClass(cls: number, wagon: TrainWagonsInner): boolean {
     return (
-      (filter.class === 1 && !!wagon.capacityFirstClass) ||
-      (filter.class === 2 && !!wagon.capacitySecondClass)
+      (cls === 1 && !!wagon.capacityFirstClass) ||
+      (cls === 2 && !!wagon.capacitySecondClass)
     );
   }
 
   private sortByRatioAsc(
-    stats: LoadStatsInner[],
     a: TrainWagonsInner,
-    b: TrainWagonsInner
+    b: TrainWagonsInner,
+    stats: LoadStatsInner[]
   ): number {
     const loadA = this.getRatio(stats, a);
     const loadB = this.getRatio(stats, b);
