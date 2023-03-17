@@ -6,6 +6,7 @@ import {
   TrainInfoResponse
 } from 'batsi-models';
 import { TrainSearchStateService } from './../state/train-search-state.service';
+import { TrainWagonFilter } from './components/train-wagon-filter-form/interfaces/train-wagon-filter.interface';
 
 @Component({
   selector: 'batsi-ng-train-details',
@@ -21,6 +22,10 @@ export class TrainDetailsComponent {
     this.train = state?.train;
     this.timeTableInfo = state?.timeTableInfo;
     this.stats = state?.load?.stats;
+  }
+
+  onFilterChanged(filter: TrainWagonFilter): void {
+    console.log(filter);
   }
 
   private getState(): TrainInfoResponse | undefined {

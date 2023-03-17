@@ -1,10 +1,22 @@
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-3 order-first">
     <batsi-ng-train-time-table-info
       *ngIf="timeTableInfo"
       [timeTableInfo]="timeTableInfo"
     >
     </batsi-ng-train-time-table-info>
+  </div>
+
+  <div class="col-md-2 order-md-last my-3 my-md-0 text-center">
+    <div>
+      <batsi-ng-train-wagon-filter-form
+        (filterChanged)="onFilterChanged($event)"
+      ></batsi-ng-train-wagon-filter-form>
+    </div>
+    <div class="mt-3">
+      <strong>Suggestion</strong>
+      <div>Wagon X</div>
+    </div>
   </div>
 
   <div class="col-md-7">
@@ -17,6 +29,4 @@
       </div>
     </ng-container>
   </div>
-
-  <div class="col-md-2"></div>
 </div>

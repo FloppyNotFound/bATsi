@@ -11,6 +11,8 @@ import { TrainTimeTableInfoComponent } from './train-details/components/train-ti
 import { TrainTimeTableInfoReportedScheduledComponent } from './train-details/components/train-time-table-info/train-time-table-info-reported-scheduled/train-time-table-info-reported-scheduled.component';
 import { IsTimetableScheduledEqualReportedPipe } from './train-details/components/train-time-table-info/train-time-table-info-reported-scheduled/pipes/is-timetable-scheduled-equal-reported.pipe';
 import { ToTimeStringPipe } from './train-details/components/train-time-table-info/pipes/to-time-string.pipe';
+import { TrainWagonFilterFormComponent } from './train-details/components/train-wagon-filter-form/train-wagon-filter-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,9 +23,10 @@ import { ToTimeStringPipe } from './train-details/components/train-time-table-in
     TrainTimeTableInfoComponent,
     IsTimetableScheduledEqualReportedPipe,
     TrainTimeTableInfoReportedScheduledComponent,
-    ToTimeStringPipe
+    ToTimeStringPipe,
+    TrainWagonFilterFormComponent
   ],
-  imports: [CommonModule, TrainSearchInputModule],
+  imports: [CommonModule, TrainSearchInputModule, ReactiveFormsModule],
   providers: [provideRouter(trainSearchRoutes)]
 })
 export class TrainSearchModule {}
