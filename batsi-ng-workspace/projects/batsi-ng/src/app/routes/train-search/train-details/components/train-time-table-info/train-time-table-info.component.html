@@ -40,13 +40,9 @@
     >
       <batsi-ng-train-time-table-info-reported-scheduled
         [reported]="status.reported"
-        [labelReported]="
-          status.reported?.hours + ':' + status.reported?.minutes + 'h'
-        "
+        [labelReported]="status.reported | toTimeString"
         [scheduled]="status.scheduled"
-        [labelScheduled]="
-          status.scheduled?.hours + ':' + status.scheduled?.minutes + 'h'
-        "
+        [labelScheduled]="status.scheduled | toTimeString"
       ></batsi-ng-train-time-table-info-reported-scheduled>
     </ng-container>
   </div>

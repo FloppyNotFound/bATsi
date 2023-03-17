@@ -10,6 +10,7 @@ import { WagonLoadRatioPipe } from './train-details/pipes/wagon-load-ratio.pipe'
 import { TrainTimeTableInfoComponent } from './train-details/components/train-time-table-info/train-time-table-info.component';
 import { TrainTimeTableInfoReportedScheduledComponent } from './train-details/components/train-time-table-info/train-time-table-info-reported-scheduled/train-time-table-info-reported-scheduled.component';
 import { IsTimetableScheduledEqualReportedPipe } from './train-details/components/train-time-table-info/train-time-table-info-reported-scheduled/pipes/is-timetable-scheduled-equal-reported.pipe';
+import { ToTimeStringPipe } from './train-details/components/train-time-table-info/pipes/to-time-string.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { IsTimetableScheduledEqualReportedPipe } from './train-details/component
     WagonLoadRatioPipe,
     TrainTimeTableInfoComponent,
     IsTimetableScheduledEqualReportedPipe,
-    TrainTimeTableInfoReportedScheduledComponent
+    TrainTimeTableInfoReportedScheduledComponent,
+    ToTimeStringPipe
   ],
   imports: [CommonModule, TrainSearchInputModule],
   providers: [provideRouter(trainSearchRoutes)]
