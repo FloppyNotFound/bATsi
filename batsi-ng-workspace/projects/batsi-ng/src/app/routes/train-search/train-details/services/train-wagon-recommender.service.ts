@@ -29,10 +29,9 @@ export class TrainWagonRecommenderService {
       });
   }
 
-  private getRatio(
-    stats: LoadStatsInner[] | undefined,
-    wagon: TrainWagonsInner
-  ): number {
-    return stats?.find(s => s.ranking === wagon.ranking)?.ratio ?? 100;
+  private getRatio(stats: LoadStatsInner[], wagon: TrainWagonsInner): number {
+    const wagonStat = stats.find(s => s.ranking === wagon.ranking);
+
+    return wagonStat?.ratio ?? 999;
   }
 }
