@@ -7,7 +7,7 @@
     </batsi-ng-train-time-table-info>
   </div>
 
-  <div class="col-md-2 order-md-last my-3 my-md-0 text-center">
+  <div class="col-md-3 order-md-last my-3 my-md-0 text-center">
     <div>
       <batsi-ng-train-wagon-filter-form
         (filterChanged)="onFilterChanged($event)"
@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  <div class="col-md-7">
+  <div class="col-md-6">
     <ng-container *ngFor="let wagon of train?.wagons">
       <div class="mt-3">
         <batsi-ng-train-wagon
