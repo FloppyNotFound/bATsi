@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -28,7 +29,9 @@ import { TrainSearchResult } from '../../interfaces/train-search-result.interfac
   templateUrl: './train-search-input.component.html',
   styleUrls: ['./train-search-input.component.scss']
 })
-export class TrainSearchInputComponent implements OnInit, OnDestroy {
+export class TrainSearchInputComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input() init$: Observable<TrainQueryData> | undefined;
 
   @Input() getTrainInfo!: (
@@ -75,6 +78,10 @@ export class TrainSearchInputComponent implements OnInit, OnDestroy {
         this.initModel(init);
       });
     }
+  }
+
+  ngAfterViewInit(): void {
+    this._trainNumberSetFocus.next();
   }
 
   ngOnDestroy(): void {
