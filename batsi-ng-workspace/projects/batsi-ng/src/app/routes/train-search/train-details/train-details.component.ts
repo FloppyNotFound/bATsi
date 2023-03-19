@@ -7,7 +7,7 @@ import {
 } from 'batsi-models';
 import { TrainSearchStateService } from './../state/train-search-state.service';
 import { TrainWagonFilter } from './components/train-wagon-filter-form/interfaces/train-wagon-filter.interface';
-import { TrainWagonRecommenderService } from './services/train-wagon-recommender.service';
+import { TrainWagonRecommenderService } from './services/train-wagon-recommender/train-wagon-recommender.service';
 
 @Component({
   selector: 'batsi-ng-train-details',
