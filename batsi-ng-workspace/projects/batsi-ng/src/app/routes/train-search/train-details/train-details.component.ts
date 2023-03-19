@@ -1,23 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import { TrainInfoResponse } from 'batsi-models';
+import { Component } from '@angular/core';
+import {
+  LoadStatsInner,
+  TimeTableInfo,
+  Train,
+  TrainInfoResponse
+} from 'batsi-models';
 import { TrainSearchStateService } from './../state/train-search-state.service';
+import { TrainWagonFilter } from './components/train-wagon-filter-form/interfaces/train-wagon-filter.interface';
+import { TrainWagonRecommenderService } from './services/train-wagon-recommender/train-wagon-recommender.service';
 
 @Component({
   selector: 'batsi-ng-train-details',
-  templateUrl: './train-details.component.html',
-  styleUrls: ['./train-details.component.scss']
+  templateUrl: './train-details.component.html'
 })
-export class TrainDetailsComponent implements OnInit {
-  state: TrainInfoResponse | undefined;
+export class TrainDetailsComponent {
+  readonly train: Train | undefined;
+  readonly stats: LoadStatsInner[] | undefined;
+  readonly timeTableInfo: TimeTableInfo | undefined;
 
-  constructor(private _trainSearchState: TrainSearchStateService) {}
+  wagonSuggestedNr: number | undefined;
 
-  ngOnInit(): void {
-    this.state = this.getState();
+  constructor(
+    private _trainSearchState: TrainSearchStateService,
+    private _trainWagonRecommender: TrainWagonRecommenderService
+  ) {
+    const state = this.getState();
+    this.train = state?.train;
+    this.timeTableInfo = state?.timeTableInfo;
+    this.stats = state?.load?.stats;
+  }
 
-    if (!this.state) {
-      throw Error('invalid state');
-    }
+  onFilterChanged(filter: TrainWagonFilter): void {
+    const wagons = this.train?.wagons;
+
+    const wagonsOptimized = this._trainWagonRecommender.getWagonsOptimized(
+      wagons,
+      filter,
+      this.stats
+    );
+
+    const wagonSuggested = wagonsOptimized?.[0];
+    this.wagonSuggestedNr = wagonSuggested?.ranking;
   }
 
   private getState(): TrainInfoResponse | undefined {

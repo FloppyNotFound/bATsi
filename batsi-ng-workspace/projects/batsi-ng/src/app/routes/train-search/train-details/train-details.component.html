@@ -1,3 +1,32 @@
-<p *ngIf="state">
-  {{ state | json }}
-</p>
+<div class="row">
+  <div class="col-md-3 order-first">
+    <batsi-ng-train-time-table-info
+      *ngIf="timeTableInfo"
+      [timeTableInfo]="timeTableInfo"
+    >
+    </batsi-ng-train-time-table-info>
+  </div>
+
+  <div class="col-md-3 order-md-last my-3 my-md-0 text-center">
+    <div>
+      <batsi-ng-train-wagon-filter-form
+        (filterChanged)="onFilterChanged($event)"
+      ></batsi-ng-train-wagon-filter-form>
+    </div>
+    <div class="mt-3">
+      <strong>Vorschlag</strong>
+      <div>Wagen {{ wagonSuggestedNr ?? '-' }}</div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <ng-container *ngFor="let wagon of train?.wagons">
+      <div class="mt-3">
+        <batsi-ng-train-wagon
+          [wagon]="wagon"
+          [loadRatio]="stats | wagonLoadRatio : wagon.ranking"
+        ></batsi-ng-train-wagon>
+      </div>
+    </ng-container>
+  </div>
+</div>

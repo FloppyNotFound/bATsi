@@ -1,0 +1,49 @@
+<ng-container *ngIf="timeTableInfo">
+  <div class="d-flex flex-column align-items-center">
+    <h2>{{ timeTableInfo.trainName }}</h2>
+    <div>{{ timeTableInfo.stationName }}</div>
+
+    <!-- Platform -->
+    <ng-container
+      *ngFor="
+        let status of [
+          {
+            reported: timeTableInfo.platform?.reported,
+            scheduled: timeTableInfo.platform?.scheduled
+          }
+        ]
+      "
+    >
+      <batsi-ng-train-time-table-info-reported-scheduled
+        [label]="'Platform'"
+        [reported]="status.reported"
+        [labelReported]="status.reported"
+        [scheduled]="status.scheduled"
+        [labelScheduled]="status.scheduled"
+      ></batsi-ng-train-time-table-info-reported-scheduled>
+    </ng-container>
+
+    <div>
+      {{ timeTableInfo.date | date : 'dd.MM.YYYY' }}
+    </div>
+
+    <!-- Time -->
+    <ng-container
+      *ngFor="
+        let status of [
+          {
+            reported: timeTableInfo.time?.reported,
+            scheduled: timeTableInfo.time?.scheduled
+          }
+        ]
+      "
+    >
+      <batsi-ng-train-time-table-info-reported-scheduled
+        [reported]="status.reported"
+        [labelReported]="status.reported | toTimeString"
+        [scheduled]="status.scheduled"
+        [labelScheduled]="status.scheduled | toTimeString"
+      ></batsi-ng-train-time-table-info-reported-scheduled>
+    </ng-container>
+  </div>
+</ng-container>
