@@ -8,7 +8,7 @@ import {
   Output
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { TrainInfoResponse } from 'batsi-models';
 import {
   BehaviorSubject,

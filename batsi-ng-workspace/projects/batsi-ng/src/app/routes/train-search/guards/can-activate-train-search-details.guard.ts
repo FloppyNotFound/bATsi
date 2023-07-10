@@ -2,14 +2,14 @@ import { TrainQueryData } from './../interfaces/train-query-data.interface';
 import { TrainSearchResult } from './../interfaces/train-search-result.interface';
 import { TrainSearchStateService } from './../state/train-search-state.service';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable, tap, catchError, of, EMPTY, switchMap } from 'rxjs';
 import { TrainService } from 'batsi-models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CanActivateTrainSearchDetailsGuard implements CanActivate {
+export class CanActivateTrainSearchDetailsGuard {
   constructor(
     private _state: TrainSearchStateService,
     private _trainService: TrainService,

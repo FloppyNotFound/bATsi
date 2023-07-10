@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'batsi-ng-input-numeric',
@@ -29,7 +30,13 @@ export class InputNumericComponent implements OnInit, OnDestroy {
 
   @ViewChild('inputNumericCtl') inputNumericCtl!: ElementRef;
 
+  readonly id: string;
+
   private readonly _unsubscribe = new Subject<void>();
+
+  constructor() {
+    this.id = uuidv4();
+  }
 
   ngOnInit(): void {
     this.setupOnFocus();

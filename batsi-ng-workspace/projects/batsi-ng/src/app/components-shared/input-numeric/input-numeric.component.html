@@ -1,11 +1,12 @@
 <div class="input-group">
   <label
     class="input-group-text"
-    [for]="inputNumericCtl"
+    [for]="id"
     [ngStyle]="{ 'width.rem': labelWidth ? labelWidth : 'inherit' }"
     >{{ label }}</label
   >
   <input
+    [id]="id"
     #inputNumericCtl
     class="ps-3 form-control"
     type="number"
