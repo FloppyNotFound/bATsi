@@ -1,12 +1,12 @@
 <div class="input-group">
   <label
     class="input-group-text"
-    [for]="inputStationCtl"
+    [for]="id"
     [ngStyle]="{ 'width.rem': labelWidth ? labelWidth : 'inherit' }"
     >{{ label }}</label
   >
   <input
-    #inputStationCtl
+    [id]="id"
     type="text"
     [name]="label"
     class="ps-3 form-control"
