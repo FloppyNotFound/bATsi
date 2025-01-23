@@ -1,0 +1,7 @@
+{
+  "batsi-oebb-proxy/src/**/*.ts": [
+    "biome format --write --no-errors-on-unmatched",
+    "biome lint --diagnostic-level=error --no-errors-on-unmatched"
+  ],
+  "batsi-oebb-proxy/src/**/*.{json,js}": ["biome format --write"]
+}

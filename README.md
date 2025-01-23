@@ -1,8 +1,14 @@
 # bATsi
 
-Bahn AT Sitzplatzauslastungsanzeige ("bATsi", for short)
+Bahn AT Sitzplatzauslastungsanzeige ("bATsi", for short).
 
-Refer to https://live.oebb.at
+EN: Austrian Railway Seat Reservation Capacity viewer.
+
+## Motivation
+
+There already is an official UI available at https://live.oebb.at, with another concept of user experience. It will prompt you for start, destination, date and time, and shows you a list of available connections afterwards. When you select one, details are provided.
+
+bATsi assumes you already know the train number and provides a shortcut to the specifc train information.
 
 This is a private project without any commercial interest.
 
