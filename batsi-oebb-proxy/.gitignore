@@ -1,0 +1,7 @@
+node_modules
+
+# Workers Cache / Build output
+.wrangler
+
+# Secrets (https://developers.cloudflare.com/workers/configuration/secrets/)
+.dev.vars
