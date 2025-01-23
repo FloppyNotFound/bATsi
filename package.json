@@ -1,0 +1,22 @@
+{
+  "name": "batsi",
+  "version": "0.0.0",
+  "description": "Bahn AT Sitzplatzauslastungsanzeige",
+  "license": "MIT",
+  "private": true,
+  "author": {
+    "name": "Felix Wagner",
+    "url": "https://github.com/FloppyNotFound"
+  },
+  "repository": {
+    "url": "https://github.com/FloppyNotFound/bATsi"
+  },
+  "scripts": {
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "husky": "9.1.7",
+    "lint-staged": "15.4.2"
+  }
+}
