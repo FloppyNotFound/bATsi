@@ -5,7 +5,9 @@ info:
   title: ÖBB Live Backend Info
   description: Get live train data
 servers:
+  - url: "http://127.0.0.1:8787"
   - url: "https://batsi-proxy.floppynotfound.workers.dev"
+
 tags:
   - name: train
     description: Get live train data
@@ -18,6 +20,7 @@ paths:
         - train
       summary: Live train data
       parameters:
+        - $ref: "#/components/parameters/apiTokenParam"
         - $ref: "#/components/parameters/trainNrParam"
         - $ref: "#/components/parameters/dateParam"
         - $ref: "#/components/parameters/stationParam"
@@ -35,6 +38,8 @@ paths:
       tags:
         - stations
       summary: List available stations
+      parameters:
+        - $ref: "#/components/parameters/apiTokenParam"
       responses:
         200:
           description: List of stations
@@ -45,6 +50,13 @@ paths:
 
 components:
   parameters:
+    apiTokenParam:
+      name: api_token
+      in: header
+      required: true
+      schema:
+        type: string
+
     trainNrParam:
       name: trainNr
       in: query

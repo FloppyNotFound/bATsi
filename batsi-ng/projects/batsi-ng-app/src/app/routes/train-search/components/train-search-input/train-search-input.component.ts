@@ -12,6 +12,7 @@ import { InputNumericComponent } from './components/input-numeric/input-numeric.
 import { InputDatalistComponent } from './components/input-datalist/input-datalist.component';
 import { StationNamesPipe } from './pipes/station-names.pipe';
 import { ButtonWithSpinnerComponent } from './components/button-with-spinner/button-with-spinner.component';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'batsi-train-search-input',
@@ -84,7 +85,7 @@ export class TrainSearchInputComponent {
 
     this.isLoading.set(true);
     this.#trainService
-      .backendInfoGet(queryData.trainNumber, queryData.date, queryData.stationNumber)
+      .backendInfoGet(environment.apiToken, queryData.trainNumber, queryData.date, queryData.stationNumber)
       .pipe(
         takeUntilDestroyed(this.#destroyRef),
         catchError(() => {

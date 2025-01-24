@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
-  apiBaseUrl: '',
+  production: true,
+  apiBaseUrl: 'https://batsi-proxy.floppynotfound.workers.dev',
   apiToken: '',
 };

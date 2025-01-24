@@ -1,19 +1,17 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, Observable, of, tap } from 'rxjs';
-import { environment } from '../../../environments/environment.develop';
-import { Station } from 'batsi-ng-models';
+import { Observable, of, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { Station, StationsService as BffStationsService } from 'batsi-ng-models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StationsService {
   //#region Injections
-  readonly #httpClient = inject(HttpClient);
+  readonly #stationsService = inject(BffStationsService);
   //#endregion
 
   readonly #stationsLocalStorageKey = 'stations';
-  readonly #proxyUrl = environment.apiBaseUrl;
 
   #stations: Station[] | undefined;
 
@@ -48,16 +46,6 @@ export class StationsService {
   }
 
   #getStationsFromServer(): Observable<Station[]> {
-    const url = new URL('assets/assets/stations.json', this.#proxyUrl).href;
-
-    const httpHeaders: HttpHeaders = new HttpHeaders({
-      API_TOKEN: environment.apiToken,
-    });
-
-    return this.#httpClient
-      .get(url, {
-        headers: httpHeaders,
-      })
-      .pipe(map(stations => <Station[]>stations));
+    return this.#stationsService.stationsGet(environment.apiToken);
   }
 }
