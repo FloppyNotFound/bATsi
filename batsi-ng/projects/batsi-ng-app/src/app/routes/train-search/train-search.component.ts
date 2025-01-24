@@ -5,7 +5,7 @@ import { TrainSearchResult } from './components/train-search-input/interfaces/tr
 import { TrainQueryData } from './components/train-search-input/interfaces/train-query-data.interface';
 import { Observable, ReplaySubject } from 'rxjs';
 import { TrainSearchStateService } from './state/train-search-state.service';
-import { Station } from '../../services/stations/interfaces/station.interface';
+import { Station } from 'batsi-ng-models';
 
 @Component({
   selector: 'batsi-train-search',

@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable, of, tap } from 'rxjs';
-import { Station } from './interfaces/station.interface';
 import { environment } from '../../../environments/environment.develop';
+import { Station } from 'batsi-ng-models';
 
 @Injectable({
   providedIn: 'root',

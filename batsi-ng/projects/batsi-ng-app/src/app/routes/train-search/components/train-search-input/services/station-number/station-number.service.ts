@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Station } from '../../../../../../services/stations/interfaces/station.interface';
+import { Station } from 'batsi-ng-models';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ export class StationNumberService {
       return null;
     }
 
-    const number = stations.find(s => s.name.toLowerCase().includes(stationName.toLowerCase()))?.eva;
+    const number = stations.find(s => s.name?.toLowerCase().includes(stationName.toLowerCase()))?.eva;
 
     return number !== null && number !== void 0 ? Number(number) : null;
   }

@@ -16,7 +16,7 @@ paths:
       operationId: backendInfoGet
       tags:
         - train
-      summary: Get live train data
+      summary: Live train data
       parameters:
         - $ref: "#/components/parameters/trainNrParam"
         - $ref: "#/components/parameters/dateParam"
@@ -28,6 +28,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/trainInfoResponse"
+
+  /assets/assets/stations.json:
+    get:
+      operationId: stationsGet
+      tags:
+        - stations
+      summary: List available stations
+      responses:
+        200:
+          description: List of stations
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/stationsResponse"
 
 components:
   parameters:
@@ -249,3 +263,22 @@ components:
                 format: int32
               ratio:
                 type: number
+
+    stationsResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/station"
+
+    station:
+      type: object
+      properties:
+        eva:
+          type: string
+          nullable: false
+          description: Unique station ID
+          example: "8100516"
+        name:
+          type: string
+          nullable: false
+          description: Station display name
+          example: "Wr. Neustadt Hbf"

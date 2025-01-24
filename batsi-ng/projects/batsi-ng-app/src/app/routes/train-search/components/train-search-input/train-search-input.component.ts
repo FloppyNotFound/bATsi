@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TrainSearchResult } from './interfaces/train-search-result.interface';
 import { catchError, EMPTY, Observable, Subject } from 'rxjs';
 import { TrainQueryData } from './interfaces/train-query-data.interface';
-import { TrainService } from 'batsi-ng-models';
+import { Station, TrainService } from 'batsi-ng-models';
 import dayjs from 'dayjs';
 import { TrainSearchFormModel } from './interfaces/train-search-form-model';
 import { StationNumberService } from './services/station-number/station-number.service';
@@ -12,7 +12,6 @@ import { InputNumericComponent } from './components/input-numeric/input-numeric.
 import { InputDatalistComponent } from './components/input-datalist/input-datalist.component';
 import { StationNamesPipe } from './pipes/station-names.pipe';
 import { ButtonWithSpinnerComponent } from './components/button-with-spinner/button-with-spinner.component';
-import { Station } from '../../../../services/stations/interfaces/station.interface';
 
 @Component({
   selector: 'batsi-train-search-input',

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Station } from '../../../../../services/stations/interfaces/station.interface';
+import { Station } from 'batsi-ng-models';
 
 @Pipe({
   name: 'stationNames',
@@ -10,6 +10,6 @@ export class StationNamesPipe implements PipeTransform {
       return [];
     }
 
-    return stations.map(station => station.name);
+    return stations.map(station => station.name ?? '');
   }
 }
