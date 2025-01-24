@@ -1,0 +1,23 @@
+@use '../styles/variables' as batsiVars;
+
+#batsi-app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  header {
+    background: batsiVars.$body-bg-light;
+    box-shadow: 0 batsiVars.$border-shadow-size 0 0
+      batsiVars.$border-shadow-color;
+    height: 8vh;
+  }
+
+  footer {
+    background: batsiVars.$body-bg-light;
+    box-shadow: 0 0 0 batsiVars.$border-shadow-size
+      batsiVars.$border-shadow-color;
+    height: 8vh;
+    font-size: 0.75rem;
+  }
+}

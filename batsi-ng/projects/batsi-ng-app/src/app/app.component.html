@@ -1,5 +1,15 @@
-<main class="main">
-  <h1>Hello bATsi</h1>
+<main id="batsi-app-wrapper">
+  <header>
+    <batsi-header></batsi-header>
+  </header>
 
-  <router-outlet />
+  <main class="mb-auto">
+    <div class="container mt-5 mb-5">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <footer>
+    <batsi-footer></batsi-footer>
+  </footer>
 </main>

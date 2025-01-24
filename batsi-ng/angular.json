@@ -74,7 +74,13 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/batsi-ng-app/src/environments/environment.ts",
+                  "with": "projects/batsi-ng-app/src/environments/environment.develop.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

@@ -1,0 +1,9 @@
+@use '../variables' as batsiVars;
+
+.card {
+  background-color: batsiVars.$body-bg-light;
+
+  .card-body {
+    padding: 1.5rem;
+  }
+}
