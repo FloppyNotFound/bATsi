@@ -18,7 +18,7 @@ This is a Cloudflare Worker project which serves as a Proxy to the OEBB Backend 
     - `API_TOKEN="<TOKEN>"`
   - Update the token on the Server as well:
     - `npm wrangler secret put API_TOKEN`
-    - When asked, ender the token and press enter
+    - When asked, enter the token and press enter
 - After Environment Variables / Secrets have been changed, type information can be updated by running:
   - `npm run cf-typegen`
 
