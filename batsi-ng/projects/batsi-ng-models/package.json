@@ -1,0 +1,24 @@
+{
+  "name": "batsi-ng-models",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": ">=22.13.1"
+  },
+  "scripts": {
+    "build:models": "npm run generate:models && npm run format:models && ng build",
+    "generate:models": "openapi-generator-cli generate -g typescript-angular -i ./src/lib/definitions/swagger.yaml -o ./src/lib/typescript-client --global-property apis,models,supportingFiles --additional-properties=stringEnums=true,npmName=batsi-models-gen,fileNaming=kebab-case --skip-validate-spec",
+    "format:models": "biome format --write ./src/lib/typescript-client/api/ ./src/lib/typescript-client/model/"
+  },
+  "dependencies": {
+    "tslib": "2.3.0"
+  },
+  "sideEffects": false,
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@openapitools/openapi-generator-cli": "2.16.2"
+  },
+  "peerDependencies": {
+    "@angular/cli": "19.1.4"
+  }
+}

@@ -1,7 +1,10 @@
 {
   "folders": [
     {
-      "path": "batsi-ng-workspace"
+      "path": "batsi-ng"
+    },
+    {
+      "path": "batsi-oebb-proxy"
     }
   ],
   "settings": {

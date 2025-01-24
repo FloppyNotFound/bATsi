@@ -4,7 +4,9 @@ Bahn AT Sitzplatzauslastungsanzeige ("bATsi", for short).
 
 EN: Austrian Railway Seat Reservation Capacity viewer.
 
-## Motivation
+## Info
+
+### Motivation
 
 There already is an official UI available at https://live.oebb.at, with another concept of user experience. It will prompt you for start, destination, date and time, and shows you a list of available connections afterwards. When you select one, details are provided.
 
@@ -12,12 +14,20 @@ bATsi assumes you already know the train number and provides a shortcut to the s
 
 This is a private project without any commercial interest.
 
-## Project
+### Project
 
 This monorepo consists of a frontend and a corresponding backend-for-frontend (BFF).
 
-- Frontend: [bATsi ng](./batsi-ng-workspace/README.md)
+- Frontend: [bATsi ng](./batsi-ng/README.md)
 - Backend: [bATsi OEBB Proxy](./batsi-oebb-proxy/README.md)
+
+## Setup
+
+### Install
+
+To use code formatting, linting, etc., run
+`npm install`
+in the current path.
 
 ## External Systems
 

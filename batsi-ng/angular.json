@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "batsi-ng-models": {
+      "projectType": "library",
+      "root": "projects/batsi-ng-models",
+      "sourceRoot": "projects/batsi-ng-models/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "options": {
+            "project": "projects/batsi-ng-models/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/batsi-ng-models/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/batsi-ng-models/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
+    }
+  }
+}
