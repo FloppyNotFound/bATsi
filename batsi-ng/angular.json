@@ -43,9 +43,7 @@
             "outputPath": "dist/batsi-ng-app",
             "index": "projects/batsi-ng-app/src/index.html",
             "browser": "projects/batsi-ng-app/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "projects/batsi-ng-app/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -54,9 +52,7 @@
                 "input": "projects/batsi-ng-app/public"
               }
             ],
-            "styles": [
-              "projects/batsi-ng-app/src/styles.scss"
-            ],
+            "styles": ["projects/batsi-ng-app/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -97,27 +93,6 @@
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "projects/batsi-ng-app/tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "projects/batsi-ng-app/public"
-              }
-            ],
-            "styles": [
-              "projects/batsi-ng-app/src/styles.scss"
-            ],
-            "scripts": []
-          }
         }
       }
     }
