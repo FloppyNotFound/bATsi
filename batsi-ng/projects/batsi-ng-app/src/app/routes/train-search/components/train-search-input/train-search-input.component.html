@@ -1,0 +1,65 @@
+<div class="card">
+  <div class="card-body">
+    <div class="card-title">
+      <h2>Zug-Daten</h2>
+    </div>
+
+    <div class="card-text mt-3">
+      <form [formGroup]="trainSearchForm" (ngSubmit)="onSearch()" novalidate>
+        <!-- Train Number -->
+        <batsi-input-numeric
+          [label]="'Zugnummer'"
+          [labelWidth]="7.5"
+          [inputMaxWidth]="14"
+          [inputPlaceholder]="'z.B. 579'"
+          [batsiFormControl]="trainSearchFormModel.trainNumber"
+          [focus$]="trainNumberSetFocus$"
+        ></batsi-input-numeric>
+
+        <!-- Station (Number) -->
+        <div class="mt-3">
+          <batsi-input-datalist
+            [dataListId]="'station-list'"
+            [label]="'Station'"
+            [labelWidth]="7.5"
+            [inputMaxWidth]="14"
+            [batsiFormControl]="trainSearchFormModel.stationName"
+            [options]="stations() | stationNames"
+          ></batsi-input-datalist>
+        </div>
+
+        <!-- Date -->
+        <div class="input-group mt-3">
+          <label class="input-group-text" for="input-date-ctl">Datum</label>
+          <input
+            id="input-date-ctl"
+            type="date"
+            class="form-control"
+            [formControl]="trainSearchFormModel.date"
+          />
+        </div>
+
+        <div class="mt-3 d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" (click)="onReset()">
+            Zurücksetzen
+          </button>
+          <batsi-button-with-spinner
+            [label]="'Suchen'"
+            [isLoading]="isLoading()"
+          ></batsi-button-with-spinner>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Result -->
+  @if((isLoading()) === false && (hasFormBeenSubmitted || hasResult)) {
+  <ul class="list-group list-group-flush">
+    @if(hasFormBeenSubmitted && !hasResult) {
+    <div>
+      <li class="list-group-item active">Keine Ergebnisse</li>
+    </div>
+    }
+  </ul>
+  }
+</div>
