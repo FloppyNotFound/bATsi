@@ -185,6 +185,7 @@ components:
               numPassengerIcons:
                 type: integer
                 format: int32
+                description: 1 (low), 2 (medium), 3 (high)
               ranking:
                 type: integer
                 format: int32

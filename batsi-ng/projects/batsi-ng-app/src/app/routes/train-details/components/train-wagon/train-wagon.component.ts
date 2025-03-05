@@ -41,7 +41,7 @@ export class TrainWagonComponent {
       return false;
     }
 
-    return ratio === 2;
+    return ratio === 3;
   });
   //#endregion
 }
