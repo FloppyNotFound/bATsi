@@ -56,7 +56,6 @@ components:
       required: true
       schema:
         type: string
-
     trainNrParam:
       name: trainNr
       in: query
@@ -91,15 +90,25 @@ components:
       properties:
         id:
           $ref: "#/components/schemas/id"
+        platform:
+          $ref: "#/components/schemas/platform"
         timeTableInfo:
           $ref: "#/components/schemas/timeTableInfo"
         train:
           $ref: "#/components/schemas/train"
-        load:
-          $ref: "#/components/schemas/load"
 
     id:
       type: string
+
+    platform:
+      type: object
+      properties:
+        # TODO: egresses
+        length:
+          type: number
+          example: 452.81
+        # TODO: sectors
+        # TODO: stoppingPoint
 
     timeTableInfo:
       type: object
@@ -107,64 +116,17 @@ components:
         date:
           type: string
           format: date
-        trainNr:
-          type: integer
-          format: int32
-        trainName:
+        platform:
+          type: string
+        renderedTrainName:
+          type: string
+        sector:
           type: string
         stationName:
           type: string
-        platform:
-          type: object
-          properties:
-            scheduled:
-              type: integer
-              format: int32
-            reported:
-              type: integer
-              format: int32
-        sector:
-          type: object
-          properties:
-            scheduled:
-              type: string
-            reported:
-              type: string
         time:
-          type: object
-          properties:
-            scheduled:
-              type: object
-              properties:
-                days:
-                  type: integer
-                  format: int32
-                hours:
-                  type: integer
-                  format: int32
-                minutes:
-                  type: integer
-                  format: int32
-            reported:
-              type: object
-              properties:
-                days:
-                  type: integer
-                  format: int32
-                hours:
-                  type: integer
-                  format: int32
-                minutes:
-                  type: integer
-                  format: int32
-        portions:
-          type: array
-          items:
-            properties:
-              stops:
-                type: array
-                items:
-                  type: string
+          type: string
+          example: "0.11:28"
 
     train:
       type: object
@@ -189,18 +151,13 @@ components:
           items:
             type: object
             properties:
-              uicNumber:
-                type: string
-              kind:
-                type: string
-              origin:
-                type: string
-              destination:
-                type: string
-              ranking:
+              capacityBicycle:
                 type: integer
                 format: int32
               capacityBusinessClass:
+                type: integer
+                format: int32
+              capacityCouchette:
                 type: integer
                 format: int32
               capacityFirstClass:
@@ -209,72 +166,33 @@ components:
               capacitySecondClass:
                 type: integer
                 format: int32
-              capacityCouchette:
-                type: integer
-                format: int32
               capacitySleeper:
                 type: integer
                 format: int32
               capacityWheelChair:
                 type: integer
                 format: int32
-              capacityBicycle:
-                type: integer
-                format: int32
-              isBicycleAllowed:
-                type: boolean
-              isWheelChairAccessible:
-                type: boolean
-              hasWifi:
-                type: boolean
-              isInfoPoint:
-                type: boolean
-              isPlayZone:
-                type: boolean
-              isChildCinema:
-                type: boolean
-              isDining:
-                type: boolean
-              isQuietZone:
-                type: boolean
-              isLowFloor:
-                type: boolean
-              isLocked:
-                type: boolean
               destinationName:
                 type: string
+              features:
+                type: integer
+                format: int32
+              kind:
+                type: integer
+                format: int32
               lengthOverBuffers:
                 type: number
-              originTime:
-                type: string
-              destinationTime:
-                type: string
-              seasoning:
-                type: object
-                properties:
-                  startDate:
-                    type: string
-                    format: date
-                  seasoningString:
-                    type: string
+              numPassengerIcons:
+                type: integer
+                format: int32
+              ranking:
+                type: integer
+                format: int32
+
         stations:
           type: array
           items:
             type: string
-
-    load:
-      type: object
-      properties:
-        stats:
-          type: array
-          items:
-            type: object
-            properties:
-              ranking:
-                type: integer
-                format: int32
-              ratio:
-                type: number
 
     stationsResponse:
       type: array

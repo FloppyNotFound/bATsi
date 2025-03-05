@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { aboutRoutes } from './routes/about/about.routes';
 import { Type } from '@angular/core';
 import { stationsResolver } from './resolvers/stations.resolver';
+import { canActivateTrainDetailsGuard } from './guards/can-activate-train-details.guard';
 
 export const routes: Routes = [
   {
@@ -26,7 +27,7 @@ export const routes: Routes = [
         path: 'details',
         loadComponent: (): Promise<Type<unknown>> =>
           import('./routes/train-details/train-details.component').then(c => c.TrainDetailsComponent),
-        // TODO: canActivateGuard
+        canActivate: [canActivateTrainDetailsGuard],
       },
     ],
   },

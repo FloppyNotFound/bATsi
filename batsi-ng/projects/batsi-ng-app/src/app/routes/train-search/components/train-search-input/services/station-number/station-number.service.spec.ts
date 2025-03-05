@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { StationNumberService } from './station-number.service';
-import { StationListItem } from '../../../../../../services/station-list/interfaces/station-list-item.interface';
+import { Station } from 'batsi-ng-models';
 
 describe('StationNumberService', () => {
   let service: StationNumberService;
 
-  let stations: StationListItem[] | undefined;
+  let stations: Station[] | undefined;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -14,8 +14,8 @@ describe('StationNumberService', () => {
     stations = [
       {
         eva: '123',
-        name: 'Teststation'
-      }
+        name: 'Teststation',
+      },
     ];
   });
 
