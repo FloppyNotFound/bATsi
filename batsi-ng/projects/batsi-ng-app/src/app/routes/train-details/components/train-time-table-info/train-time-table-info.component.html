@@ -6,13 +6,15 @@
     {{ timeTableInfo().date | date : "dd.MM.YYYY" }}
   </div>
 
-  <!-- TODO: time parsing / time reported-scheduled diff -->
-  <div>
-    {{ timeTableInfo().time }}
-  </div>
+  @if(timeTableInfo().time; as time) {
+  <batsi-ng-train-time-table-info-reported-scheduled
+    [reported]="timeReported()"
+    [scheduled]="timeScheduled()"
+  ></batsi-ng-train-time-table-info-reported-scheduled>
+  }
 
   <batsi-ng-train-time-table-info-reported-scheduled
-    [label]="'Platform'"
+    [label]="'Platform:'"
     [reported]="platformReported()"
     [scheduled]="platformScheduled()"
   ></batsi-ng-train-time-table-info-reported-scheduled>

@@ -11,7 +11,7 @@ export class TrainTimeTableInfoReportedScheduledComponent {
   //#region Inputs
   readonly label = input<string | undefined>();
 
-  readonly reported = input.required<number | undefined>();
-  readonly scheduled = input.required<number | undefined>();
+  readonly reported = input.required<number | string | undefined>();
+  readonly scheduled = input.required<number | string | undefined>();
   //#endregion
 }
