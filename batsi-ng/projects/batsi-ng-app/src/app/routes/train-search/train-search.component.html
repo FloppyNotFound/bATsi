@@ -1,0 +1,8 @@
+<div class="d-flex flex-column align-items-center">
+  <batsi-train-search-input
+    [init$]="initQuery$"
+    [stations]="stations"
+    (resetForm)="onResetForm()"
+    (trainFound)="onTrainFound($event)"
+  ></batsi-train-search-input>
+</div>

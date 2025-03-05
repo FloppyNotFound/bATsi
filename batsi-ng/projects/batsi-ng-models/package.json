@@ -7,18 +7,19 @@
   },
   "scripts": {
     "build:models": "npm run generate:models && npm run format:models && ng build",
-    "generate:models": "openapi-generator-cli generate -g typescript-angular -i ./src/lib/definitions/swagger.yaml -o ./src/lib/typescript-client --global-property apis,models,supportingFiles --additional-properties=stringEnums=true,npmName=batsi-models-gen,fileNaming=kebab-case --skip-validate-spec",
-    "format:models": "biome format --write ./src/lib/typescript-client/api/ ./src/lib/typescript-client/model/"
+    "generate:models": "openapi-generator-cli generate -g typescript-angular -i ./src/lib/definitions/swagger.yaml -o ./src/lib/typescript-client --global-property=apis,models,supportingFiles --additional-properties=stringEnums=true,npmName=batsi-models-gen,fileNaming=kebab-case,supportsES6=true --skip-validate-spec",
+    "format:models": "biome format --write ./src/lib/typescript-client/api/ ./src/lib/typescript-client/model/",
+    "openapi:versions": "openapi-generator-cli version-manager list"
   },
   "dependencies": {
-    "tslib": "2.3.0"
+    "tslib": "2.8.1"
   },
   "sideEffects": false,
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@openapitools/openapi-generator-cli": "2.16.2"
+    "@openapitools/openapi-generator-cli": "2.17.0"
   },
   "peerDependencies": {
-    "@angular/cli": "19.1.4"
+    "@angular/cli": "19.2.0"
   }
 }

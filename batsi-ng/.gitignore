@@ -40,3 +40,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Environments
+projects/batsi-ng-app/src/environments/environment.develop.ts

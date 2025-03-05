@@ -25,6 +25,82 @@
           "defaultConfiguration": "production"
         }
       }
+    },
+    "batsi-ng-app": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/batsi-ng-app",
+      "sourceRoot": "projects/batsi-ng-app/src",
+      "prefix": "batsi",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/batsi-ng-app",
+            "index": "projects/batsi-ng-app/src/index.html",
+            "browser": "projects/batsi-ng-app/src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "projects/batsi-ng-app/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/batsi-ng-app/public"
+              }
+            ],
+            "styles": ["projects/batsi-ng-app/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/batsi-ng-app/src/environments/environment.ts",
+                  "with": "projects/batsi-ng-app/src/environments/environment.develop.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "batsi-ng-app:build:production"
+            },
+            "development": {
+              "buildTarget": "batsi-ng-app:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n"
+        }
+      }
     }
   }
 }

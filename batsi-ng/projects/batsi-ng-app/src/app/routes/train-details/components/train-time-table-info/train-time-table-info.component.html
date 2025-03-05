@@ -1,0 +1,21 @@
+<div class="d-flex flex-column align-items-center">
+  <h2>{{ timeTableInfo().renderedTrainName }}</h2>
+  <div>{{ timeTableInfo().stationName }}</div>
+
+  <div>
+    {{ timeTableInfo().date | date : "dd.MM.YYYY" }}
+  </div>
+
+  @if(timeTableInfo().time; as time) {
+  <batsi-ng-train-time-table-info-reported-scheduled
+    [reported]="timeReported()"
+    [scheduled]="timeScheduled()"
+  ></batsi-ng-train-time-table-info-reported-scheduled>
+  }
+
+  <batsi-ng-train-time-table-info-reported-scheduled
+    [label]="'Platform:'"
+    [reported]="platformReported()"
+    [scheduled]="platformScheduled()"
+  ></batsi-ng-train-time-table-info-reported-scheduled>
+</div>

@@ -21,3 +21,9 @@ The order matters, first build the models, build the frontend app afterwards.
 
 - Install 3rd party dependencies by running:
   - `npm install`
+
+## Testing
+
+[Jest](https://jestjs.io/) ist used as test runner.
+
+Run `npm run test:batsi-ng-app` to run the frontend tests.
