@@ -12,6 +12,7 @@ describe('TrainWagonFilterFormComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(TrainWagonFilterFormComponent);
+    fixture.componentRef.setInput('destinations', ['Lorem Hbf']);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

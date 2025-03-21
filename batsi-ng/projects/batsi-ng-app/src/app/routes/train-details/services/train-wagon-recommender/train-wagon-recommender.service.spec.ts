@@ -29,6 +29,7 @@ describe('TrainWagonRecommenderService', () => {
     ];
     const filter: TrainWagonFilter = {
       class: 1,
+      destination: null,
     };
 
     // Act
@@ -53,6 +54,7 @@ describe('TrainWagonRecommenderService', () => {
     ];
     const filter: TrainWagonFilter = {
       class: 1,
+      destination: null,
     };
 
     // Act

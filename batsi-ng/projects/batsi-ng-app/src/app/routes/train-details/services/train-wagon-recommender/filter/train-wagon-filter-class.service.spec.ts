@@ -17,7 +17,7 @@ describe('TrainWagonFilterClassService', () => {
 
   it('should filter second class wagon if first class is selected', () => {
     // Assign
-    const state: TrainWagonFilter = { class: 1 };
+    const state: TrainWagonFilter = { class: 1, destination: null };
     const wagon: TrainWagonsInner = {
       capacityFirstClass: 0,
       capacitySecondClass: 1,
@@ -32,7 +32,7 @@ describe('TrainWagonFilterClassService', () => {
 
   it('should not filter fist class wagon if first class is selected', () => {
     // Assign
-    const state: TrainWagonFilter = { class: 1 };
+    const state: TrainWagonFilter = { class: 1, destination: null };
     const wagon: TrainWagonsInner = {
       capacityFirstClass: 1,
       capacitySecondClass: 0,
@@ -47,7 +47,7 @@ describe('TrainWagonFilterClassService', () => {
 
   it('should not filter fist class wagon if first class is selected and capacity also for second class', () => {
     // Assign
-    const state: TrainWagonFilter = { class: 1 };
+    const state: TrainWagonFilter = { class: 1, destination: null };
     const wagon: TrainWagonsInner = {
       capacityFirstClass: 1,
       capacitySecondClass: 1,

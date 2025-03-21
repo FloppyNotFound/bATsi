@@ -1,44 +1,53 @@
-@use ' ../../../../../../../../../../node_modules/bootstrap/scss/bootstrap' as
-  bootstrapVars;
-
 .train-wagon {
-  border: 1px solid bootstrapVars.$black;
-  width: 7rem;
-  height: 10rem;
-  margin-left: auto;
-  margin-right: auto;
+  &.train-wagon__locomotive-front {
+    border-radius: 4rem 0 0 0;
+  }
+
+  &.train-wagon__locomotive-rear {
+    border-radius: 0 0 4rem 0;
+  }
+
+  &.train-wagon__load {
+    @mixin wagon-load-color($color) {
+      border: 0.15rem solid var($color);
+
+      .train-wagon__ranking {
+        color: var($color);
+      }
+    }
+
+    &-unknown {
+      @include wagon-load-color(--bs-black);
+    }
+
+    &-low {
+      @include wagon-load-color(--bs-green);
+    }
+
+    &-medium {
+      @include wagon-load-color(--bs-orange);
+    }
+
+    &-high {
+      @include wagon-load-color(--bs-red);
+    }
+  }
 
   &__class-info {
+    margin-left: auto;
+
     &--first {
-      color: bootstrapVars.$blue;
+      color: var(--bs-blue);
     }
 
     span {
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-      padding-right: 0.25rem;
+      border-bottom: 1px solid var(--bs-black);
+      border-left: 1px solid var(--bs-black);
+      padding: 0.1rem;
     }
   }
 
   &__ranking {
     font-size: 2rem;
-  }
-
-  &__load {
-    &-unknown {
-      color: bootstrapVars.$black;
-    }
-
-    &-low {
-      color: bootstrapVars.$green;
-    }
-
-    &-medium {
-      color: bootstrapVars.$orange;
-    }
-
-    &-high {
-      color: bootstrapVars.$red;
-    }
   }
 }

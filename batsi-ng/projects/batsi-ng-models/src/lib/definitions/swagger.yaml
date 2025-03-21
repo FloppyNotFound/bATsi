@@ -1,5 +1,5 @@
 # Generated mostly by https://roger13.github.io/SwagDefGen/
-openapi: "3.0.0"
+openapi: "3.1.0"
 info:
   version: 1.0.0
   title: ÖBB Live Backend Info
@@ -179,7 +179,16 @@ components:
                 format: int32
               kind:
                 type: integer
-                format: int32
+                oneOf:
+                  - title: LOCOMOTIVE_WITH_PASSENGERS_FRONT
+                    const: 4
+                    description: Locomotive (front) with passengers
+                  - title: LOCOMOTIVE_WITH_PASSENGERS_REAR
+                    const: 8
+                    description: Locomotive (rear) with passengers
+                  - title: LOCOMOTIVE
+                    const: 256
+                    description: Locomotive without passengers
               lengthOverBuffers:
                 type: number
               numPassengerIcons:
@@ -205,11 +214,9 @@ components:
       properties:
         eva:
           type: string
-          nullable: false
           description: Unique station ID
           example: "8100516"
         name:
           type: string
-          nullable: false
           description: Station display name
           example: "Wr. Neustadt Hbf"

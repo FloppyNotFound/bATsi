@@ -1,10 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* Bootstrap */
 @use './styles/variables' as batsiVars;
+
+/* Bootstrap: import only what you need: https://getbootstrap.com/docs/5.0/customize/sass/ */
+
+// Variable overrides
 $body-bg: batsiVars.$body-bg;
 $primary: batsiVars.$primary;
 $secondary: batsiVars.$secondary;
 
-@import '../../../node_modules/bootstrap/scss/bootstrap';
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import '../../../node_modules/bootstrap/scss/functions';
+
+// 2. Include any default variable overrides here
+@import '../../../node_modules/bootstrap/scss/mixins';
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import '../../../node_modules/bootstrap/scss/variables';
+
+// 4. Include any optional Bootstrap components as you like
+@import '../../../node_modules/bootstrap/scss/bootstrap-utilities';
+@import '../../../node_modules/bootstrap/scss/reboot';
+@import '../../../node_modules/bootstrap/scss/buttons';
+@import '../../../node_modules/bootstrap/scss/card';
+@import '../../../node_modules/bootstrap/scss/containers';
+@import '../../../node_modules/bootstrap/scss/forms';
+@import '../../../node_modules/bootstrap/scss/grid';
+@import '../../../node_modules/bootstrap/scss/list-group';
+@import '../../../node_modules/bootstrap/scss/spinners';
+
+// 5. Component overrides
 @import './styles/bootstrap-overrides';
