@@ -44,6 +44,17 @@
             "index": "projects/batsi-ng-app/src/index.html",
             "browser": "projects/batsi-ng-app/src/main.ts",
             "polyfills": ["zone.js"],
+            "allowedCommonJsDependencies": ["dayjs"],
+            "stylePreprocessorOptions": {
+              "sass": {
+                "silenceDeprecations": [
+                  "mixed-decls",
+                  "color-functions",
+                  "global-builtin",
+                  "import"
+                ]
+              }
+            },
             "tsConfig": "projects/batsi-ng-app/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [

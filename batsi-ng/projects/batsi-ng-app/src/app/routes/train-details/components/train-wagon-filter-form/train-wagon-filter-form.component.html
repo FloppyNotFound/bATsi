@@ -1,4 +1,27 @@
 <form [formGroup]="form" novalidate>
+  <!-- Richtung -->
+  <strong>Richtung</strong>
+  <div class="mt-1 d-flex justify-content-center">
+    @for(destination of destinationsSelectable(); track $index) {
+    <div class="form-check ms-3">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="destinationRadio"
+        [value]="destination !== destinationAll ? destination : null"
+        [id]="`destination-ctl__${destination}`"
+        [formControl]="formModel.destination"
+      />
+      <label class="form-check-label" [for]="`destination-ctl__${destination}`">
+        @if(destination === destinationAll) { <span>Alle</span> } @else {
+        {{ destination }}
+        }
+      </label>
+    </div>
+    }
+  </div>
+
+  <!-- Klasse -->
   <strong>Klasse</strong>
   <div class="d-flex justify-content-center mt-1">
     <div class="form-check">
@@ -10,7 +33,7 @@
         id="classFirstRadioCtl"
         [formControl]="formModel.class"
       />
-      <label class="form-check-label" for="classFirstRadioCtl">K1</label>
+      <label class="form-check-label" for="classFirstRadioCtl">1. Klasse</label>
     </div>
     <div class="form-check ms-3">
       <input
@@ -21,7 +44,9 @@
         id="classSecondRadioCtl"
         [formControl]="formModel.class"
       />
-      <label class="form-check-label" for="classSecondRadioCtl">K2</label>
+      <label class="form-check-label" for="classSecondRadioCtl"
+        >2. Klasse</label
+      >
     </div>
   </div>
 </form>

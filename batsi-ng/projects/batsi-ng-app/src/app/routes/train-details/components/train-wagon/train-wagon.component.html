@@ -1,4 +1,14 @@
-<div class="train-wagon d-flex flex-column justify-content-between">
+<div
+  class="train-wagon h-100 d-flex flex-column justify-content-between"
+  [ngClass]="{
+    'train-wagon__load-unknown': loadRatioUnknown(),
+    'train-wagon__load-low': loadRatioLow(),
+    'train-wagon__load-medium': loadRatioMedium(),
+    'train-wagon__load-high': loadRatioHigh(),
+    'train-wagon__locomotive-front': isLocomotiveFront(),
+    'train-wagon__locomotive-rear': isLocomotiveRear(),
+  }"
+>
   <div class="train-wagon__class-info">
     @if(wagon().capacityFirstClass) {
     <span class="ms-1 train-wagon__class-info--first">1.</span>
@@ -7,15 +17,7 @@
     }
   </div>
 
-  <div
-    class="ms-auto me-auto train-wagon__ranking"
-    [ngClass]="{
-      'train-wagon__load-unknown': loadRatioUnknown(),
-      'train-wagon__load-low': loadRatioLow(),
-      'train-wagon__load-medium': loadRatioMedium(),
-      'train-wagon__load-high': loadRatioHigh()
-    }"
-  >
+  <div class="ms-auto me-auto train-wagon__ranking">
     {{ wagon().ranking }}
   </div>
 

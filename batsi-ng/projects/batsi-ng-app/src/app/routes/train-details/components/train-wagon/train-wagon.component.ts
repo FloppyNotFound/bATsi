@@ -14,8 +14,8 @@ export class TrainWagonComponent {
   readonly wagon = input.required<TrainWagonsInner>();
   //#endregion
 
-  //#region Computed
-  readonly loadRatioUnknown = computed(() => this.wagon().numPassengerIcons === void 0);
+  //#region Computed: Load Ratio
+  readonly loadRatioUnknown = computed(() => !this.wagon().numPassengerIcons);
 
   readonly loadRatioLow = computed(() => {
     const ratio = this.wagon().numPassengerIcons;
@@ -43,5 +43,10 @@ export class TrainWagonComponent {
 
     return ratio === 3;
   });
+  //#endregion
+
+  //#region Computed: other
+  readonly isLocomotiveFront = computed(() => this.wagon().kind === 4);
+  readonly isLocomotiveRear = computed(() => this.wagon().kind === 8);
   //#endregion
 }

@@ -9,6 +9,7 @@
   <div class="col-md-3 order-md-last my-3 my-md-0 text-center">
     <div>
       <batsi-ng-train-wagon-filter-form
+        [destinations]="train?.wagons | trainDestinations"
         (filterChanged)="onFilterChanged($event)"
       ></batsi-ng-train-wagon-filter-form>
     </div>
@@ -19,10 +20,18 @@
   </div>
 
   <div class="col-md-6">
-    @for(wagon of train?.wagons; track $index) {
-    <div class="mt-3">
-      <batsi-ng-train-wagon [wagon]="wagon"></batsi-ng-train-wagon>
+    <div class="d-flex flex-column">
+      @for(wagon of train?.wagons; track $index) {
+      <div class="mt-3 d-flex justify-content-center">
+        @if(wagon | trainWagonIsLocomotive) {
+        <batsi-train-locomotive
+          [destination]="wagon.destinationName"
+        ></batsi-train-locomotive>
+        } @else {
+        <batsi-ng-train-wagon [wagon]="wagon"></batsi-ng-train-wagon>
+        }
+      </div>
+      }
     </div>
-    }
   </div>
 </div>

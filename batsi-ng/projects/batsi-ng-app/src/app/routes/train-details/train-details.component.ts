@@ -6,11 +6,22 @@ import { TrainWagonFilterFormComponent } from './components/train-wagon-filter-f
 import { TrainWagonFilter } from './components/train-wagon-filter-form/interfaces/train-wagon-filter.interface';
 import { TrainWagonRecommenderService } from './services/train-wagon-recommender/train-wagon-recommender.service';
 import { TrainWagonComponent } from './components/train-wagon/train-wagon.component';
+import { TrainLocomotiveComponent } from './components/train-locomotive/train-locomotive.component';
+import { TrainDestinationsPipe } from './pipes/train-destinations.pipe';
+import { TrainWagonIsLocomotivePipe } from './pipes/train-wagon-is-locomotive.pipe';
 
 @Component({
   selector: 'batsi-train-details',
-  imports: [TrainTimeTableInfoComponent, TrainWagonFilterFormComponent, TrainWagonComponent],
+  imports: [
+    TrainTimeTableInfoComponent,
+    TrainWagonFilterFormComponent,
+    TrainLocomotiveComponent,
+    TrainWagonComponent,
+    TrainDestinationsPipe,
+    TrainWagonIsLocomotivePipe,
+  ],
   templateUrl: './train-details.component.html',
+  styleUrl: './train-details.component.scss',
 })
 export class TrainDetailsComponent {
   //#region Injections
