@@ -20,6 +20,6 @@
     "@openapitools/openapi-generator-cli": "2.18.4"
   },
   "peerDependencies": {
-    "@angular/cli": "19.2.0"
+    "@angular/cli": "19.2.4"
   }
 }
