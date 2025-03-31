@@ -46,7 +46,11 @@ export class TrainWagonComponent {
   //#endregion
 
   //#region Computed: other
-  readonly isLocomotiveFront = computed(() => this.wagon().kind === 4);
-  readonly isLocomotiveRear = computed(() => this.wagon().kind === 8);
+  readonly isLocomotiveWithoutPassengers = computed(() => this.wagon().ranking === 0);
+  readonly isLocomotiveFrontWithPassengers = computed(() => this.wagon().kind === 4);
+  readonly isLocomotiveRearWithPassengers = computed(() => this.wagon().kind === 8);
+  readonly isLocomotiveFront = computed(
+    () => this.isLocomotiveWithoutPassengers() || this.isLocomotiveFrontWithPassengers(),
+  );
   //#endregion
 }

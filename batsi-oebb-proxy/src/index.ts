@@ -15,15 +15,13 @@ export default {
     }
 
     const isAuthorized = checkIsAuthorized(request.headers, env.API_TOKEN);
-
     if (!isAuthorized) {
       return new Response(null, { status: 401, headers: defaultHeaders });
     }
 
-    const destinationURL = toDestinationUrl(request.url);
-
     let fetchResponse = null;
     try {
+      const destinationURL = toDestinationUrl(request.url);
       fetchResponse = await fetch(destinationURL);
     } catch (err) {
       console.error(err);

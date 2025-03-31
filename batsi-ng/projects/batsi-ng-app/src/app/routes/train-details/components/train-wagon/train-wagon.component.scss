@@ -1,6 +1,11 @@
 .train-wagon {
+  &.train-wagon__locomotive-without-passengers {
+    background-color: var(--bs-gray);
+    border-radius: 0 4rem 0 0;
+  }
+
   &.train-wagon__locomotive-front {
-    border-radius: 4rem 0 0 0;
+    border-radius: 0 4rem 0 0;
   }
 
   &.train-wagon__locomotive-rear {
@@ -34,15 +39,13 @@
   }
 
   &__class-info {
-    margin-left: auto;
-
     &--first {
       color: var(--bs-blue);
     }
 
     span {
       border-bottom: 1px solid var(--bs-black);
-      border-left: 1px solid var(--bs-black);
+      border-right: 1px solid var(--bs-black);
       padding: 0.1rem;
     }
   }
@@ -50,4 +53,10 @@
   &__ranking {
     font-size: 2rem;
   }
+}
+
+.train-wagon-destination {
+  writing-mode: vertical-lr;
+  text-align: center;
+  margin-left: 0.5rem;
 }
