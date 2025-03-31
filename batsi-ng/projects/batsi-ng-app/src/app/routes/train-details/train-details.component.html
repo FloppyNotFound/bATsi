@@ -23,13 +23,7 @@
     <div class="d-flex flex-column">
       @for(wagon of train?.wagons; track $index) {
       <div class="mt-3 d-flex justify-content-center">
-        @if(wagon | trainWagonIsLocomotive) {
-        <batsi-train-locomotive
-          [destination]="wagon.destinationName"
-        ></batsi-train-locomotive>
-        } @else {
         <batsi-ng-train-wagon [wagon]="wagon"></batsi-ng-train-wagon>
-        }
       </div>
       }
     </div>
