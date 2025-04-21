@@ -38,13 +38,17 @@
       "prefix": "batsi",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@ngx-env/builder:application",
           "options": {
             "outputPath": "dist/batsi-ng-app",
             "index": "projects/batsi-ng-app/src/index.html",
             "browser": "projects/batsi-ng-app/src/main.ts",
-            "polyfills": ["zone.js"],
-            "allowedCommonJsDependencies": ["dayjs"],
+            "polyfills": [
+              "zone.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "dayjs"
+            ],
             "stylePreprocessorOptions": {
               "sass": {
                 "silenceDeprecations": [
@@ -63,7 +67,9 @@
                 "input": "projects/batsi-ng-app/public"
               }
             ],
-            "styles": ["projects/batsi-ng-app/src/styles.scss"],
+            "styles": [
+              "projects/batsi-ng-app/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -97,7 +103,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@ngx-env/builder:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "batsi-ng-app:build:production"
@@ -106,10 +112,12 @@
               "buildTarget": "batsi-ng-app:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {}
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@ngx-env/builder:extract-i18n",
+          "options": {}
         }
       }
     }

@@ -83,9 +83,14 @@ export class TrainSearchInputComponent {
       return;
     }
 
+    const apiToken = environment.apiToken;
+    if (!apiToken) {
+      throw new Error('apiToken needs to be set');
+    }
+
     this.isLoading.set(true);
     this.#trainService
-      .backendInfoGet(environment.apiToken, queryData.trainNumber, queryData.date, queryData.stationNumber)
+      .backendInfoGet(apiToken, queryData.trainNumber, queryData.date, queryData.stationNumber)
       .pipe(
         takeUntilDestroyed(this.#destroyRef),
         catchError(() => {

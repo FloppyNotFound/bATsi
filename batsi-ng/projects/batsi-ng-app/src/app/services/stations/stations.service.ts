@@ -46,6 +46,11 @@ export class StationsService {
   }
 
   #getStationsFromServer(): Observable<Station[]> {
-    return this.#stationsService.stationsGet(environment.apiToken);
+    const apiToken = environment.apiToken;
+    if(!apiToken) {
+      throw new Error('apiToken needs to be set');
+    }
+    
+    return this.#stationsService.stationsGet(apiToken);
   }
 }
