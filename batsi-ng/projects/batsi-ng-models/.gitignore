@@ -1,1 +1,10 @@
-src/lib/typescript-client
+node_modules/
+src/lib/typescript-client/*
+!src/lib/typescript-client/index.ts
+!src/lib/typescript-client/api.base.service.ts
+!src/lib/typescript-client/configuration.ts
+!src/lib/typescript-client/encoder.ts
+!src/lib/typescript-client/param.ts
+!src/lib/typescript-client/variables.ts
+!src/lib/typescript-client/api/
+!src/lib/typescript-client/model/

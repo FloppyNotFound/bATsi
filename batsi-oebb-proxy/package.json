@@ -13,7 +13,7 @@
 		"type-check": "tsc"
 	},
 	"devDependencies": {
-		"typescript": "5.8.2",
-		"wrangler": "4.6.0"
+		"typescript": "5.8.3",
+		"wrangler": "4.12.0"
 	}
 }
