@@ -17,9 +17,9 @@
   "sideEffects": false,
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@openapitools/openapi-generator-cli": "2.18.4"
+    "@openapitools/openapi-generator-cli": "2.19.1"
   },
   "peerDependencies": {
-    "@angular/cli": "19.2.4"
+    "@angular/cli": "19.2.8"
   }
 }
