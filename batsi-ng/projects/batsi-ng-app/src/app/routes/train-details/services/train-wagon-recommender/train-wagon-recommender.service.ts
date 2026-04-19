@@ -1,9 +1,9 @@
-import { inject, Injectable } from '@angular/core';
-import { TrainWagonFilterClassService } from './filter/train-wagon-filter-class.service';
-import { TrainWagonSortRatioService } from './sort/train-wagon-sort-ratio.service';
+import { Injectable, inject } from '@angular/core';
 import { TrainWagonsInner } from 'batsi-ng-models';
 import { TrainWagonFilter } from '../../components/train-wagon-filter-form/interfaces/train-wagon-filter.interface';
+import { TrainWagonFilterClassService } from './filter/train-wagon-filter-class.service';
 import { TrainWagonFilterDestinationService } from './filter/train-wagon-filter-destination.service';
+import { TrainWagonSortRatioService } from './sort/train-wagon-sort-ratio.service';
 
 @Injectable({
   providedIn: 'root',

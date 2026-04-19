@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { TrainWagonSortContract } from './interfaces/train-wagon-sort-contract.interface';
 import { TrainWagonsInner } from 'batsi-ng-models';
+import { TrainWagonSortContract } from './interfaces/train-wagon-sort-contract.interface';
 
 @Injectable({
   providedIn: 'root',

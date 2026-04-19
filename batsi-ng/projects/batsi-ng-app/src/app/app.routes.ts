@@ -1,8 +1,8 @@
-import { Routes } from '@angular/router';
-import { aboutRoutes } from './routes/about/about.routes';
 import { Type } from '@angular/core';
-import { stationsResolver } from './resolvers/stations.resolver';
+import { Routes } from '@angular/router';
 import { canActivateTrainDetailsGuard } from './guards/can-activate-train-details.guard';
+import { stationsResolver } from './resolvers/stations.resolver';
+import { aboutRoutes } from './routes/about/about.routes';
 
 export const routes: Routes = [
   {

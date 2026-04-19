@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { TrainWagonSortRatioService } from './train-wagon-sort-ratio.service';
 import { TrainWagonsInner } from 'batsi-ng-models';
+import { TrainWagonSortRatioService } from './train-wagon-sort-ratio.service';
 
 describe('TrainWagonSortRatioService', () => {
   let service: TrainWagonSortRatioService;

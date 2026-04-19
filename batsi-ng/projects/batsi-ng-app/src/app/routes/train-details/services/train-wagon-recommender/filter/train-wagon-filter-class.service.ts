@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { TrainWagonsInner } from 'batsi-ng-models';
 import { TrainWagonFilter } from '../../../components/train-wagon-filter-form/interfaces/train-wagon-filter.interface';
 import { TrainWagonFilterContract } from './interfaces/train-wagon-filter.interface';
-import { TrainWagonsInner } from 'batsi-ng-models';
 
 @Injectable({
   providedIn: 'root',

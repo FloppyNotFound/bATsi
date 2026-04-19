@@ -1,18 +1,32 @@
-import { Component, DestroyRef, inject, input, output, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TrainSearchResult } from './interfaces/train-search-result.interface';
-import { catchError, EMPTY, Observable, Subject, from, map } from 'rxjs';
-import { TrainQueryData } from './interfaces/train-query-data.interface';
-import { Station, backendInfoGet } from 'batsi-ng-models';
+import { httpResource } from '@angular/common/http';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+  DestroyRef,
+} from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Station, TrainInfoResponse } from 'batsi-ng-models';
 import dayjs from 'dayjs';
-import { TrainSearchFormModel } from './interfaces/train-search-form-model';
-import { StationNumberService } from './services/station-number/station-number.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { InputNumericComponent } from './components/input-numeric/input-numeric.component';
-import { InputDatalistComponent } from './components/input-datalist/input-datalist.component';
-import { StationNamesPipe } from './pipes/station-names.pipe';
-import { ButtonWithSpinnerComponent } from './components/button-with-spinner/button-with-spinner.component';
+import { Observable, Subject } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
+import { ButtonWithSpinnerComponent } from './components/button-with-spinner/button-with-spinner.component';
+import { InputDatalistComponent } from './components/input-datalist/input-datalist.component';
+import { InputNumericComponent } from './components/input-numeric/input-numeric.component';
+import { TrainQueryData } from './interfaces/train-query-data.interface';
+import { TrainSearchFormModel } from './interfaces/train-search-form-model';
+import { TrainSearchResult } from './interfaces/train-search-result.interface';
+import { StationNamesPipe } from './pipes/station-names.pipe';
+import { StationNumberService } from './services/station-number/station-number.service';
 
 @Component({
   selector: 'batsi-train-search-input',
@@ -35,23 +49,59 @@ export class TrainSearchInputComponent {
   //#region Outputs
   readonly resetForm = output<void>();
   readonly trainFound = output<TrainSearchResult>();
-  //#endregion
-
-  //#region Injections
-  readonly #destroyRef = inject(DestroyRef);
   readonly #stationNumberService = inject(StationNumberService);
   //#endregion
 
-  readonly isLoading = signal<boolean>(false);
-
-  readonly trainNumberSetFocus$: Observable<void>;
+  protected readonly trainNumberSetFocus$: Observable<void>;
   readonly #trainNumberSetFocus = new Subject<void>();
 
-  protected hasResult = false;
-  protected hasFormBeenSubmitted = false;
+  // Signal for current query parameters
+  readonly #queryParams = signal<TrainQueryData | null>(null);
 
-  readonly trainSearchForm: FormGroup;
-  readonly trainSearchFormModel: TrainSearchFormModel;
+  // HttpResource for train search (reacts to query parameter changes)
+  readonly #trainSearchResource = httpResource<{ data: TrainInfoResponse }>(
+    () => {
+      const params = this.#queryParams();
+      if (!params) {
+        return undefined;
+      }
+
+      return {
+        url: `${environment.apiBaseUrl}/backend/info`,
+        method: 'GET',
+        headers: {
+          api_token: environment.apiToken ?? '',
+        },
+        params: { ...params },
+      };
+    },
+  );
+
+  protected hasFormBeenSubmitted = signal<boolean>(false);
+
+  protected readonly trainSearchForm: FormGroup;
+  protected readonly trainSearchFormModel: TrainSearchFormModel;
+
+  // Class-level computed signals for resource state
+  protected readonly isLoading = computed<boolean>(() =>
+    this.#trainSearchResource.isLoading(),
+  );
+  protected readonly hasResult = computed<boolean>(() =>
+    this.#trainSearchResource.hasValue(),
+  );
+  protected readonly data = computed<TrainInfoResponse | null>(() => {
+    if (!this.#trainSearchResource.hasValue()) {
+      return null;
+    }
+
+    return this.#trainSearchResource.value().data;
+  });
+  protected readonly error = computed<Error | undefined>(() =>
+    this.#trainSearchResource.error(),
+  );
+  protected readonly showError = computed<boolean>(
+    () => this.hasFormBeenSubmitted() && !this.hasResult(),
+  );
 
   constructor() {
     this.trainNumberSetFocus$ = this.#trainNumberSetFocus.asObservable();
@@ -59,7 +109,34 @@ export class TrainSearchInputComponent {
     const dateTodayFormatted = this.#getDateTodayFormatted();
     this.trainSearchFormModel = this.#toInitialFormModel(dateTodayFormatted);
 
-    this.trainSearchForm = new FormGroup<TrainSearchFormModel>(this.trainSearchFormModel);
+    this.trainSearchForm = new FormGroup<TrainSearchFormModel>(
+      this.trainSearchFormModel,
+    );
+
+    effect(() => {
+      const result = this.#trainSearchResource.hasValue()
+        ? this.#trainSearchResource.value()
+        : null;
+
+      if (result) {
+        const queryData = this.#toTrainQueryData(this.trainSearchFormModel);
+
+        if (queryData) {
+          const searchResult: TrainSearchResult = {
+            query: queryData,
+            response: this.data() as TrainInfoResponse,
+          };
+          this.trainFound.emit(searchResult);
+        }
+      }
+    });
+
+    effect(() => {
+      const hasError = this.error();
+      if (hasError) {
+        this.#showSubmittedButNoResultsMessage();
+      }
+    });
   }
 
   //#region Event Callbacks
@@ -82,44 +159,8 @@ export class TrainSearchInputComponent {
       return;
     }
 
-    const apiToken = environment.apiToken;
-    if (!apiToken) {
-      throw new Error('apiToken needs to be set');
-    }
-
-    this.isLoading.set(true);
-    from(backendInfoGet<true>({
-      headers: {
-        api_token: apiToken
-      },
-      query: {
-        trainNr: queryData.trainNumber,
-        date: queryData.date,
-        station: queryData.stationNumber
-      },
-      responseStyle: 'data'
-    })).pipe(
-      takeUntilDestroyed(this.#destroyRef),
-      catchError(() => {
-        this.isLoading.set(false);
-        this.#showSubmittedButNoResultsMessage();
-
-        return EMPTY;
-      }),
-    )
-    .pipe(
-      map(response => response.data)
-    )
-    .subscribe(trainInfo => {
-      this.isLoading.set(false);
-      if (trainInfo) {
-        const result: TrainSearchResult = {
-          query: queryData,
-          response: trainInfo,
-        };
-        this.trainFound.emit(result);
-      }
-    });
+    // Update the query parameters signal to trigger a new request
+    this.#queryParams.set(queryData);
   }
   //#endregion
 
@@ -137,29 +178,34 @@ export class TrainSearchInputComponent {
     };
   }
 
-  #toTrainQueryData(formModel: TrainSearchFormModel): TrainQueryData | undefined {
+  #toTrainQueryData(
+    formModel: TrainSearchFormModel,
+  ): TrainQueryData | undefined {
     const trainNumber = formModel.trainNumber.value;
     const date = formModel.date.value;
 
     const stationName = formModel.stationName.value;
-    const stationNumber = this.#stationNumberService.toStationNumber(stationName, this.stations());
+    const stationNumber = this.#stationNumberService.toStationNumber(
+      stationName,
+      this.stations(),
+    );
 
     if (!trainNumber || !stationNumber || !date) {
       return void 0;
     }
 
     return {
-      trainNumber,
+      trainNr: trainNumber,
       date,
-      stationNumber,
+      station: stationNumber,
     } as TrainQueryData;
   }
 
   #showSubmittedButNoResultsMessage(): void {
-    this.hasFormBeenSubmitted = true;
+    this.hasFormBeenSubmitted.set(true);
 
     setTimeout(() => {
-      this.hasFormBeenSubmitted = false;
+      this.hasFormBeenSubmitted.set(false);
     }, 2000);
   }
 }

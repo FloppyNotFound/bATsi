@@ -53,13 +53,15 @@
   </div>
 
   <!-- Result -->
-  @if((isLoading()) === false && (hasFormBeenSubmitted || hasResult)) {
-  <ul class="list-group list-group-flush">
-    @if(hasFormBeenSubmitted && !hasResult) {
-    <div>
-      <li class="list-group-item active">Keine Ergebnisse</li>
-    </div>
-    }
-  </ul>
+  @if (showError()) {
+    <output>
+      <ul class="list-group list-group-flush">
+        <div>
+          <li class="list-group-item active">Keine Ergebnisse</li>
+        </div>
+      </ul>
+    </output>
+  } @else {
+    {{ data() }}
   }
 </div>

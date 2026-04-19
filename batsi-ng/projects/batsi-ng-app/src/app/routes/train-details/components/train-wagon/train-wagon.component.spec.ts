@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { TrainWagonComponent } from './train-wagon.component';
 import { TrainWagonsInner } from 'batsi-ng-models';
+import { TrainWagonComponent } from './train-wagon.component';
 
 describe('TrainWagonComponent', () => {
   let component: TrainWagonComponent;

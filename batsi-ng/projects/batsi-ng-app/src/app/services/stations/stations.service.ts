@@ -1,7 +1,7 @@
-import { inject, Injectable } from '@angular/core';
-import { Observable, of, tap, from, map, filter } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { Injectable } from '@angular/core';
 import { Station, stationsGet } from 'batsi-ng-models';
+import { filter, from, map, Observable, of, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -23,23 +23,16 @@ export class StationsService {
     }
 
     return this.#getStationsFromServer().pipe(
-      filter((stations) => !!stations),
-      tap((stations) =>
-        localStorage.setItem(
-          this.#stationsLocalStorageKey,
-          JSON.stringify(stations),
-        ),
-      ),
-      tap((stations) => {
+      filter(stations => !!stations),
+      tap(stations => localStorage.setItem(this.#stationsLocalStorageKey, JSON.stringify(stations))),
+      tap(stations => {
         this.#stations = stations;
       }),
     );
   }
 
   #getStationsFromStorage(): Station[] | undefined {
-    const stationsSavedRaw = localStorage.getItem(
-      this.#stationsLocalStorageKey,
-    );
+    const stationsSavedRaw = localStorage.getItem(this.#stationsLocalStorageKey);
 
     if (!stationsSavedRaw) {
       return void 0;
@@ -61,6 +54,6 @@ export class StationsService {
           api_token: apiToken,
         },
       }),
-    ).pipe(map((response) => response.data));
+    ).pipe(map(response => response.data));
   }
 }

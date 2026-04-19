@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'batsi-ng-train-time-table-info-reported-scheduled',

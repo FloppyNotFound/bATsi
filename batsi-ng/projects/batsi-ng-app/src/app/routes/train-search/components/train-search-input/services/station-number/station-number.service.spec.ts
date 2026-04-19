@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { StationNumberService } from './station-number.service';
 import { Station } from 'batsi-ng-models';
+import { StationNumberService } from './station-number.service';
 
 describe('StationNumberService', () => {
   let service: StationNumberService;

@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { TrainTimeTableInfoComponent } from './components/train-time-table-info/train-time-table-info.component';
 import { TimeTableInfo, Train, TrainInfoResponse } from 'batsi-ng-models';
 import { TrainSearchStateService } from '../train-search/state/train-search-state.service';
-import { TrainWagonFilterFormComponent } from './components/train-wagon-filter-form/train-wagon-filter-form.component';
-import { TrainWagonFilter } from './components/train-wagon-filter-form/interfaces/train-wagon-filter.interface';
-import { TrainWagonRecommenderService } from './services/train-wagon-recommender/train-wagon-recommender.service';
+import { TrainTimeTableInfoComponent } from './components/train-time-table-info/train-time-table-info.component';
 import { TrainWagonComponent } from './components/train-wagon/train-wagon.component';
+import { TrainWagonFilter } from './components/train-wagon-filter-form/interfaces/train-wagon-filter.interface';
+import { TrainWagonFilterFormComponent } from './components/train-wagon-filter-form/train-wagon-filter-form.component';
 import { TrainDestinationsPipe } from './pipes/train-destinations.pipe';
+import { TrainWagonRecommenderService } from './services/train-wagon-recommender/train-wagon-recommender.service';
 
 @Component({
   selector: 'batsi-train-details',

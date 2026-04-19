@@ -1,11 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TrainSearchInputComponent } from './components/train-search-input/train-search-input.component';
-import { TrainSearchResult } from './components/train-search-input/interfaces/train-search-result.interface';
-import { TrainQueryData } from './components/train-search-input/interfaces/train-query-data.interface';
-import { Observable, ReplaySubject } from 'rxjs';
-import { TrainSearchStateService } from './state/train-search-state.service';
 import { Station } from 'batsi-ng-models';
+import { Observable, ReplaySubject } from 'rxjs';
+import { TrainQueryData } from './components/train-search-input/interfaces/train-query-data.interface';
+import { TrainSearchResult as TrainSearchResultInput } from './components/train-search-input/interfaces/train-search-result.interface';
+import { TrainSearchResult } from './interfaces/train-search-result.interface';
+import { TrainSearchInputComponent } from './components/train-search-input/train-search-input.component';
+import { TrainSearchStateService } from './state/train-search-state.service';
 
 @Component({
   selector: 'batsi-train-search',
@@ -25,7 +26,9 @@ export class TrainSearchComponent implements OnInit {
   readonly stations: Station[];
 
   constructor() {
-    this.stations = (this.#route.snapshot.data as { stations: Station[] }).stations;
+    this.stations = (
+      this.#route.snapshot.data as { stations: Station[] }
+    ).stations;
 
     this.initQuery$ = this._initQuery.asObservable();
   }
@@ -36,13 +39,19 @@ export class TrainSearchComponent implements OnInit {
     const query = state?.query;
 
     if (query) {
-      this._initQuery.next(query);
+      // Convert to the input component's interface format
+      const convertedQuery: TrainQueryData = {
+        trainNr: query.trainNumber,
+        date: query.date,
+        station: query.stationNumber,
+      };
+      this._initQuery.next(convertedQuery);
     }
   }
   //#endregion
 
   //#region Event Callbacks
-  protected onTrainFound(trainInfo: TrainSearchResult): void {
+  protected onTrainFound(trainInfo: TrainSearchResultInput): void {
     this.#goToDetails(trainInfo);
   }
 
@@ -51,10 +60,20 @@ export class TrainSearchComponent implements OnInit {
   }
   //#endregion
 
-  #goToDetails(trainInfo: TrainSearchResult): void {
-    this.#trainSearchState.cache(trainInfo);
+  #goToDetails(trainInfo: TrainSearchResultInput): void {
+    // Convert to the parent component's interface format
+    const convertedResult: TrainSearchResult = {
+      query: {
+        trainNumber: trainInfo.query.trainNr,
+        date: trainInfo.query.date,
+        stationNumber: trainInfo.query.station,
+      },
+      response: trainInfo.response,
+    };
 
-    const query = trainInfo.query;
+    this.#trainSearchState.cache(convertedResult);
+
+    const query = convertedResult.query;
     this.#router.navigate(['details'], {
       queryParams: {
         ...query,

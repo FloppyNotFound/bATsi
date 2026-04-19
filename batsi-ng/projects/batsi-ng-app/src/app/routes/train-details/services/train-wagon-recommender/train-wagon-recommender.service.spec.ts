@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { TrainWagonsInner } from 'batsi-ng-models';
 import { TrainWagonFilter } from '../../components/train-wagon-filter-form/interfaces/train-wagon-filter.interface';
 import { TrainWagonRecommenderService } from './train-wagon-recommender.service';
-import { TrainWagonsInner } from 'batsi-ng-models';
 
 describe('TrainWagonRecommenderService', () => {
   let service: TrainWagonRecommenderService;

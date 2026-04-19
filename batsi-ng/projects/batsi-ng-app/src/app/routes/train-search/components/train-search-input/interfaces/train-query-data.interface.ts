@@ -1,5 +1,5 @@
 export interface TrainQueryData {
-  trainNumber: number;
+  trainNr: number;
   date: string;
-  stationNumber: number;
+  station: number;
 }

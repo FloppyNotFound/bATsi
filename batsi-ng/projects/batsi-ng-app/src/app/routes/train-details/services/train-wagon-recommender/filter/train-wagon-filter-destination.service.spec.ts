@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { TrainWagonFilterDestinationService } from './train-wagon-filter-destination.service';
-import { TrainWagonFilter } from '../../../components/train-wagon-filter-form/interfaces/train-wagon-filter.interface';
 import { TrainWagonsInner } from 'batsi-ng-models';
+import { TrainWagonFilter } from '../../../components/train-wagon-filter-form/interfaces/train-wagon-filter.interface';
+import { TrainWagonFilterDestinationService } from './train-wagon-filter-destination.service';
 
 describe('TrainWagonFilterDestinationService', () => {
   let service: TrainWagonFilterDestinationService;

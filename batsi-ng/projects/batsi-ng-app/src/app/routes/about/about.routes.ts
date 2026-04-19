@@ -1,5 +1,5 @@
-import { Routes } from '@angular/router';
 import { Type } from '@angular/core';
+import { Routes } from '@angular/router';
 
 const aboutRoutes: Routes = [
   {

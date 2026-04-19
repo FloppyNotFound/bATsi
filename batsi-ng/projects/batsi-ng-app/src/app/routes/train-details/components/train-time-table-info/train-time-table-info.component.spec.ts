@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TrainTimeTableInfoComponent } from './train-time-table-info.component';
 import { TimeTableInfo } from 'batsi-ng-models';
+import { TrainTimeTableInfoComponent } from './train-time-table-info.component';
 
 describe('TrainTimeTableInfoComponent', () => {
   let component: TrainTimeTableInfoComponent;

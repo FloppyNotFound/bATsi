@@ -1,8 +1,8 @@
 import { Component, computed, DestroyRef, inject, input, OnInit, output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TrainWagonFilter } from './interfaces/train-wagon-filter.interface';
 import { TrainWagonFilterFormModel } from './types/train-wagon-filter-form-model.type';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'batsi-ng-train-wagon-filter-form',
