@@ -2,7 +2,7 @@
 	"name": "batsi-oebb-proxy",
 	"version": "0.0.0",
 	"engines": {
-		"node": ">=22.14.0"
+		"node": ">=24.11.1"
 	},
 	"private": true,
 	"scripts": {
@@ -13,7 +13,7 @@
 		"type-check": "tsc"
 	},
 	"devDependencies": {
-		"typescript": "5.8.3",
-		"wrangler": "4.12.0"
+		"typescript": "6.0.3",
+		"wrangler": "4.83.0"
 	}
 }

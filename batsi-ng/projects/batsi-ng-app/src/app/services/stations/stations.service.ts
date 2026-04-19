@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable, of, tap, from, map } from 'rxjs';
+import { Observable, of, tap, from, map, filter } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Station, stationsGet } from 'batsi-ng-models';
 
@@ -23,15 +23,23 @@ export class StationsService {
     }
 
     return this.#getStationsFromServer().pipe(
-      tap(stations => localStorage.setItem(this.#stationsLocalStorageKey, JSON.stringify(stations))),
-      tap(stations => {
+      filter((stations) => !!stations),
+      tap((stations) =>
+        localStorage.setItem(
+          this.#stationsLocalStorageKey,
+          JSON.stringify(stations),
+        ),
+      ),
+      tap((stations) => {
         this.#stations = stations;
       }),
     );
   }
 
   #getStationsFromStorage(): Station[] | undefined {
-    const stationsSavedRaw = localStorage.getItem(this.#stationsLocalStorageKey);
+    const stationsSavedRaw = localStorage.getItem(
+      this.#stationsLocalStorageKey,
+    );
 
     if (!stationsSavedRaw) {
       return void 0;
@@ -43,16 +51,16 @@ export class StationsService {
 
   #getStationsFromServer(): Observable<Station[]> {
     const apiToken = environment.apiToken;
-    if(!apiToken) {
+    if (!apiToken) {
       throw new Error('apiToken needs to be set');
     }
-    
-    return from(stationsGet<true>({ 
-      headers: { 
-        api_token: apiToken 
-      }
-    })).pipe(
-      map(response => response.data)
-    );
+
+    return from(
+      stationsGet<true>({
+        headers: {
+          api_token: apiToken,
+        },
+      }),
+    ).pipe(map((response) => response.data));
   }
 }
