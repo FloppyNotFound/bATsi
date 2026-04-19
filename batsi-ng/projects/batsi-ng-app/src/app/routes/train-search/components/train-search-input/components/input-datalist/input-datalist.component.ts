@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'batsi-input-datalist',
   templateUrl: './input-datalist.component.html',
-  styleUrls: ['./input-datalist.component.scss'],
+  styleUrls: ['./input-datalist.component.css'],
   imports: [NgStyle, ReactiveFormsModule, FormField],
 })
 export class InputDatalistComponent {

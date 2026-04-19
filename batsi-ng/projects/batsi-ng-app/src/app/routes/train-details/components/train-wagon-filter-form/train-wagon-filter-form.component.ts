@@ -8,7 +8,7 @@ import { TrainWagonFilterFormModel } from './types/train-wagon-filter-form-model
   selector: 'batsi-ng-train-wagon-filter-form',
   templateUrl: './train-wagon-filter-form.component.html',
   imports: [ReactiveFormsModule],
-  styleUrl: './train-wagon-filter-form.component.scss',
+  styleUrl: './train-wagon-filter-form.component.css',
 })
 export class TrainWagonFilterFormComponent implements OnInit {
   //#region Inputs

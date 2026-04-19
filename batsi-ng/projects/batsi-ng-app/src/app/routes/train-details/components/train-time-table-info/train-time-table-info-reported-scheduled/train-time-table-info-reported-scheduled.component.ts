@@ -4,7 +4,7 @@ import { Component, input } from '@angular/core';
 @Component({
   selector: 'batsi-ng-train-time-table-info-reported-scheduled',
   templateUrl: './train-time-table-info-reported-scheduled.component.html',
-  styleUrls: ['./train-time-table-info-reported-scheduled.component.scss'],
+  styleUrls: ['./train-time-table-info-reported-scheduled.component.css'],
   imports: [NgClass],
 })
 export class TrainTimeTableInfoReportedScheduledComponent {

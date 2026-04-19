@@ -33,7 +33,7 @@ import { StationNumberService } from './services/station-number/station-number.s
     FormField,
   ],
   templateUrl: './train-search-input.component.html',
-  styleUrl: './train-search-input.component.scss',
+  styleUrl: './train-search-input.component.css',
 })
 export class TrainSearchInputComponent {
   //#region Inputs

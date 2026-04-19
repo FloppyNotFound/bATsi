@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'batsi-input-numeric',
   templateUrl: './input-numeric.component.html',
-  styleUrls: ['./input-numeric.component.scss'],
+  styleUrls: ['./input-numeric.component.css'],
   imports: [ReactiveFormsModule, NgStyle, FormField],
 })
 export class InputNumericComponent implements OnInit {

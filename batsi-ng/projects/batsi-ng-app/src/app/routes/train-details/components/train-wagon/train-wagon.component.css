@@ -1,0 +1,64 @@
+.train-wagon.train-wagon__locomotive-without-passengers {
+  background-color: var(--bs-gray);
+  border-radius: 0 4rem 0 0;
+}
+
+.train-wagon.train-wagon__locomotive-front {
+  border-radius: 0 4rem 0 0;
+}
+
+.train-wagon.train-wagon__locomotive-rear {
+  border-radius: 0 0 4rem 0;
+}
+
+.train-wagon__load-unknown {
+  border: 0.15rem solid var(--bs-black);
+}
+
+.train-wagon__load-unknown .train-wagon__ranking {
+  color: var(--bs-black);
+}
+
+.train-wagon__load-low {
+  border: 0.15rem solid var(--bs-green);
+}
+
+.train-wagon__load-low .train-wagon__ranking {
+  color: var(--bs-green);
+}
+
+.train-wagon__load-medium {
+  border: 0.15rem solid var(--bs-orange);
+}
+
+.train-wagon__load-medium .train-wagon__ranking {
+  color: var(--bs-orange);
+}
+
+.train-wagon__load-high {
+  border: 0.15rem solid var(--bs-red);
+}
+
+.train-wagon__load-high .train-wagon__ranking {
+  color: var(--bs-red);
+}
+
+.train-wagon__class-info--first {
+  color: var(--bs-blue);
+}
+
+.train-wagon__class-info span {
+  border-bottom: 1px solid var(--bs-black);
+  border-right: 1px solid var(--bs-black);
+  padding: 0.1rem;
+}
+
+.train-wagon__ranking {
+  font-size: 2rem;
+}
+
+.train-wagon-destination {
+  writing-mode: vertical-lr;
+  text-align: center;
+  margin-left: 0.5rem;
+}

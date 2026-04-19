@@ -5,7 +5,7 @@ import { TrainWagonsInner } from 'batsi-ng-models';
 @Component({
   selector: 'batsi-ng-train-wagon',
   templateUrl: './train-wagon.component.html',
-  styleUrls: ['./train-wagon.component.scss'],
+  styleUrls: ['./train-wagon.component.css'],
   imports: [NgClass],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

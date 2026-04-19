@@ -12,7 +12,7 @@ import { TrainWagonRecommenderService } from './services/train-wagon-recommender
   selector: 'batsi-train-details',
   imports: [TrainTimeTableInfoComponent, TrainWagonFilterFormComponent, TrainWagonComponent, TrainDestinationsPipe],
   templateUrl: './train-details.component.html',
-  styleUrl: './train-details.component.scss',
+  styleUrl: './train-details.component.css',
 })
 export class TrainDetailsComponent {
   //#region Injections
