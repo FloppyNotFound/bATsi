@@ -1,7 +1,16 @@
 import { NgStyle } from '@angular/common';
-import { Component, DestroyRef, ElementRef, inject, input, OnInit, viewChild } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  input,
+  OnInit,
+  viewChild,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FieldTree, FormField } from '@angular/forms/signals';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,11 +18,12 @@ import { v4 as uuidv4 } from 'uuid';
   selector: 'batsi-input-numeric',
   templateUrl: './input-numeric.component.html',
   styleUrls: ['./input-numeric.component.scss'],
-  imports: [ReactiveFormsModule, NgStyle],
+  imports: [ReactiveFormsModule, NgStyle, FormField],
 })
 export class InputNumericComponent implements OnInit {
   //#region Inputs
-  readonly batsiFormControl = input.required<FormControl<number | null>>();
+  readonly batsiFormControl =
+    input.required<FieldTree<number | null, string>>();
   readonly label = input.required<string>();
   readonly labelWidth = input<number>();
   readonly inputMaxWidth = input<number>();

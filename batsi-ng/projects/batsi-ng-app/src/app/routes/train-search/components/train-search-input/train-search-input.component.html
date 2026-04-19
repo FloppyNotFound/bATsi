@@ -5,14 +5,14 @@
     </div>
 
     <div class="card-text mt-3">
-      <form [formGroup]="trainSearchForm" (ngSubmit)="onSearch()" novalidate>
+      <form (submit)="onSearch($event)">
         <!-- Train Number -->
         <batsi-input-numeric
           [label]="'Zugnummer'"
           [labelWidth]="7.5"
           [inputMaxWidth]="14"
           [inputPlaceholder]="'z.B. 579'"
-          [batsiFormControl]="trainSearchFormModel.trainNumber"
+          [batsiFormControl]="form.trainNumber"
           [focus$]="trainNumberSetFocus$"
         ></batsi-input-numeric>
 
@@ -23,7 +23,7 @@
             [label]="'Station'"
             [labelWidth]="7.5"
             [inputMaxWidth]="14"
-            [batsiFormControl]="trainSearchFormModel.stationName"
+            [batsiFormControl]="form.stationName"
             [options]="stations() | stationNames"
           ></batsi-input-datalist>
         </div>
@@ -35,9 +35,12 @@
             id="input-date-ctl"
             type="date"
             class="form-control"
-            [formControl]="trainSearchFormModel.date"
+            [formField]="form.date"
           />
         </div>
+        @if (form.date().invalid() && form.date().touched()) {
+          <div class="text-danger small mt-1">Datum ist erforderlich</div>
+        }
 
         <div class="mt-3 d-flex justify-content-between">
           <button type="button" class="btn btn-secondary" (click)="onReset()">
@@ -61,7 +64,5 @@
         </div>
       </ul>
     </output>
-  } @else {
-    {{ data() }}
   }
 </div>

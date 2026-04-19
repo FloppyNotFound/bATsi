@@ -12,9 +12,12 @@
     type="number"
     [placeholder]="inputPlaceholder()"
     step="0"
-    [formControl]="batsiFormControl()"
+    [formField]="batsiFormControl()"
     [ngStyle]="{
-      'max-width.rem': inputMaxWidth() ? inputMaxWidth() : 'inherit'
+      'max-width.rem': inputMaxWidth() ? inputMaxWidth() : 'inherit',
     }"
   />
 </div>
+@if (batsiFormControl()().invalid() && batsiFormControl()().touched()) {
+  <div class="text-danger small mt-1">{{ label() }} ist erforderlich</div>
+}

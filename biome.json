@@ -88,5 +88,10 @@
       "bracketSpacing": true
     },
     "parser": { "unsafeParameterDecoratorsEnabled": true }
+  },
+  "html": {
+    "parser": {
+      "interpolation": true
+    }
   }
 }

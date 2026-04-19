@@ -8,14 +8,9 @@ import {
   output,
   signal,
 } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormField, form, required, schema } from '@angular/forms/signals';
 import { Station, TrainInfoResponse } from 'batsi-ng-models';
-import dayjs from 'dayjs';
 import { Observable, Subject } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { ButtonWithSpinnerComponent } from './components/button-with-spinner/button-with-spinner.component';
@@ -35,6 +30,7 @@ import { StationNumberService } from './services/station-number/station-number.s
     InputDatalistComponent,
     ButtonWithSpinnerComponent,
     StationNamesPipe,
+    FormField,
   ],
   templateUrl: './train-search-input.component.html',
   styleUrl: './train-search-input.component.scss',
@@ -81,9 +77,6 @@ export class TrainSearchInputComponent {
 
   protected hasFormBeenSubmitted = signal<boolean>(false);
 
-  protected readonly trainSearchForm: FormGroup;
-  protected readonly trainSearchFormModel: TrainSearchFormModel;
-
   // Class-level computed signals for resource state
   protected readonly isLoading = computed<boolean>(() =>
     this.#trainSearchResource.isLoading(),
@@ -105,15 +98,25 @@ export class TrainSearchInputComponent {
     () => this.hasFormBeenSubmitted() && !this.hasResult(),
   );
 
+  //#region Form
+  readonly #initialFormModel: TrainSearchFormModel = {
+    date: new Date().toISOString().split('T')[0],
+    stationName: '',
+    trainNumber: null,
+  };
+
+  readonly #formSchema = schema<TrainSearchFormModel>((p) => {
+    required(p.trainNumber);
+    required(p.stationName);
+    required(p.date);
+  });
+
+  readonly #formModel = signal<TrainSearchFormModel>(this.#initialFormModel);
+  readonly form = form(this.#formModel, this.#formSchema);
+  //#endregion
+
   constructor() {
     this.trainNumberSetFocus$ = this.#trainNumberSetFocus.asObservable();
-
-    const dateTodayFormatted = this.#getDateTodayFormatted();
-    this.trainSearchFormModel = this.#toInitialFormModel(dateTodayFormatted);
-
-    this.trainSearchForm = new FormGroup<TrainSearchFormModel>(
-      this.trainSearchFormModel,
-    );
 
     effect(() => {
       const result = this.#trainSearchResource.hasValue()
@@ -121,7 +124,7 @@ export class TrainSearchInputComponent {
         : null;
 
       if (result) {
-        const queryData = this.#toTrainQueryData(this.trainSearchFormModel);
+        const queryData = this.#toTrainQueryData(this.form().value());
 
         if (queryData) {
           const searchResult: TrainSearchResult = {
@@ -143,18 +146,26 @@ export class TrainSearchInputComponent {
 
   //#region Event Callbacks
   protected onReset(): void {
-    const dateTodayFormatted = this.#getDateTodayFormatted();
-    this.trainSearchForm.reset({ date: dateTodayFormatted });
+    this.#formModel.set(this.#initialFormModel);
 
     this.resetForm.emit();
   }
 
-  protected onSearch(): void {
+  protected onSearch(event: SubmitEvent): void {
+    event.preventDefault();
+
     if (this.isLoading()) {
       return;
     }
 
-    const queryData = this.#toTrainQueryData(this.trainSearchFormModel);
+    // Check if form is valid
+    const isFormValid = this.form().valid();
+    if (!isFormValid) {
+      this.#showSubmittedButNoResultsMessage();
+      return;
+    }
+
+    const queryData = this.#toTrainQueryData(this.form().value());
 
     if (!queryData) {
       this.#showSubmittedButNoResultsMessage();
@@ -166,27 +177,13 @@ export class TrainSearchInputComponent {
   }
   //#endregion
 
-  #getDateTodayFormatted(): string {
-    return dayjs().format('YYYY-MM-DD');
-  }
-
-  #toInitialFormModel(date: string): TrainSearchFormModel {
-    return {
-      trainNumber: new FormControl(null, { validators: Validators.required }),
-      stationName: new FormControl(null, { validators: Validators.required }),
-      date: new FormControl(date, {
-        validators: Validators.required,
-      }),
-    };
-  }
-
   #toTrainQueryData(
     formModel: TrainSearchFormModel,
   ): TrainQueryData | undefined {
-    const trainNumber = formModel.trainNumber.value;
-    const date = formModel.date.value;
+    const trainNumber = formModel.trainNumber;
+    const date = formModel.date;
 
-    const stationName = formModel.stationName.value;
+    const stationName = formModel.stationName;
     const stationNumber = this.#stationNumberService.toStationNumber(
       stationName,
       this.stations(),

@@ -8,18 +8,20 @@
   <input
     [id]="id"
     type="text"
-    [name]="label()"
     class="ps-3 form-control"
     [attr.list]="dataListId()"
     [placeholder]="inputPlaceholder()"
-    [formControl]="batsiFormControl()"
+    [formField]="batsiFormControl()"
     [ngStyle]="{
-      'max-width.rem': inputMaxWidth() ? inputMaxWidth() : 'inherit'
+      'max-width.rem': inputMaxWidth() ? inputMaxWidth() : 'inherit',
     }"
   />
   <datalist [id]="dataListId()">
-    @for(option of options(); track $index) {
-    <option [value]="option"></option>
+    @for (option of options(); track $index) {
+      <option [value]="option"></option>
     }
   </datalist>
 </div>
+@if (batsiFormControl()().invalid() && batsiFormControl()().touched()) {
+  <div class="text-danger small mt-1">{{ label() }} ist erforderlich</div>
+}
