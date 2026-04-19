@@ -1,0 +1,17 @@
+{
+  "input": "./src/lib/definitions/swagger.yaml",
+  "output": "./src/lib/typescript-client",
+  "client": "angular",
+  "plugins": [
+    "@hey-api/client-angular"
+  ],
+  "types": {
+    "date": "string"
+  },
+  "angular": {
+    "service": {
+      "name": "BatsiApiService",
+      "module": "BatsiApiModule"
+    }
+  }
+}

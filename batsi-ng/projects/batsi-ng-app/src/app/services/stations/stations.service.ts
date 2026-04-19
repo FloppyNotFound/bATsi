@@ -1,16 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable, of, tap } from 'rxjs';
+import { Observable, of, tap, from, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Station, StationsService as BffStationsService } from 'batsi-ng-models';
+import { Station, stationsGet } from 'batsi-ng-models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StationsService {
-  //#region Injections
-  readonly #stationsService = inject(BffStationsService);
-  //#endregion
-
   readonly #stationsLocalStorageKey = 'stations';
 
   #stations: Station[] | undefined;
@@ -51,6 +47,12 @@ export class StationsService {
       throw new Error('apiToken needs to be set');
     }
     
-    return this.#stationsService.stationsGet(apiToken);
+    return from(stationsGet<true>({ 
+      headers: { 
+        api_token: apiToken 
+      }
+    })).pipe(
+      map(response => response.data)
+    );
   }
 }

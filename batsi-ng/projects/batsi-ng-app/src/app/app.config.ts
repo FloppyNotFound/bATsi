@@ -2,7 +2,7 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
-import { BASE_PATH } from 'batsi-ng-models';
+import { createClient, provideHeyApiClient } from 'batsi-ng-models';
 import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
@@ -10,9 +10,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
-    {
-      provide: BASE_PATH,
-      useValue: environment.apiBaseUrl,
-    },
+    provideHeyApiClient(createClient({ baseUrl: environment.apiBaseUrl })),
   ],
 };

@@ -2,8 +2,9 @@
  * Public API Surface of batsi-ng-models
  */
 
-export * from './lib/typescript-client/model/models';
-export * from './lib/typescript-client/api/api';
-export * from './lib/typescript-client/variables';
+export * from './lib/typescript-client/index';
+export { createClient, provideHeyApiClient } from './lib/typescript-client/client/client.gen';
 
-export { BASE_PATH } from './lib/typescript-client';
+// Type aliases for backward compatibility
+import type { TrainInfoResponse } from './lib/typescript-client/types.gen';
+export type TrainWagonsInner = NonNullable<NonNullable<TrainInfoResponse['train']>['wagons']>[number];

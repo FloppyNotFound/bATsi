@@ -1,9 +1,9 @@
 import { Component, DestroyRef, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TrainSearchResult } from './interfaces/train-search-result.interface';
-import { catchError, EMPTY, Observable, Subject } from 'rxjs';
+import { catchError, EMPTY, Observable, Subject, from, map } from 'rxjs';
 import { TrainQueryData } from './interfaces/train-query-data.interface';
-import { Station, TrainService } from 'batsi-ng-models';
+import { Station, backendInfoGet } from 'batsi-ng-models';
 import dayjs from 'dayjs';
 import { TrainSearchFormModel } from './interfaces/train-search-form-model';
 import { StationNumberService } from './services/station-number/station-number.service';
@@ -40,7 +40,6 @@ export class TrainSearchInputComponent {
   //#region Injections
   readonly #destroyRef = inject(DestroyRef);
   readonly #stationNumberService = inject(StationNumberService);
-  readonly #trainService = inject(TrainService);
   //#endregion
 
   readonly isLoading = signal<boolean>(false);
@@ -89,24 +88,38 @@ export class TrainSearchInputComponent {
     }
 
     this.isLoading.set(true);
-    this.#trainService
-      .backendInfoGet(apiToken, queryData.trainNumber, queryData.date, queryData.stationNumber)
-      .pipe(
-        takeUntilDestroyed(this.#destroyRef),
-        catchError(() => {
-          this.isLoading.set(false);
-          this.#showSubmittedButNoResultsMessage();
+    from(backendInfoGet<true>({
+      headers: {
+        api_token: apiToken
+      },
+      query: {
+        trainNr: queryData.trainNumber,
+        date: queryData.date,
+        station: queryData.stationNumber
+      },
+      responseStyle: 'data'
+    })).pipe(
+      takeUntilDestroyed(this.#destroyRef),
+      catchError(() => {
+        this.isLoading.set(false);
+        this.#showSubmittedButNoResultsMessage();
 
-          return EMPTY;
-        }),
-      )
-      .subscribe(trainInfo => {
+        return EMPTY;
+      }),
+    )
+    .pipe(
+      map(response => response.data)
+    )
+    .subscribe(trainInfo => {
+      this.isLoading.set(false);
+      if (trainInfo) {
         const result: TrainSearchResult = {
           query: queryData,
           response: trainInfo,
         };
         this.trainFound.emit(result);
-      });
+      }
+    });
   }
   //#endregion
 
