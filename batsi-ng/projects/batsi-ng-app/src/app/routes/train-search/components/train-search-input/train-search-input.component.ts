@@ -118,22 +118,27 @@ export class TrainSearchInputComponent {
   constructor() {
     this.trainNumberSetFocus$ = this.#trainNumberSetFocus.asObservable();
 
+    // Output new value on result found
     effect(() => {
       const result = this.#trainSearchResource.hasValue()
         ? this.#trainSearchResource.value()
         : null;
 
-      if (result) {
-        const queryData = this.#toTrainQueryData(this.form().value());
-
-        if (queryData) {
-          const searchResult: TrainSearchResult = {
-            query: queryData,
-            response: this.data() as TrainInfoResponse,
-          };
-          this.trainFound.emit(searchResult);
-        }
+      if (!result) {
+        return;
       }
+
+      const queryData = this.#toTrainQueryData(this.form().value());
+      if (!queryData) {
+        return;
+      }
+
+      const searchResult: TrainSearchResult = {
+        query: queryData,
+        response: this.data() as TrainInfoResponse,
+      };
+
+      this.trainFound.emit(searchResult);
     });
 
     effect(() => {
@@ -166,7 +171,6 @@ export class TrainSearchInputComponent {
     }
 
     const queryData = this.#toTrainQueryData(this.form().value());
-
     if (!queryData) {
       this.#showSubmittedButNoResultsMessage();
       return;
