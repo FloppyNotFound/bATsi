@@ -9,13 +9,14 @@ import {
   signal,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormField, form, required, schema } from '@angular/forms/signals';
+import { FormField } from '@angular/forms/signals';
 import { Station, TrainInfoResponse } from 'batsi-ng-models';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { ButtonWithSpinnerComponent } from './components/button-with-spinner/button-with-spinner.component';
 import { InputDatalistComponent } from './components/input-datalist/input-datalist.component';
 import { InputNumericComponent } from './components/input-numeric/input-numeric.component';
+import { TrainSearchFormService } from './form/train-search-form.service';
 import { TrainQueryData } from './interfaces/train-query-data.interface';
 import { TrainSearchFormModel } from './interfaces/train-search-form-model';
 import { TrainSearchResult } from './interfaces/train-search-result.interface';
@@ -34,6 +35,7 @@ import { StationNumberService } from './services/station-number/station-number.s
   ],
   templateUrl: './train-search-input.component.html',
   styleUrl: './train-search-input.component.css',
+  providers: [TrainSearchFormService],
 })
 export class TrainSearchInputComponent {
   //#region Inputs
@@ -48,15 +50,17 @@ export class TrainSearchInputComponent {
 
   //#region Injections
   readonly #stationNumberService = inject(StationNumberService);
+  readonly #formService = inject(TrainSearchFormService);
   //#endregion
 
-  protected readonly trainNumberSetFocus$: Observable<void>;
-  readonly #trainNumberSetFocus = new Subject<void>();
+  //#region Set Focus
+  protected readonly trainNumberSetFocus$: Observable<boolean>;
+  readonly #trainNumberSetFocus = new BehaviorSubject<boolean>(true);
+  //#endregion
 
-  // Signal for current query parameters
+  //#region HTTP
   readonly #queryParams = signal<TrainQueryData | null>(null);
 
-  // HttpResource for train search (reacts to query parameter changes)
   readonly #trainSearchResource = httpResource<{ data: TrainInfoResponse }>(
     () => {
       const params = this.#queryParams();
@@ -74,76 +78,57 @@ export class TrainSearchInputComponent {
       };
     },
   );
+  //#endregion
 
-  protected hasFormBeenSubmitted = signal<boolean>(false);
-
-  // Class-level computed signals for resource state
+  //#region Computed
   protected readonly isLoading = computed<boolean>(() =>
     this.#trainSearchResource.isLoading(),
   );
   protected readonly hasResult = computed<boolean>(() =>
     this.#trainSearchResource.hasValue(),
   );
-  protected readonly data = computed<TrainInfoResponse | null>(() => {
-    if (!this.#trainSearchResource.hasValue()) {
-      return null;
-    }
-
-    return this.#trainSearchResource.value().data;
-  });
+  protected readonly data = computed<TrainInfoResponse | null>(() =>
+    this.#trainSearchResource.hasValue()
+      ? this.#trainSearchResource.value().data
+      : null,
+  );
   protected readonly error = computed<Error | undefined>(() =>
     this.#trainSearchResource.error(),
   );
   protected readonly showError = computed<boolean>(
     () => this.hasFormBeenSubmitted() && !this.hasResult(),
   );
+  //#endregion
 
   //#region Form
-  readonly #initialFormModel: TrainSearchFormModel = {
-    date: new Date().toISOString().split('T')[0],
-    stationName: '',
-    trainNumber: null,
-  };
-
-  readonly #formSchema = schema<TrainSearchFormModel>((p) => {
-    required(p.trainNumber);
-    required(p.stationName);
-    required(p.date);
-  });
-
-  readonly #formModel = signal<TrainSearchFormModel>(this.#initialFormModel);
-  readonly form = form(this.#formModel, this.#formSchema);
+  protected readonly form = this.#formService.getForm();
+  protected readonly hasFormBeenSubmitted = signal<boolean>(false);
   //#endregion
 
   constructor() {
     this.trainNumberSetFocus$ = this.#trainNumberSetFocus.asObservable();
 
-    // Output new value on result found
     effect(() => {
-      const result = this.#trainSearchResource.hasValue()
-        ? this.#trainSearchResource.value()
-        : null;
-
+      const result = this.data();
       if (!result) {
         return;
       }
 
-      const queryData = this.#toTrainQueryData(this.form().value());
+      const queryData = this.#toTrainQueryData(
+        this.#formService.getFormValue(),
+      );
       if (!queryData) {
         return;
       }
 
-      const searchResult: TrainSearchResult = {
+      this.trainFound.emit({
         query: queryData,
-        response: this.data() as TrainInfoResponse,
-      };
-
-      this.trainFound.emit(searchResult);
+        response: result,
+      });
     });
 
     effect(() => {
-      const hasError = this.error();
-      if (hasError) {
+      if (this.error()) {
         this.#showSubmittedButNoResultsMessage();
       }
     });
@@ -151,7 +136,7 @@ export class TrainSearchInputComponent {
 
   //#region Event Callbacks
   protected onReset(): void {
-    this.#formModel.set(this.#initialFormModel);
+    this.#formService.resetForm();
 
     this.resetForm.emit();
   }
@@ -170,7 +155,7 @@ export class TrainSearchInputComponent {
       return;
     }
 
-    const queryData = this.#toTrainQueryData(this.form().value());
+    const queryData = this.#toTrainQueryData(this.#formService.getFormValue());
     if (!queryData) {
       this.#showSubmittedButNoResultsMessage();
       return;
@@ -186,7 +171,6 @@ export class TrainSearchInputComponent {
   ): TrainQueryData | undefined {
     const trainNumber = formModel.trainNumber;
     const date = formModel.date;
-
     const stationName = formModel.stationName;
     const stationNumber = this.#stationNumberService.toStationNumber(
       stationName,
@@ -194,7 +178,7 @@ export class TrainSearchInputComponent {
     );
 
     if (!trainNumber || !stationNumber || !date) {
-      return void 0;
+      return undefined;
     }
 
     return {
@@ -206,7 +190,6 @@ export class TrainSearchInputComponent {
 
   #showSubmittedButNoResultsMessage(): void {
     this.hasFormBeenSubmitted.set(true);
-
     setTimeout(() => {
       this.hasFormBeenSubmitted.set(false);
     }, 2000);

@@ -28,7 +28,7 @@ export class InputNumericComponent implements OnInit {
   readonly labelWidth = input<number>();
   readonly inputMaxWidth = input<number>();
   readonly inputPlaceholder = input<string>('Zahl eingeben');
-  readonly focus$ = input<Observable<void> | undefined>();
+  readonly focus$ = input<Observable<boolean> | undefined>();
   //#endregion
 
   //#region ViewChildren
