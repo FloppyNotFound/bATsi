@@ -15,10 +15,13 @@
     "attributePosition": "auto",
     "bracketSpacing": true
   },
-  "assist": { 
-    "actions": { 
-      "source": { 
-        "organizeImports": "on"
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "recommended": true,
+      "source": {
+        "organizeImports": "on",
+        "noDuplicateClasses": "on"
       }
     }
   },
@@ -30,7 +33,10 @@
       "correctness": {
         "noEmptyPattern": "warn",
         "noUnusedFunctionParameters": "error",
-        "noUnusedImports": "error",
+        "noUnusedImports": {
+          "fix": "safe",
+          "level": "error"
+        },
         "noUnusedVariables": "error"
       },
       "nursery": {

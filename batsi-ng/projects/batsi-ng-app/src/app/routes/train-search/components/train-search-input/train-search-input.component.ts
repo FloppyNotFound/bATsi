@@ -7,7 +7,6 @@ import {
   input,
   output,
   signal,
-  DestroyRef,
 } from '@angular/core';
 import {
   FormControl,
@@ -42,13 +41,16 @@ import { StationNumberService } from './services/station-number/station-number.s
 })
 export class TrainSearchInputComponent {
   //#region Inputs
-  readonly init$ = input<Observable<TrainQueryData>>();
+  readonly init$ = input<Observable<TrainQueryData>>(); // TODO: not working
   readonly stations = input.required<Station[]>();
   //#endregion
 
   //#region Outputs
   readonly resetForm = output<void>();
   readonly trainFound = output<TrainSearchResult>();
+  //#endregion
+
+  //#region Injections
   readonly #stationNumberService = inject(StationNumberService);
   //#endregion
 
