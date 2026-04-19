@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { form, required, schema } from '@angular/forms/signals';
+import { FieldTree, form, required, schema } from '@angular/forms/signals';
 import { TrainSearchFormModel } from '../interfaces/train-search-form-model';
 
 @Injectable()
@@ -17,10 +17,14 @@ export class TrainSearchFormService {
   });
 
   readonly #formModel = signal<TrainSearchFormModel>(this.#initialFormModel);
-  protected readonly form = form(this.#formModel, this.#formSchema);
 
-  getForm(): typeof this.form {
-    return this.form;
+  createForm(
+    action: (field: any) => Promise<void>,
+    onInvalid?: (root: any) => void,
+  ): FieldTree<TrainSearchFormModel> {
+    return form(this.#formModel, this.#formSchema, {
+      submission: { action, onInvalid },
+    });
   }
 
   resetForm(): void {
@@ -28,6 +32,6 @@ export class TrainSearchFormService {
   }
 
   getFormValue(): TrainSearchFormModel {
-    return this.form().value();
+    return form(this.#formModel, this.#formSchema)().value();
   }
 }

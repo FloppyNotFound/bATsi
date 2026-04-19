@@ -5,7 +5,7 @@
     </div>
 
     <div class="card-text mt-3">
-      <form (submit)="onSearch($event)">
+      <form [formRoot]="form">
         <!-- Train Number -->
         <batsi-input-numeric
           [label]="'Zugnummer'"

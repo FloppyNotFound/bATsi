@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormField } from '@angular/forms/signals';
+import { FieldTree, FormField, FormRoot } from '@angular/forms/signals';
 import { Station, TrainInfoResponse } from 'batsi-ng-models';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
@@ -32,6 +32,7 @@ import { StationNumberService } from './services/station-number/station-number.s
     ButtonWithSpinnerComponent,
     StationNamesPipe,
     FormField,
+    FormRoot,
   ],
   templateUrl: './train-search-input.component.html',
   styleUrl: './train-search-input.component.css',
@@ -101,7 +102,26 @@ export class TrainSearchInputComponent {
   //#endregion
 
   //#region Form
-  protected readonly form = this.#formService.getForm();
+  protected readonly form: FieldTree<TrainSearchFormModel> =
+    this.#formService.createForm(
+      (form: FieldTree<TrainSearchFormModel>): Promise<void> => {
+        const queryData = this.#toTrainQueryData(form().value());
+        if (!queryData) {
+          this.#showSubmittedButNoResultsMessage();
+        } else {
+          // Update the query parameters signal to trigger a new request
+          this.#queryParams.set(queryData);
+        }
+
+        return Promise.resolve();
+      },
+      (form: FieldTree<TrainSearchFormModel>): void => {
+        const firstError = form().errorSummary()[0];
+        firstError?.fieldTree().focusBoundControl();
+
+        this.#showSubmittedButNoResultsMessage();
+      },
+    );
   protected readonly hasFormBeenSubmitted = signal<boolean>(false);
   //#endregion
 
@@ -139,30 +159,6 @@ export class TrainSearchInputComponent {
     this.#formService.resetForm();
 
     this.resetForm.emit();
-  }
-
-  protected onSearch(event: SubmitEvent): void {
-    event.preventDefault();
-
-    if (this.isLoading()) {
-      return;
-    }
-
-    // Check if form is valid
-    const isFormValid = this.form().valid();
-    if (!isFormValid) {
-      this.#showSubmittedButNoResultsMessage();
-      return;
-    }
-
-    const queryData = this.#toTrainQueryData(this.#formService.getFormValue());
-    if (!queryData) {
-      this.#showSubmittedButNoResultsMessage();
-      return;
-    }
-
-    // Update the query parameters signal to trigger a new request
-    this.#queryParams.set(queryData);
   }
   //#endregion
 
